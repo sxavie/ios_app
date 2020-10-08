@@ -1,0 +1,119 @@
+<!-- <app-header title="Register"></app-header> -->
+
+<ion-content >
+
+    <ion-header class="ion-no-border">
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-back-button
+              defaultHref="/"
+              text=""
+              color="secondaryTUx"></ion-back-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+    <div class="main ion-padding">
+        
+        <!-- Logo -->
+        <ion-img id="logo" src="../../assets/tidulogoblack.png"></ion-img>
+        
+        <!-- Formulario de registro -->
+        <form
+        autocomplete="off"
+        [formGroup]="registerForm"
+        (ngSubmit)="onRegister()">
+            
+            <ion-list-header>
+                <ion-label> 
+                    <!-- frm validacion: {{ registerForm.valid }}  -->
+                </ion-label>
+            </ion-list-header>
+
+            <!-- Nombre -->
+            <ion-item class="item">
+                <ion-label> </ion-label>
+                <ion-input
+                    placeholder="Nombre"
+                    name="nombre"                    
+                    type="text"
+                    inputmode="text"
+                    required
+                    formControlName="nombre"
+                    ></ion-input>
+            </ion-item>
+
+            <!-- Correo -->
+            <ion-item class="item">
+                <ion-label> </ion-label>
+                <ion-input
+                    placeholder="Correo"
+                    name="email"                    
+                    type="email"
+                    inputmode="email"
+                    required
+                    pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$"
+                    formControlName="email"
+                    ></ion-input>
+            </ion-item>
+
+            <!-- Contraseña -->
+            <ion-item class="item">
+                <ion-label> </ion-label>
+                <ion-input
+                    placeholder="Contraseña"
+                    name="password"                    
+                    type="password"
+                    inputmode="text"
+                    required
+                    formControlName="password"
+                    ></ion-input>
+            </ion-item>
+
+            <!-- Telefono -->
+            <ion-item class="item">
+                <ion-label> </ion-label>
+                <ion-input
+                    placeholder="Teléfono"
+                    name="telefono"                    
+                    type="number"
+                    inputmode="tel"
+                    required
+                    formControlName="telefono"
+                    ></ion-input>
+            </ion-item>
+
+            <!-- Terminos y condiciones -->
+            <ion-item lines="none" class="item">
+                <ion-checkbox
+                    name="terms" 
+                    slot="start" 
+                    mode="md"
+                    formControlName="terminos"
+                    > </ion-checkbox>
+                <ion-label class="conditions"> 
+                    Acepto <a href="/"> Términos y Condiciones </a>  
+                </ion-label>
+            </ion-item> 
+
+            <!-- Alerta valida Terminos -->
+            <ion-item lines="none" class="item ion-text-center" >
+                <ion-text *ngIf="!termsValidator && formSubmitted" color="danger"> Debe aceptar los términos y condiciones </ion-text>
+            </ion-item>
+        
+            <!-- Botton Registros -->
+            <ion-button 
+                class="btnSubmit"
+                color="primaryTUx"
+                [disabled]="registerForm.invalid" 
+                type="submit" 
+                expand="block"
+                shape="round" > 
+                <ion-text class="btnTxt"> Registrarse </ion-text>
+            </ion-button>    
+
+        </form> 
+
+    </div>
+
+</ion-content>

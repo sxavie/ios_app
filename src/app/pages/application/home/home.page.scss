@@ -1,0 +1,37 @@
+#container{
+    --background: url('/assets/appbackground.png') 0 0/100% 100% no-repeat ;
+    // --background: #c1c1c1;
+}
+.main {
+    padding: 14px;
+}
+.navContainer{
+    padding-top: 1.5rem;
+}
+.navIconBtn{
+    color: white;
+}
+#logo{
+    width: 60%;
+    margin: auto;
+}
+#logo ion-img{
+    padding-top: .5rem;
+    padding-bottom: 2rem;
+}
+
+// Grid
+.dialogBox{
+    border:1px solid #ffffff;
+    background-color: #ffffff;
+    border-radius: 20px;
+    width: 150px;
+    height: 150px;
+    padding: 10px;
+    letter-spacing: 1px;
+}
+.dialogBox ion-img{
+    width: 80%;
+    height: 80%;
+    margin: auto;
+}

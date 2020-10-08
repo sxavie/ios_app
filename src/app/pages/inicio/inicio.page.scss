@@ -1,0 +1,51 @@
+#container{
+    font-weight: lighter;
+    --background: #808080 ; // Replace this with color of your choice  
+    // --background: url('/assets/background-image_c.jpg') 0 0/100% 100% no-repeat;
+}
+div.layer{
+    // background-color: #000000;
+    // opacity: 0.7;
+    // filter: alpha(opacity=60);
+    // width: 100%;
+    // height: 100%;
+}
+.main { }
+#logo{
+    margin-top: 4rem;
+    margin-bottom: 3.0rem;
+    padding: 25px;
+}
+#logo ion-img{
+    padding-bottom: 10px;
+}
+.slogan{
+    color: #ffffff;
+    font-size: 28px;
+}
+.slogan-underline{
+    background-color: #ed6e00;
+    // border: .5px solid #ed6e00;
+    width: 90%;
+}
+div#homeButtons{
+    position: fixed;
+    left: 16px;
+    right: 16px;
+    bottom: 3rem;
+}
+#container p {
+    font-size: 18px;
+    line-height: 22px;
+    color: #ffffff;
+    margin: 0;
+}
+.homeButtons{
+    font-size:20px;
+    letter-spacing: 1.5pt;
+    margin-bottom: 1rem;
+    z-index:100;
+}
+.btnTxt{
+    color:#ffffff;
+}

@@ -1,0 +1,106 @@
+
+
+<ion-content id="container" no-scroll padding>
+
+  <!-- <ion-header class="ion-no-border" collapse="condense">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button 
+        menu="first"
+        color="white">
+        </ion-menu-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header> -->
+
+  <div class="main">
+
+    <div class="navContainer">
+      
+      <ion-item 
+          lines="none" 
+          color="transparent"
+      >
+
+          <ion-buttons slot="start">
+              <ion-menu-button
+              class="navIconBtn">
+            </ion-menu-button>
+          </ion-buttons>
+
+          <ion-buttons slot="end">
+            <ion-back-button 
+              class="navIconBtn"
+              defaultHref="/Home"
+              text=""
+              ></ion-back-button>
+          </ion-buttons>
+
+          <!-- <ion-button slot="end">
+            <ion-button>
+              <ion-icon class="iconBtn"
+              name="home-outline"></ion-icon>
+            </ion-button>
+          </ion-button> -->
+        
+      </ion-item>
+
+    </div> <!-- navButtons -->
+
+    <div id="logo">
+      <ion-img src="../../../assets/tidulogowhite_s.png"></ion-img>
+    </div>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <div 
+            class="dialogBox ion-text-center"
+            (click)="irA('Consultas')">
+            <ion-img src="../../../assets/consultas.png"></ion-img>
+            <ion-text  color="primaryTUx">
+              Consultas
+            </ion-text>
+          </div>
+        </ion-col>
+        <ion-col>
+          <div 
+            class="dialogBox ion-text-center"
+            (click)="irA('Resacas')">
+            <ion-img src="../../../assets/resacas.png"></ion-img>
+            <ion-text  color="primaryTUx">
+              Resacas
+            </ion-text>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <div 
+            class="dialogBox ion-text-center" 
+            (click)="irA('Farmaica')">
+            <ion-img src="../../../assets/farmacia.png"></ion-img>
+            <ion-text  color="primaryTUx">
+              Farmacia
+            </ion-text>
+          </div>
+        </ion-col>
+        <ion-col>
+          <div 
+            class="dialogBox ion-text-center"
+            (click)="irA('Lab')">
+            <ion-img src="../../../assets/laboratorio.png"></ion-img>
+            <ion-text  color="primaryTUx">
+              Laboratorios
+            </ion-text>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+
+  </div> <!-- main -->
+
+
+</ion-content>

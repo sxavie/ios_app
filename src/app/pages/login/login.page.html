@@ -1,0 +1,93 @@
+
+<!-- <app-header title="Login"></app-header> -->
+
+
+<ion-content >
+
+    <ion-header class="ion-no-border">
+        <ion-toolbar>
+            <ion-buttons slot="start">
+            <ion-back-button
+                defaultHref="/"
+                text=""
+                color="secondaryTUx"></ion-back-button>
+            </ion-buttons>
+
+        </ion-toolbar>
+    </ion-header>
+
+    <div class="main ion-padding">
+        
+        <!-- Logo -->
+        <ion-img id="logo" src="../../assets/tidulogoblack.png"></ion-img>
+        
+        <!-- Formulario de registro -->
+        <form
+        autocomplete="off"
+        [formGroup]="loginForm"
+        (ngSubmit)="onLogin()">
+            
+            <ion-list-header>
+                <ion-label> 
+                    <!-- frm validacion: {{ loginForm.valid }}  -->
+                </ion-label>
+            </ion-list-header>
+
+            <!-- Correo -->
+            <ion-item class="item">
+                <ion-label> </ion-label>
+                <ion-input
+                    placeholder="Correo"
+                    name="email"                    
+                    type="email"
+                    inputmode="email"
+                    required
+                    pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$"
+                    formControlName="email"
+                    ></ion-input>
+            </ion-item>
+
+            <!-- Contraseña -->
+            <ion-item class="item">
+                <ion-label> </ion-label>
+                <ion-input
+                    placeholder="Contraseña"
+                    name="password"                    
+                    type="password"
+                    inputmode="text"
+                    required
+                    formControlName="password"
+                    ></ion-input>
+            </ion-item>
+
+            <!-- Olvide Contraseña -->
+            <ion-item lines="none" class="item">
+                <ion-label
+                    slot="end" 
+                    class="fgtPwd" 
+                    routerLink="/">
+                        ¿Olvidaste tu contraseña? 
+                </ion-label>
+            </ion-item>   
+
+            <!-- <ion-item lines="none" class="item">
+                <ion-text *ngIf="!termsValidator && formSubmitted" color="danger"> Debe aceptar los términos y condiciones </ion-text>
+            </ion-item> -->
+        
+            <ion-button 
+                class="btnSubmit" 
+                color="secondaryTUx"
+                [disabled]="loginForm.invalid" 
+                type="submit" 
+                expand="block"
+                shape="round" > 
+                <ion-text class="btnTxt">
+                    Log In
+                </ion-text> 
+            </ion-button>    
+
+        </form> 
+
+    </div>
+
+</ion-content>
