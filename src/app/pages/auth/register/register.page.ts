@@ -26,13 +26,15 @@ export class RegisterPage implements OnInit {
     ) { }
 
   ngOnInit() {
+    if( localStorage.getItem('user-name') ){
+      this.router.navigate(['/home'])
+    }
   }
 
   onRegister() {
 
     this.formSubmitted = true;
     this.termsValidator = this.registerForm.value.terminos
-    // console.log( this.registerForm.value )
 
     if( !this.termsValidator ) { return false } 
     else {

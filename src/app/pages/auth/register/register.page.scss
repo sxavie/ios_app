@@ -18,10 +18,13 @@ form .item{
     font-weight: bold;
     color: black;
 }
+.termsAlert{
+    text-align: center;
+}
 .btnSubmit{
     font-size:20px;
     letter-spacing: 1.5pt;
-    position: fixed;
+    // position: fixed;
     left: 16px;
     right: 16px;
     bottom: 2rem;

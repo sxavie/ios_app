@@ -9,7 +9,26 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss']
 })
+
+
 export class AppComponent {
+  
+  navMenu: any[] = [
+    {
+      title: "Perfil",
+      url: "/profile",
+      icon: "person-outline"
+    },{
+      title: "Ayuda",
+      url: "/help",
+      icon: "help-outline"
+    },{
+      title: "Perfil",
+      url: "/profile",
+      icon: "settings-outline"
+    }
+  ]
+  
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -24,4 +43,5 @@ export class AppComponent {
       this.splashScreen.hide();
     });
   }
+
 }

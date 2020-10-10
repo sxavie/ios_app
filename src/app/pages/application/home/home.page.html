@@ -1,17 +1,7 @@
 
+<app-menu></app-menu>
 
 <ion-content id="container" no-scroll padding>
-
-  <!-- <ion-header class="ion-no-border" collapse="condense">
-    <ion-toolbar>
-      <ion-buttons slot="start">
-        <ion-menu-button 
-        menu="first"
-        color="white">
-        </ion-menu-button>
-      </ion-buttons>
-    </ion-toolbar>
-  </ion-header> -->
 
   <div class="main">
 
@@ -19,29 +9,26 @@
       
       <ion-item 
           lines="none" 
-          color="transparent"
-      >
+          color="transparent">
 
-          <ion-buttons slot="start">
-              <ion-menu-button
-              class="navIconBtn">
-            </ion-menu-button>
-          </ion-buttons>
-
-          <ion-buttons slot="end">
-            <ion-back-button 
+        <ion-buttons slot="start">
+          <ion-button (click)="toggleMenu()">
+            <ion-icon 
               class="navIconBtn"
-              defaultHref="/Home"
-              text=""
-              ></ion-back-button>
-          </ion-buttons>
+              slot="icon-only" 
+              name="menu-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
 
-          <!-- <ion-button slot="end">
-            <ion-button>
-              <ion-icon class="iconBtn"
+        <!-- Este boton aqui no va -->
+        <ion-buttons slot="end">
+          <ion-button>
+            <ion-icon 
+              class="navIconBtn"
+              slot="icon-only"
               name="home-outline"></ion-icon>
-            </ion-button>
-          </ion-button> -->
+          </ion-button>
+        </ion-buttons>
         
       </ion-item>
 
@@ -98,9 +85,14 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-
-
+    
+<!--     
+  <agm-map [latitude]="lat" [longitude]="lng">
+    <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+  </agm-map>
+   -->
   </div> <!-- main -->
 
 
+ 
 </ion-content>

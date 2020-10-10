@@ -25,13 +25,17 @@
     border:1px solid #ffffff;
     background-color: #ffffff;
     border-radius: 20px;
-    width: 150px;
-    height: 150px;
+    width: 95%;
+    height: 95%;
     padding: 10px;
     letter-spacing: 1px;
 }
 .dialogBox ion-img{
-    width: 80%;
     height: 80%;
+    // width: 100%;
     margin: auto;
 }
+
+ agm-map{
+     height: 220px;
+ }

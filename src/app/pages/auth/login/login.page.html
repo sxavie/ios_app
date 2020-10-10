@@ -24,9 +24,9 @@
         <!-- Formulario de registro -->
         <form
         autocomplete="off"
-        [formGroup]="loginForm"
+        [formGroup]="formData"
         (ngSubmit)="onLogin()">
-            
+             
             <ion-list-header>
                 <ion-label> 
                     <!-- frm validacion: {{ loginForm.valid }}  -->
@@ -70,14 +70,16 @@
                 </ion-label>
             </ion-item>   
 
-            <!-- <ion-item lines="none" class="item">
-                <ion-text *ngIf="!termsValidator && formSubmitted" color="danger"> Debe aceptar los términos y condiciones </ion-text>
-            </ion-item> -->
+            <ion-item lines="none" class="item">
+                <ion-text *ngIf="errorResponse" color="danger"> 
+                    {{ errorMesg }} 
+                </ion-text>
+            </ion-item>
         
+            <!-- [disabled]="loginForm.invalid"  -->
             <ion-button 
                 class="btnSubmit" 
                 color="secondaryTUx"
-                [disabled]="loginForm.invalid" 
                 type="submit" 
                 expand="block"
                 shape="round" > 

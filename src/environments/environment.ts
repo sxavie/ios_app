@@ -3,7 +3,19 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  firebase: {
+    apiKey: "AIzaSyClR3mLRrcwEgdcI_BEwUdWdgtfyv5zy10",
+    authDomain: "doctorhouse-e3515.firebaseapp.com",
+    databaseURL: "https://doctorhouse-e3515.firebaseio.com",
+    projectId: "doctorhouse-e3515",
+    storageBucket: "doctorhouse-e3515.appspot.com",
+    messagingSenderId: "199960280208",
+    appId: "1:199960280208:web:4006a67fc933b11a0e2c15"
+  },
+  googleAPIKey: 'AIzaSyBXEfZu4nE1HF-2HMPL7hmykTtCol_76KQ',
+  // apiUrl: 'http://192.168.72.209:3090',
+  apiUrl: 'https://api.cavimex.vasster.com'
 };
 
 /*
