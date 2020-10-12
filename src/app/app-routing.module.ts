@@ -42,6 +42,30 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     loadChildren: () => import('./pages/application/farmacia/farmacia.module').then( m => m.FarmaciaPageModule)
   },
+  {
+    path: 'perfil',
+    loadChildren: () => import('./pages/application/profile/perfil/perfil.module').then( m => m.PerfilPageModule)
+  },
+  {
+    path: 'datosgenerales',
+    loadChildren: () => import('./pages/application/profile/datosgenerales/datosgenerales.module').then( m => m.DatosgeneralesPageModule)
+  },
+  {
+    path: 'alergias',
+    loadChildren: () => import('./pages/application/profile/alergias/alergias.module').then( m => m.AlergiasPageModule)
+  },
+  {
+    path: 'historialmedico',
+    loadChildren: () => import('./pages/application/profile/historialmedico/historialmedico.module').then( m => m.HistorialmedicoPageModule)
+  },
+  {
+    path: 'familiares',
+    loadChildren: () => import('./pages/application/profile/familiares/familiares.module').then( m => m.FamiliaresPageModule)
+  },
+  {
+    path: 'metodopago',
+    loadChildren: () => import('./pages/application/profile/metodopago/metodopago.module').then( m => m.MetodopagoPageModule)
+  },
 ];
 
 @NgModule({

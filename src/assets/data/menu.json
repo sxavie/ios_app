@@ -1,15 +1,15 @@
 [
   {
-    "title": "Perfil",
+    "title": "Perfile",
     "icon": "person-outline",
-    "redirectTo": "/login"
+    "redirectTo": "/perfil"
   },{
     "title": "Ayuda",
     "icon": "help-outline",
-    "redirectTo": "/inicio"
+    "redirectTo": "/consultas"
   },{
     "title": "Configuración",
     "icon": "settings-outline",
-    "redirectTo": "/register"
+    "redirectTo": "/resecas"
   }
-]
+] 

@@ -18,7 +18,8 @@ const apiUrl = environment.apiUrl;
 })
 export class UserserviceService {
 
-  public usuario: Usuario;
+  // No guardamos nada en el modelo usuario
+  // public usuario: Usuario;
 
   constructor( 
     private http: HttpClient,
@@ -37,20 +38,21 @@ export class UserserviceService {
 
   decodeToken( token ) {
     const u = helper.decodeToken( token )
-
+    
     // save to Usuario model
     // let usuario = new Usuario( u.name, u.email, '',  u.filename, u.id);
-    // return usuario
-
+    // this.usuario = usuario;
+    
     let splitImgFormat = u.filename.split('.');
     let imgPath = `${ apiUrl }/images/users/${ splitImgFormat[0] }`
-
+    
     localStorage.setItem('user-name', u.name)
     localStorage.setItem('user-email', u.email)
     localStorage.setItem('user-filename', imgPath)
     localStorage.setItem('user-id', u.id)
-
+    
   }
+    
   
   logout() {
     localStorage.removeItem('jwttoken');

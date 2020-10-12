@@ -1,68 +1,58 @@
-<ion-menu
-  side="start" 
-  menuId="txMenu" 
-  contentId="main">
-
-  <ion-header>
-    
-  </ion-header> 
+<ion-menu side="start" menuId="tdxMenu" contentId="outletHome">
+<!-- <ion-menu side="start" [menuId]="menuNameId" [contentId]="menuHostId"> -->
 
   <ion-content class="menuContent" color="bgMenuColor">
 
-
     <ion-item lines="none" class="menuAvatar" color="transparent">
+      
       <ion-avatar slot="start">
         <img [src]="imgAvatar">
       </ion-avatar>
 
       <ion-grid>
+
         <ion-row class="nameRow">
           <div> 
             <ion-text> {{ userName}} </ion-text> 
           </div>
         </ion-row>
+
         <ion-row>
           <hr class="name-underline">
         </ion-row>
+
         <ion-row class="ratingRow">
           <img src="../../../assets/Rating.svg">
           <ion-text> 10.1 </ion-text>
         </ion-row>
+
       </ion-grid>
       
-      
-      
-      
-      
-
     </ion-item>
 
     <ion-list class="menuList" >
       
       <!-- Si es Obs agregar | async -->
-
       <ion-menu-toggle *ngFor="let opt of menuOpts | async">
-        <ion-item 
-          color="transparent"
-          [routerLink]="opt.redirectTo" detail
-          >
+        <ion-item color="transparent"
+          [routerLink]="opt.redirectTo" detail >
           <ion-icon [name]="opt.icon" slot="start"></ion-icon>
           <ion-text class="optTitle">{{ opt.title }}</ion-text>
-        </ion-item>
-        
+        </ion-item>     
       </ion-menu-toggle>
+
     </ion-list>
 
     <ion-footer class="ion-no-border">
-      <div class="privacyLogo">
-        <img src="../../../assets/tiduULogo.PNG">
-      </div>
+
+      <div class="privacyLogo"> <img src="../../../assets/tiduULogo.PNG"> </div>
+      
       <hr class="privacy-underline">
+      
       <ion-text> Aviso de Privacidad </ion-text>
+    
     </ion-footer>
 
   </ion-content>
-
-
 
 </ion-menu>

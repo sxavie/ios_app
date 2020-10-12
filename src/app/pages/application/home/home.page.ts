@@ -13,6 +13,9 @@ import { UserserviceService } from 'src/app/services/userservice.service';
 }) 
 export class HomePage implements OnInit {
 
+  //Menu app propieties
+  hostMenuId = 'hostMenuHome'
+  nameMenuId = 'menuHome'
 
   usermEmail: string = 'xavier.hernandez@vasster.com';
   userPwd: string = '123'; 
@@ -24,14 +27,21 @@ export class HomePage implements OnInit {
   public imgAvatar = localStorage.getItem('user-filename');
   public userName = localStorage.getItem('user-name')
 
+  // public uName;
+  // public uImg;
+
   constructor(  private menuCtrl: MenuController,
     public router: Router,
     public menuData: MenuDataService,
     public userservice: UserserviceService, 
     ) {
 
-      userservice.decodeToken( localStorage.getItem('jwttoken') );
+      // userservice.decodeToken( localStorage.getItem('jwttoken') );
       
+      // // manda errores,  
+      // this.uName = userservice.usuario.userName;
+      // this.uImg = userservice.usuario.imageUrl;
+
     }
       
   ngOnInit() {
@@ -41,7 +51,8 @@ export class HomePage implements OnInit {
   }
       
   toggleMenu(){
-    this.menuCtrl.toggle("txMenu");
+    // this.menuCtrl.toggle(this.nameMenuId);
+    this.menuCtrl.toggle('tdxMenu');
   }
   
   irA(pagex: string) {

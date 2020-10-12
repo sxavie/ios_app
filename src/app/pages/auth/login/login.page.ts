@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastController } from '@ionic/angular';
 import { UserserviceService } from 'src/app/services/userservice.service';
 
 
@@ -11,20 +12,17 @@ import { UserserviceService } from 'src/app/services/userservice.service';
 })
 export class LoginPage implements OnInit {
   
-  public errorResponse = false;
-  public errorMesg = ''
-
   public formData = this.fb.group({
-    email: [ 'hugo.costilla@vasster.com' , Validators.required ],
-    password: [ '123', Validators.required ],
+    email: [ '' , Validators.required ],
+    password: [ '', Validators.required ],
     source: '3',
     firebaseToken: ''
   })
 
-  constructor(
-    private fb: FormBuilder,
+  constructor( private fb: FormBuilder,
     private router: Router,
-    private userservice: UserserviceService
+    private userservice: UserserviceService,
+    private toastCtrl: ToastController
     ) { }
 
   ngOnInit() {
@@ -34,14 +32,44 @@ export class LoginPage implements OnInit {
   }
 
   onLogin() {
-    this.userservice.login( this.formData.value  )
-      .subscribe( resp => {
-        this.errorResponse = false;
-        this.router.navigate(['/home'])
+    
+    if ( this.frmValidation() ) {
+
+      this.userservice.login( this.formData.value  )
+        .subscribe( () => {
+          this.router.navigate(['/home'])
       }, (err) => {
-        this.errorResponse = true;
-        this.errorMesg = err.error.message
-      })
+        throw err
+      });
+
+    }
+
+  }
+
+  // Validaciones de Formulario
+  frmValidation():boolean{
+
+    if( !this.formData.valid ) {
+      this.showToast('Debe completar los campos')
+      return false;
+    }
+    if ( !this.isEmail( this.formData.value.email ) ) {
+      this.showToast('El email no es valido')
+      return false
+    }
+    return true;
+
+  }
+  isEmail(email: string):boolean{
+    let emailRgx = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/i
+    return emailRgx.test(email)
+  }
+  async showToast(msg) {
+    const toast = await this.toastCtrl.create({
+        message: msg,
+        duration: 2000
+    });
+    toast.present();
   }
 
 }

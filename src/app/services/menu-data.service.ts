@@ -10,14 +10,10 @@ import { Menu } from '../interfaces/interfaces';
 })
 export class MenuDataService {
 
-  constructor( public http: HttpClient) { }
+  constructor( public http: HttpClient ) { }
 
   getMenuOpts() {
     return this.http.get<Menu[]>('/assets/data/menu.json');
   }
-
-  getUser() {
-    return this.http.get('/assets/data/user.json');
-  }
-
+  
 }
