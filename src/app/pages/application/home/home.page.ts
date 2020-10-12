@@ -46,8 +46,6 @@ export class HomePage implements OnInit {
       
   ngOnInit() {
 
-    
-
   }
       
   toggleMenu(){
@@ -61,19 +59,19 @@ export class HomePage implements OnInit {
     
     switch( pagex ){
       case 'Consultas': {
-        this.router.navigate(['/consultas']);
+        this.router.navigate(['app/consultas']);
         break;
       }
       case 'Resacas': {
-        this.router.navigate(['/resacas'])
+        this.router.navigate(['app/resacas'])
         break
       }
       case 'Farmaica': {
-        this.router.navigate(['/farmacia'])
+        this.router.navigate(['app/farmacia'])
         break
       }
       case 'Lab': {
-        this.router.navigate(['/labs'])
+        this.router.navigate(['app/labs'])
         break
       }
     }

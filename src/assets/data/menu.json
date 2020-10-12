@@ -2,14 +2,14 @@
   {
     "title": "Perfile",
     "icon": "person-outline",
-    "redirectTo": "/perfil"
+    "redirectTo": "/app/perfil"
   },{
     "title": "Ayuda",
     "icon": "help-outline",
-    "redirectTo": "/consultas"
+    "redirectTo": "/app/consultas"
   },{
     "title": "Configuración",
     "icon": "settings-outline",
-    "redirectTo": "/resecas"
+    "redirectTo": "/app/resacas"
   }
 ] 

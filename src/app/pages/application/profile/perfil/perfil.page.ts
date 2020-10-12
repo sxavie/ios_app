@@ -25,7 +25,7 @@ export class PerfilPage implements OnInit {
   }
 
   goHome(){
-    this.router.navigate(['/home'])
+    this.router.navigate(['/app/home'])
   }
 
 }

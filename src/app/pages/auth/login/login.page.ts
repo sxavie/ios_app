@@ -37,7 +37,7 @@ export class LoginPage implements OnInit {
 
       this.userservice.login( this.formData.value  )
         .subscribe( () => {
-          this.router.navigate(['/home'])
+          this.router.navigate(['app'])
       }, (err) => {
         throw err
       });

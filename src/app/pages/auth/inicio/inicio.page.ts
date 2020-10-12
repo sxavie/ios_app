@@ -13,7 +13,7 @@ export class InicioPage implements OnInit {
 
   ngOnInit() {
     if( localStorage.getItem('user-name') ){
-      this.router.navigate(['/home'])
+      this.router.navigate(['/app/home'])
     }
   }
 

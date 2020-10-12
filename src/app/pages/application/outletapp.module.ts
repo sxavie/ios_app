@@ -1,9 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+
 import { IonicModule } from '@ionic/angular';
-import { PerfilPageRoutingModule } from './perfil-routing.module';
-import { PerfilPage } from './perfil.page';
+
+import { OutletappPageRoutingModule } from './outletapp-routing.module';
+
+import { OutletappPage } from './outletapp.page';
 import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
@@ -11,9 +14,9 @@ import { ComponentsModule } from 'src/app/components/components.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    PerfilPageRoutingModule, 
-    ComponentsModule,
+    OutletappPageRoutingModule,
+    ComponentsModule
   ],
-  declarations: [PerfilPage]
+  declarations: [OutletappPage]
 })
-export class PerfilPageModule {}
+export class OutletappPageModule {}
