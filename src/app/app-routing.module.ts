@@ -21,6 +21,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/application/outletapp.module').then( m => m.OutletappPageModule),
     // canActivate: [AuthGuard]
   },
+  {
+    path: 'verifyaccount',
+    loadChildren: () => import('./pages/auth/verifyaccount/verifyaccount.module').then( m => m.VerifyaccountPageModule)
+  },
 ];
 
 @NgModule({

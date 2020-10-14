@@ -1,9 +1,9 @@
 #container{
     --background: url('/assets/appbackground.png') 0 0/100% 100% no-repeat ;
-    // --background: #c1c1c1;
 }
 .main {
     padding: 14px;
+    height: 80%;
 }
 .navContainer{
     padding-top: 1.5rem;
@@ -14,4 +14,87 @@
 #logo{
     width: 50%;
     margin: auto;
+}
+// contenido:
+#avatar{
+    width: 50%;
+    min-width: 100px;
+    min-height: 100px;
+    max-width: 150px;
+    max-height: 150px;
+    margin: auto;
+    position: relative;
+    margin-top: 10px;
+    z-index: 1;
+}
+ion-avatar{
+    border:3px solid #00b3bc;
+    width: 100%;
+    height: 100%;
+}
+#cardContent{
+    padding:100px 20px 20px 20px ;
+    border:1px solid #c2c2c2;
+    background-color: #ffffff;
+    border-radius: 30px;
+    height: 95%;
+    transform: translateY(-75px);
+}
+
+//titulo
+.title{
+    margin-left: 20px;;
+}
+.titulo{
+    font-size: 25px;
+    color: #014c68;
+}
+.underline{
+    width: 150px;
+}
+.underline hr{
+    background-color: #00b3bc;
+    border: .5px solid #00b3bc;
+    width: 100%;
+}
+// titulo
+
+.rating{
+    width: 90px;
+}
+#cardContent .list{ }
+
+#cardContent ion-list{
+    padding-top: 10px;
+}
+.list ion-item{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 18px;
+    letter-spacing: 1px;
+}
+
+div#cardContent .iconDatos{
+    padding-left: 30px;
+    padding-top: 5px;
+    background: url('/assets/datosGenerales/Profile.svg') center left no-repeat;
+}
+div#cardContent .iconAlergias{
+    padding-left: 30px;
+    padding-top: 5px;
+    background: url('/assets/datosGenerales/Allergies.svg') center left no-repeat;
+}
+div#cardContent .iconHistorial{
+    padding-left: 30px;
+    padding-top: 5px;
+    background: url('/assets/datosGenerales/Folder.svg') center left no-repeat;
+}
+div#cardContent .iconFamiliares{
+    padding-left: 30px;
+    padding-top: 5px;
+    background: url('/assets/datosGenerales/Family.svg') center left no-repeat;
+}
+div#cardContent .iconMetodos{
+    padding-left: 30px;
+    padding-top: 5px;
+    background: url('/assets/datosGenerales/Card.svg') center left no-repeat;
 }

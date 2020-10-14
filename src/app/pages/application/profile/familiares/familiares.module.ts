@@ -9,7 +9,7 @@ import { FamiliaresPageRoutingModule } from './familiares-routing.module';
 import { FamiliaresPage } from './familiares.page';
 
 @NgModule({
-  imports: [
+  imports: [ 
     CommonModule,
     FormsModule,
     IonicModule,

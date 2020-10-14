@@ -27,7 +27,7 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {
     if( localStorage.getItem('user-name') ){
-      this.router.navigate(['/home'])
+      this.router.navigate(['app/home'])
     }
   }
 
@@ -37,7 +37,8 @@ export class LoginPage implements OnInit {
 
       this.userservice.login( this.formData.value  )
         .subscribe( () => {
-          this.router.navigate(['app'])
+          // enrutamos en el user.service
+          // this.router.navigate(['app'])
       }, (err) => {
         throw err
       });

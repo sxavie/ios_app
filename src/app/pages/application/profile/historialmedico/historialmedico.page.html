@@ -1,9 +1,104 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>historialmedico</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content id="container" no-scroll padding>
 
-<ion-content>
+  <div class="main">
 
-</ion-content>
+    <div class="navContainer">
+      
+      <ion-item 
+          lines="none" 
+          color="transparent">
+
+        <ion-buttons slot="start">
+          <ion-back-button
+            defaultHref="/app/perfil"
+            text=""
+            class="navIconBtn">
+          </ion-back-button>
+        </ion-buttons>
+          
+          <div id="logo">
+            <ion-img src="../../../assets/tidulogowhite_s.png"></ion-img>
+          </div>
+          
+        <ion-buttons slot="end">
+          <ion-button routerLink="/app">
+            <ion-icon 
+              class="navIconBtn"
+              slot="icon-only"
+              name="home-outline" ></ion-icon>
+          </ion-button>
+        </ion-buttons>
+        
+      </ion-item>
+
+    </div> <!-- navButtons -->
+
+    <div id="avatar">
+      <ion-avatar>
+          <img [src]="imgAvatar">
+      </ion-avatar>
+    </div>
+
+    
+    <div id="cardContent">
+      
+      <div class="title">
+        <ion-text class="titulo"> Historial Médico </ion-text>
+        <div class="underline"> <hr> </div>
+      </div>
+
+      <form autocomplete="off"
+        [formGroup]="diseasesFormData">
+      
+        <ion-list class="list">
+
+          <ion-item>
+            <ion-text> Diabetis </ion-text>  
+            <ion-checkbox name="diabetes"
+              formControlName="diabetes" 
+              slot="end"></ion-checkbox>
+          </ion-item>
+
+          <ion-item>
+            <ion-text> Hipertención arterial </ion-text>  
+            <ion-checkbox name="hypertension"
+              formControlName="hypertension"
+              slot="end"></ion-checkbox>
+          </ion-item>
+
+          <ion-item>
+            <ion-text> Enfermedades cardiacas </ion-text>  
+            <ion-checkbox name="heartDisease"
+              formControlName="heartDisease"
+              slot="end"></ion-checkbox>
+          </ion-item>
+
+          <ion-item>
+            <ion-text> Epilepsia </ion-text>  
+            <ion-checkbox name="epilepsy"
+              formControlName="epilepsy" 
+              slot="end"></ion-checkbox>
+          </ion-item>
+
+          <ion-item>
+            <ion-text> Cirugías previas </ion-text>  
+            <ion-checkbox name="prevSurgeries"
+              formControlName="prevSurgeries"
+              slot="end"></ion-checkbox>
+          </ion-item>
+
+          <ion-item>
+            <ion-text> Otros </ion-text>  
+            <ion-checkbox name="others"
+              formControlName="others"
+              slot="end"></ion-checkbox>
+          </ion-item>
+
+        </ion-list>
+
+      </form>
+      
+    </div>
+    
+  </div>
+</ion-content> 

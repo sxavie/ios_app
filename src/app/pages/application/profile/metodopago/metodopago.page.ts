@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-metodopago',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MetodopagoPage implements OnInit {
 
-  constructor() { }
+  public imgAvatar = localStorage.getItem('user-filename');
+
+  constructor(private menuCtrl: MenuController,
+    private router: Router) { }
 
   ngOnInit() {
+  }
+
+  goHome(){
+    this.router.navigate(['/app/home'])
   }
 
 }

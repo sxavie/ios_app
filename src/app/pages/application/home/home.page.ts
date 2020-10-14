@@ -24,8 +24,8 @@ export class HomePage implements OnInit {
   lat = 51.678418;
   lng = 7.809007;
 
-  public imgAvatar = localStorage.getItem('user-filename');
-  public userName = localStorage.getItem('user-name')
+  public imgAvatar;
+  public userName;
 
   // public uName;
   // public uImg;
@@ -36,6 +36,11 @@ export class HomePage implements OnInit {
     public userservice: UserserviceService, 
     ) {
 
+      // this.userservice.getUserData();
+
+      // this.imgAvatar = localStorage.getItem('user-filename');
+      // this.userName = localStorage.getItem('user-name')
+
       // userservice.decodeToken( localStorage.getItem('jwttoken') );
       
       // // manda errores,  
@@ -44,9 +49,7 @@ export class HomePage implements OnInit {
 
     }
       
-  ngOnInit() {
-
-  }
+  ngOnInit() { }
       
   toggleMenu(){
     // this.menuCtrl.toggle(this.nameMenuId);

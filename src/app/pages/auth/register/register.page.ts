@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
+import { UserserviceService } from 'src/app/services/userservice.service';
 
 @Component({
   selector: 'app-register',
@@ -13,21 +14,23 @@ export class RegisterPage implements OnInit {
   public formSubmitted = false;
 
   public formData = this.fb.group({
-    nombre: [ '', Validators.required ],
+    name: [ '', Validators.required ],
     email: [ '', Validators.required ], // , Validators.pattern('^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$') 
     password: [ '', Validators.required],
-    telefono: [ '', [Validators.required, Validators.minLength(10)]],
+    mobile: [ '', [Validators.required, Validators.minLength(10)]],
+    userType: '3',
     terminos: false
   });
 
   constructor( private fb: FormBuilder,
     private router: Router,
-    private toastCtrl: ToastController 
+    private toastCtrl: ToastController,
+    private userservice: UserserviceService 
     ) { }
 
   ngOnInit() {
     if( localStorage.getItem('user-name') ){
-      this.router.navigate(['/home'])
+      this.router.navigate(['/app/home'])
     }
   }
 
@@ -35,9 +38,18 @@ export class RegisterPage implements OnInit {
 
     if ( this.frmValidation() ) {
       // registrar usuario en la API
-      console.log('Registrar Usuario')
+      console.log('RegisterPage: onRegister() => Formulario OK')
+
+      // console.log('======TEST====== : No subscriptions')
+      this.userservice.register( this.formData.value ).subscribe( () => {
+        console.log('RegisterPage: onRegister() => Subscription a UserserviceService.register()')
+      })
+
+      localStorage.setItem('email-verify', this.formData.value.email );
+      this.router.navigate(['/verifyaccount'])
+
     }else {
-      console.log('Validacion...') 
+      console.log('RegisterPage: onRegister() => Formulario no validado') 
     }
     
   }
@@ -56,7 +68,7 @@ export class RegisterPage implements OnInit {
         return false
       }
 
-      if ( !this.validPhone( this.formData.value.telefono )) {
+      if ( !this.validPhone( this.formData.value.mobile )) {
         this.showToast('El numero no es valido')
         return false
       }

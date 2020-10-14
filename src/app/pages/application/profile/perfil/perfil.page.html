@@ -34,6 +34,58 @@
 
     </div> <!-- navButtons -->
 
-
+    <div id="avatar">
+      <ion-avatar>
+          <img [src]="imgAvatar">
+      </ion-avatar>
     </div>
-    </ion-content>
+
+    
+    <div id="cardContent">
+      
+      <div class="title">
+        <ion-text class="titulo"> {{ userData.name }} </ion-text>
+        <div class="underline"> <hr> </div>
+        <img class="rating" src="../../../../../assets/Rating.svg" >
+      </div>
+      
+      <ion-list class="list">
+
+        <ion-item></ion-item>
+
+        <ion-item routerLink="/app/datosgenerales">
+          <span class="iconDatos" >
+          <ion-label> Datos generales </ion-label>
+          </span>
+        </ion-item>
+
+        <ion-item routerLink="/app/alergias">
+          <span class="iconAlergias" >
+            <ion-label> Alergias </ion-label>
+          </span>
+        </ion-item>
+
+        <ion-item routerLink="/app/historialmedico">
+          <span class="iconHistorial" >
+            <ion-label> Historial médico </ion-label>
+          </span>
+        </ion-item>
+
+        <ion-item routerLink="/app/familiares">
+          <span class="iconFamiliares" >
+            <ion-label> Familiares </ion-label>
+          </span>
+        </ion-item>
+
+        <ion-item routerLink="/app/metodopago">
+          <span class="iconMetodos" >
+            <ion-label> Métodos de pago </ion-label>
+          </span>
+        </ion-item>
+
+      </ion-list>
+      
+    </div>
+    
+  </div>
+</ion-content> 

@@ -25,13 +25,14 @@ export class MenuComponent implements OnInit {
   menuOpts: Observable<Menu[]>;
 
   constructor(  private menuData: MenuDataService,
-    private userservice: UserserviceService
-   ) { }
-
+      private userservice: UserserviceService) { 
+      }
+      
   ngOnInit() {
-
-    // Esta http-requets no le resuelve al interceptor en la vista de Home al refresh
+        
+    console.log('MenuComponent: ngOnInit() => Menu Init' );
     this.menuOpts = this.menuData.getMenuOpts();
+    console.log('MenuComponent: ngOnInit() => Obtiene la data del menu por menuDataService.getMenuOpts() ' );
 
   }
 

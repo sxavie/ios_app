@@ -1,9 +1,60 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>metodopago</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content id="container" no-scroll padding>
 
-<ion-content>
+  <div class="main">
 
-</ion-content>
+    <div class="navContainer">
+      
+      <ion-item 
+          lines="none" 
+          color="transparent">
+
+        <ion-buttons slot="start">
+          <ion-back-button
+            defaultHref="/app/perfil"
+            text=""
+            class="navIconBtn">
+          </ion-back-button>
+        </ion-buttons>
+        
+        <div id="logo">
+          <ion-img src="../../../assets/tidulogowhite_s.png"></ion-img>
+        </div>
+          
+        <ion-buttons slot="end">
+          <ion-button routerLink="/app">
+            <ion-icon 
+              class="navIconBtn"
+              slot="icon-only"
+              name="home-outline" ></ion-icon>
+          </ion-button>
+        </ion-buttons>
+        
+      </ion-item>
+
+    </div> <!-- navButtons -->
+
+    <div id="avatar">
+      <ion-avatar>
+          <img [src]="imgAvatar">
+      </ion-avatar>
+    </div>
+
+    
+    <div id="cardContent">
+      
+      <div class="title">
+        <ion-text class="titulo"> Métodos de Pago </ion-text>
+        <div class="underline"> <hr> </div>
+      </div>
+      
+      <ion-list class="list">
+
+       
+        
+
+      </ion-list>
+      
+    </div>
+    
+  </div>
+</ion-content> 
