@@ -55,6 +55,7 @@
           <ion-item>
             <ion-text> Diabetis </ion-text>  
             <ion-checkbox name="diabetes"
+              (ionChange)="hMedicalSave()"
               formControlName="diabetes" 
               slot="end"></ion-checkbox>
           </ion-item>
@@ -62,6 +63,7 @@
           <ion-item>
             <ion-text> Hipertención arterial </ion-text>  
             <ion-checkbox name="hypertension"
+              (ionChange)="hMedicalSave()"
               formControlName="hypertension"
               slot="end"></ion-checkbox>
           </ion-item>

@@ -14,16 +14,16 @@ import { UserserviceService } from 'src/app/services/userservice.service';
 export class HistorialmedicoPage implements OnInit {
 
   public imgAvatar = localStorage.getItem('user-filename');
-  public userData: Usuario[] = [];
-  public diseases: any[] = [];
+  public userData: Usuario;
+  public diseases: any;
 
   public diseasesFormData = this.fb.group({
-      diabetes: [  ],
-      hypertension: [ ],
-      heartDisease: [ ],
-      epilepsy: [  ],
-      prevSurgeries: [  ],
-      others: [  ]
+      diabetes: false,
+      hypertension: false,
+      heartDisease: false,
+      epilepsy: false,
+      prevSurgeries: false,
+      others: false
   })
   
   constructor( private router: Router,
@@ -36,13 +36,25 @@ export class HistorialmedicoPage implements OnInit {
     this.userservice.getUserData().subscribe( (resp:any) => {
       localStorage.setItem('UserData', JSON.stringify(resp) )
       this.userData = resp;
-      this.diseasesFormData.controls['diabetes'].setValue(resp.diseases.diabetes)
-      this.diseasesFormData.controls['epilepsy'].setValue(resp.diseases.epilepsy)
-      this.diseasesFormData.controls['heartDisease'].setValue(resp.diseases.heartDisease)
-      this.diseasesFormData.controls['hypertension'].setValue(resp.diseases.hypertension)
-      this.diseasesFormData.controls['prevSurgeries'].setValue(resp.diseases.prevSurgeries)
-      this.diseasesFormData.controls['others'].setValue(resp.diseases.others)
+
+
+      this.diseasesFormData = this.fb.group({
+        diabetes: resp.diseases.diabetes,
+        hypertension: resp.diseases.epilepsy,
+        heartDisease: resp.diseases.heartDisease,
+        epilepsy: resp.diseases.hypertension,
+        prevSurgeries: resp.diseases.prevSurgeries,
+        others: resp.diseases.others
+    })
+    
+    
+    
     })   
+  }
+
+  hMedicalSave(){
+
+    console.log( 'ChekBox IonChange: SUscribirse al servicio ', this.diseasesFormData.value )
   }
 
   goHome(){

@@ -31,6 +31,10 @@ export class Usuario {
         public family?: [], 
     ) {}
 
+    imprimirUsuario(){
+        console.log( this.name );
+    }
+
     get imageUrl(){
         if (this.filename) {
             let splitFormat = this.filename.split('.');

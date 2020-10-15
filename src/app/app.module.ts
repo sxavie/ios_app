@@ -36,11 +36,11 @@ import { HttpRequestInterceptor } from './interceptors/http-loading.interceptor'
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: HttpRequestInterceptor,
-    //   multi: true
-    // }
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpRequestInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

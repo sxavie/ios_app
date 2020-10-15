@@ -7,6 +7,8 @@ import { IonicModule } from '@ionic/angular';
 import { HistorialmedicoPageRoutingModule } from './historialmedico-routing.module';
 
 import { HistorialmedicoPage } from './historialmedico.page';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpRequestInterceptor } from 'src/app/interceptors/http-loading.interceptor';
 
 @NgModule({
   imports: [
@@ -16,6 +18,13 @@ import { HistorialmedicoPage } from './historialmedico.page';
     HistorialmedicoPageRoutingModule,
     ReactiveFormsModule
   ],
-  declarations: [HistorialmedicoPage]
+  declarations: [HistorialmedicoPage],
+   providers:[
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpRequestInterceptor,
+      multi: true
+    }
+  ]
 })
 export class HistorialmedicoPageModule {}

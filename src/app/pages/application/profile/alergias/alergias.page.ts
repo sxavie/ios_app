@@ -12,23 +12,147 @@ import { UserserviceService } from 'src/app/services/userservice.service';
 export class AlergiasPage implements OnInit {
 
   public imgAvatar = localStorage.getItem('user-filename');
-  public userData : Usuario[] = [];
+  public userData: any = '';
+  public alergias: Array<any> = [];
+  public nuevasAlergias: Array<any> = [];
+
+  public strAlergia: string = "";
+
+  public isAdding = false;
 
   constructor(private menuCtrl: MenuController,
     private router: Router,
     private userservice: UserserviceService) { }
 
   ngOnInit() {
+
     if( localStorage.getItem('UserData') ) {
       console.log( 'LolcaStorage Data' )
       this.userData =  JSON.parse( localStorage.getItem('UserData') )
+      this.alergias = this.userData.allergies;
+      this.validarAlergias(this.alergias);
     }else{ 
       console.log( 'UserService Data' );
       this.userservice.getUserData().subscribe( (resp:any) => {
         localStorage.setItem('UserData', JSON.stringify(resp) )
         this.userData = resp;
+        this.alergias = this.userData.allergies;
+        this.validarAlergias(this.alergias);
       })   
+    } 
+
+  }
+
+  backProfile(){
+    
+    // validar si hay daos pendientes por alamcenar
+    if( this.nuevasAlergias.length ) {
+
+      console.log( 'existen datos si guardar')
+    } else{
+      console.log( 'navegando' )
+      // this.router.navigate(['/app/perfil'])
     }
+
+  }
+
+  validarAlergias(allergies){
+  
+    console.log(' NgOnIt alergias => ', allergies)
+    console.log(' NgOnIt alergias length => ', allergies.length)
+
+    if(allergies.length === 1) {
+      
+      if( allergies[0] === "") { 
+        console.log("Esta vacio") 
+        this.alergias = [];
+      }else{ // este else{} podemos removerlo
+        console.log( allergies[0] ) 
+      }
+    }
+
+  }
+  
+  genAllergiesJSON(){
+
+    let templateUpdateAlergias = `{"allergies":"` // cerrar el }
+
+    console.log( 'Alergias del Usuario',this.alergias )
+    console.log( 'nuevas Alergias =>' , this.nuevasAlergias )
+      
+    if( this.nuevasAlergias.length > 0 ) {
+
+      let alergiasString =  JSON.stringify(this.alergias);
+      console.log( 'Conviertiendo nuevas alergias Array to String => ', alergiasString  )
+      alergiasString = alergiasString.replace("[", "");
+      alergiasString = alergiasString.replace("]", "");
+      console.log( 'removiendo "[]" del String alergias => ', alergiasString  )
+      
+      const comma = '"';
+      const replace = ''
+
+      let result = alergiasString.split(comma).join(replace);
+      console.log( 'removiendo " del String alergias => ', result  )  
+
+      templateUpdateAlergias += `${result}"}`;
+
+      let alergiasToJSON = JSON.parse(templateUpdateAlergias)
+
+      console.log( 'templateUpdateAlergias =>', templateUpdateAlergias )
+      console.log( 'templateUpdateAlergias Parsed =>', alergiasToJSON )
+
+      this.updateAllergies( alergiasToJSON );    
+
+      this.nuevasAlergias = [];
+      localStorage.removeItem('UserData')
+      
+    }else {
+      console.log( 'No se agregaron nuevas alegias' )
+    }
+
+    this.adding();
+
+  }
+
+  addAllergies(){
+
+    if(this.strAlergia == "") {
+      console.log("No se agrega")
+    }else{
+
+      let index = this.alergias.indexOf(this.strAlergia);
+      if (index === -1){
+        this.alergias.push(this.strAlergia);
+        this.nuevasAlergias.push(this.strAlergia);
+      }else {
+        console.log( "la alergia ya existe" )
+      }
+
+    }
+    this.strAlergia = '';
+  }
+
+  removeAllergies(alergia){
+
+    console.log(this.alergias)
+    console.log(alergia,' ====> ', this.alergias.indexOf(alergia));
+    let index = this.alergias.indexOf(alergia);
+    this.alergias.splice(index, 1);
+    console.log( 'index: ', index, ' removed: ',this.alergias )
+    this.nuevasAlergias.push(alergia);
+
+  }
+
+  adding(){
+    this.isAdding = !this.isAdding
+  }
+
+  updateAllergies( JSONData ){
+
+    this.userservice.updateUserDataAllergies( JSONData ).subscribe( (resp:any) => {
+      console.log( 'ConsultasPage: updateAllergies() => Susbcribe al PUT del servicio actualizar alergias', resp )
+    })
+
   }
 
   goHome(){

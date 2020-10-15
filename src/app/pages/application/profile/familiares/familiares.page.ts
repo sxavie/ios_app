@@ -31,7 +31,8 @@ export class FamiliaresPage implements OnInit {
       })   
     }
 
-    console.log( this.userData.family )
+    // error
+    // console.log( this.userData.family )
 
   }
 

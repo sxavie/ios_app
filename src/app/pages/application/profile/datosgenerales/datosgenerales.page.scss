@@ -35,11 +35,12 @@ ion-avatar{
 }
 #cardContent{
     padding:100px 20px 20px 20px ;
+    margin-bottom: 16px; //espacio al fondo de la tarjeta de informacion
     border:1px solid #c2c2c2;
     background-color: #ffffff;
     border-radius: 30px;
-    height: 95%;
-    transform: translateY(-75px);
+    height: 100%;
+    transform: translateY(-75px); // mueve la card 75px abajo, mitad del alto del la imagen de avatar
 }
 
 //titulo
@@ -61,7 +62,7 @@ ion-avatar{
 // titulo
 
 #cardContent ion-list{
-    padding: 10px;
+    padding: 5px 0;
 }
 #cardContent .list{
     margin-top: 55px;
@@ -71,6 +72,7 @@ ion-avatar{
 .dataRow{
     clear: both;
     width: 100%;
+    padding: 5px 0;
 }
 .left{ 
     float: left;
@@ -78,4 +80,17 @@ ion-avatar{
 }
 .right{ 
     float: right 
+}
+
+//Editar
+.inputs{
+    width: 50%;
+    outline: none;
+    // border:1px solid black;
+}
+#editSpan{
+    position: relative;
+    z-index: 2;
+    float: right;
+    margin-right: 30px;
 }

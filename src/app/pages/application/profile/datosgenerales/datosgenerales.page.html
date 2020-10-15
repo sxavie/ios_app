@@ -39,6 +39,10 @@
       </ion-avatar>
     </div>
 
+    <ion-text id="editSpan" 
+      color="primaryTUx"
+      (click)="edit()"> {{ edit_save }} </ion-text>
+
     
     <div id="cardContent">
       
@@ -49,11 +53,31 @@
 
       <ion-list class="list">
 
+        <!-- Editar -->
+        <!-- <ion-item>
+          <div class="dataRow">
+
+            <div class="left">
+              <span> dato </span>
+            </div>
+
+            <div *ngIf="!isEdit" class="right">
+              <span> {{nombre}} </span>
+            </div>
+
+            <div *ngIf="isEdit" class="right inputs">
+              <input [(ngModel)]="nombre"> 
+            </div>
+
+          </div>
+        </ion-item> -->
+        <!-- Editar -->
+
         <ion-item >
           <div class="dataRow">
             <span class="left"> Edad </span>
-            <span class="right"> {{ userData.birthday || '--' }}  </span> 
-
+            <span *ngIf="userData.birthday" class="right"> {{ edad }}  </span>
+            <span *ngIf="!userData.birthday" class="right"class="right"> --  </span> 
           </div>
         </ion-item>
 

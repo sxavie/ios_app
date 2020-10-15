@@ -10,4 +10,15 @@
   <ion-button (click)="validarToken()" > Decode </ion-button>
   <ion-button (click)="logOut()" > Log Out </ion-button>
 
+  <ion-list>
+    <ion-item *ngFor="let all of alergias">
+      <ion-text> {{ all }} </ion-text>
+    </ion-item>
+  </ion-list>
+
+  <ion-input [(ngModel)]="allerg" placeholder="add"> </ion-input>
+  <ion-button (click)="addAllergies()" > add </ion-button>
+  <ion-button (click)="updateAllergies()" > Servicio alergias </ion-button>
+
+
 </ion-content>

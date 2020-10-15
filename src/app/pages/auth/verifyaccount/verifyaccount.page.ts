@@ -25,7 +25,7 @@ export class VerifyaccountPage implements OnInit {
     let email = localStorage.getItem('email-verify')
     console.log( 'VerifyaccountPage: verifyAccount() => Susbcribe al servicio de verifycar cuenta' )
     
-    this.userservice.verifyAcccount(email, this.pin).subscribe( (resp) => {
+    this.userservice.verifyAcccount(email, this.pin).subscribe( (resp:any) => {
       if (resp.message === 'Usuario no encontrado.'){
         this.showToast( resp.message );
       }else {
