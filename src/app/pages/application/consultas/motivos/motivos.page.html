@@ -1,0 +1,105 @@
+<ion-content id="container" no-scroll padding>
+
+  <div class="main">
+
+    <div class="navContainer">
+      
+      <ion-item 
+          lines="none" 
+          color="transparent">
+
+        <ion-buttons slot="start">
+          <ion-back-button
+            defaultHref="/app/consultas"
+            text=""
+            class="navIconBtn">
+          </ion-back-button>
+        </ion-buttons>
+        
+        <div id="logo">
+          <ion-img src="/assets/tidulogowhite_s.png"></ion-img>
+        </div>
+          
+        <ion-buttons slot="end">
+          <ion-button routerLink="/app">
+            <ion-icon 
+              class="navIconBtn"
+              slot="icon-only"
+              name="home-outline" ></ion-icon>
+          </ion-button>
+        </ion-buttons>
+        
+      </ion-item>
+
+    </div> <!-- navButtons -->
+    
+    <div id="cardContent">
+
+      <h2> CONSULTAS </h2>
+      
+      <div class="title">
+        <ion-text class="titulo"> Motivo de consulta </ion-text>
+        <div class="underline"> <hr> </div>
+      </div>
+
+      <!-- content -->
+      <div class="list">
+
+        <ion-item>
+          <ion-text> Dolor abdominal </ion-text>
+          <ion-checkbox name="abdominal"
+              slot="end"></ion-checkbox>
+        </ion-item>
+
+        <ion-item>
+          <ion-text> Dolor de cabeza </ion-text>
+          <ion-checkbox name="Cabeza"
+              slot="end"></ion-checkbox>
+        </ion-item>
+        <ion-item>
+          <ion-text> Dolor de garganta </ion-text>
+          <ion-checkbox name="Garganta"
+              slot="end"></ion-checkbox>
+        </ion-item>
+        <ion-item>
+          <ion-text> Fiebre </ion-text>
+          <ion-checkbox name="Fiebre"
+              slot="end"></ion-checkbox>
+        </ion-item>
+        <ion-item>
+          <ion-text> Diarrea </ion-text>
+          <ion-checkbox name="Diarrea"
+              slot="end"></ion-checkbox>
+        </ion-item>
+        <ion-item>
+          <ion-text> Náuseas / vómito </ion-text>
+          <ion-checkbox name="Nauseas"
+              slot="end"></ion-checkbox>
+        </ion-item>
+        <ion-item>
+          <ion-text> Tos </ion-text>
+          <ion-checkbox name="Tos"
+              slot="end"></ion-checkbox>
+        </ion-item>
+        <ion-item>
+          <ion-text> Dificultad para respirar </ion-text>
+          <ion-checkbox name="Respirar"
+              slot="end"></ion-checkbox>
+        </ion-item>
+        <ion-item>
+          <ion-text> Otras </ion-text>
+          <ion-checkbox name="Otras"
+              slot="end"></ion-checkbox>
+        </ion-item>
+
+
+      </div>
+      <!-- content -->
+      
+    </div>
+    
+  </div>
+</ion-content> 
+
+
+

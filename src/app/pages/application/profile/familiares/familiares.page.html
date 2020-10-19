@@ -39,6 +39,10 @@
       </ion-avatar>
     </div>
 
+    <ion-text id="editSpan" 
+    color="secondaryTUx" 
+    (click)="addMemberModal()"> <ion-icon name="add"></ion-icon> </ion-text>
+
     
     <div id="cardContent">
       
@@ -49,7 +53,7 @@
       
     <ion-list class="list">
 
-      <ion-item *ngFor=" let member of userData.family">
+      <ion-item *ngFor=" let member of userData.family" detail>
 
         <ion-avatar slot="start">
           <img [src]="imgAvatar">
@@ -60,7 +64,12 @@
         </ion-label>
       </ion-item>
 
+ 
+
+
       </ion-list>
+
+      
       
     </div>
     

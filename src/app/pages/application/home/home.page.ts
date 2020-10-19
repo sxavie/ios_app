@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuController, NavController } from '@ionic/angular';
-import { Usuario } from 'src/app/models/usuario.model';
 import { MenuDataService } from 'src/app/services/menu-data.service';
 import { UserserviceService } from 'src/app/services/userservice.service';
+import {} from 'googlemaps';
 
+// declare var google;
+
+/// <reference types="googlemaps" />
 
 @Component({
   selector: 'app-home',
@@ -13,22 +16,14 @@ import { UserserviceService } from 'src/app/services/userservice.service';
 }) 
 export class HomePage implements OnInit {
 
-  //Menu app propieties
-  hostMenuId = 'hostMenuHome'
-  nameMenuId = 'menuHome'
 
-  usermEmail: string = 'xavier.hernandez@vasster.com';
-  userPwd: string = '123'; 
+  @ViewChild('map') public mapElement: any
+  map: google.maps.Map;
+
 
   userData: any;
-  lat = 51.678418;
-  lng = 7.809007;
-
   public imgAvatar;
-  public userName;
 
-  // public uName;
-  // public uImg;
 
   constructor(  private menuCtrl: MenuController,
     public router: Router,
@@ -36,20 +31,21 @@ export class HomePage implements OnInit {
     public userservice: UserserviceService, 
     ) {
 
-      // this.userservice.getUserData();
-
-      // this.imgAvatar = localStorage.getItem('user-filename');
-      // this.userName = localStorage.getItem('user-name')
-
-      // userservice.decodeToken( localStorage.getItem('jwttoken') );
-      
-      // // manda errores,  
-      // this.uName = userservice.usuario.userName;
-      // this.uImg = userservice.usuario.imageUrl;
 
     }
       
-  ngOnInit() { }
+  ngOnInit(): void {
+
+    const mapProperties = {
+      center: new google.maps.LatLng(35.2271, -80.8431),
+      zoom: 15,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+
+    this.map = new google.maps.Map(this.mapElement.ElementRef, mapProperties);
+    
+
+  }
       
   toggleMenu(){
     // this.menuCtrl.toggle(this.nameMenuId);
@@ -78,6 +74,37 @@ export class HomePage implements OnInit {
         break
       }
     }
+
+  }
+
+  loadMap(){
+
+
+    
+
+
+      const center: google.maps.LatLngLiteral = {lat: 51.678418, lng: 7.809007};
+      this.map = new google.maps.Map(this.mapElement.nativeElement, {
+        zoom: 14,
+        center: center,
+        disableDefaultUI: false,
+        mapTypeControl: false,
+        scaleControl: false,
+        streetViewControl: false,
+        fullscreenControl: false,
+        zoomControl: true,
+      });
+
+
+    
+ 
+    return this.map;
+    
+  }
+
+  ionViewDidLoad(){
+
+    // this.loadMap();
 
   }
 

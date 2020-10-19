@@ -53,12 +53,21 @@ const routes: Routes = [
         loadChildren: () => import('./profile/metodopago/metodopago.module').then( m => m.MetodopagoPageModule)
       },
       {
+        path: 'agregarpago',
+        loadChildren: () => import('./profile/agregarpago/agregarpago.module').then( m => m.AgregarpagoPageModule)
+      },
+      {
+        path: 'agregarfamiliar',
+        loadChildren: () => import('./profile/agregarfamiliar/agregarfamiliar.module').then( m => m.AgregarfamiliarPageModule)
+      },
+      {
         path: '',
         redirectTo: '/app/home',
         pathMatch: 'full'
       }
     ]
-  }
+  },
+  
 ];
 
 @NgModule({

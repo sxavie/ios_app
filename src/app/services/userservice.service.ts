@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
@@ -6,13 +6,13 @@ import { environment } from '../../environments/environment';
 import { tap, map, catchError } from 'rxjs/operators'
 import { JwtHelperService } from '@auth0/angular-jwt'
 
-import { LoginForm, RegisterForm, UpdateForm } from '../interfaces/interfaces';
+import { Diseases, LoginForm, RegisterForm, UpdateForm } from '../interfaces/interfaces';
 import { Usuario } from '../models/usuario.model';
 import { Observable, of, throwError } from 'rxjs';
 
 // variables
-const helper = new JwtHelperService;
 const apiUrl = environment.apiUrl;
+const helper = new JwtHelperService;
 
 @Injectable({
   providedIn: 'root'
@@ -30,13 +30,23 @@ export class UserserviceService {
     private router: Router
     ) { }
     
+    get headers() {
+
+      let headers = new HttpHeaders({
+        'authorization': localStorage.getItem('jwttoken')
+      });
+
+      return headers;
+    }
     
     register( formData: RegisterForm) {
 
       console.log( formData );
+
+      let url = `${ apiUrl }/user/register`
       
       console.log( 'UserService: register() => HTTP Post registro de usuario'  )    
-      return this.http.post(`${ apiUrl }/user/register`, formData)
+      return this.http.post(url, formData)
         .pipe(map( (resp: any) =>{
           console.log( 'UserService: register() => HTTP Post Usuario registrado ', resp  )
           localStorage.setItem('email-verify', formData.email );
@@ -77,6 +87,9 @@ export class UserserviceService {
           return throwError( err )
         }));
     }
+
+    // mover a auth service.
+
     decodeToken( token ) {
 
       const u = helper.decodeToken( token )
@@ -99,6 +112,8 @@ export class UserserviceService {
       console.log( 'UserserviceService: decodeToken() => RouterLink /app' )
     }
 
+    
+
     getUserData(): Observable<Usuario>{
     // getUserData(){
 
@@ -106,16 +121,17 @@ export class UserserviceService {
 
       let token = localStorage.getItem('jwttoken');
       let uid = localStorage.getItem('user-id')
+      let url = `${ apiUrl }/users/${ uid }`
 
       let headers = new HttpHeaders({
-        'authorization': token
+        'authorization': token 
       })
 
       console.log( 'UserserviceService: getUserData() => Token y userid Obtenidos de localStorage para el HHTP request' )
       console.log( 'token:', token)
       console.log( 'userid:', uid)
 
-      return this.http.get<Usuario>(  `${ apiUrl }/users/${ uid }`,{ headers } )
+      return this.http.get<Usuario>(  url ,{ headers } )
         .pipe(tap( (x:any) => {
 
           console.log( 'UserserviceService: getUserData() => http.get https://api.cavimex.vasster.com/users/:userid ' )
@@ -142,17 +158,20 @@ export class UserserviceService {
          }));
 
     }
-
+    //pendiente
     updateUserData( formData: UpdateForm ){
 
       let token = localStorage.getItem('jwttoken');
       let uid = localStorage.getItem('user-id')
+      let url = `${ apiUrl }/users/${ uid }`
 
-      let headers = new HttpHeaders({
-        'authorization': token
-      })
+      let headers = this.headers;
 
-      return this.http.put(`${ apiUrl }/users/ ${ uid }`, formData, { headers })
+      // let headers = new HttpHeaders({
+      //   'authorization': token
+      // })
+
+      return this.http.put( url , formData, { headers })
         .pipe(map( (resp:any) => {
           console.log( 'UserserviceService: updateUserData() => Subscription to update (HTTP PUT) request', resp  )
           // Funcion para guardar en el LOCAL la data actualizada
@@ -166,26 +185,57 @@ export class UserserviceService {
 
       let token = localStorage.getItem('jwttoken');
       let uid = localStorage.getItem('user-id');
+      let url = `${ apiUrl }/users/${uid}`
 
-
-      console.log( 'token', token )
-      console.log( 'udi', uid )
-      
       let headers = new HttpHeaders({
         'authorization': token
       });
+
+      console.log(  headers );
 
       console.log( 'service allergies json parsed => ', allergies )
 
       // return this.http.put(`${ apiUrl }/users/ ${ uid }`, {allergies: "Diclofenaco,Parasetamol,Alergia3,Alergia4,Alergia5"}, { headers })
       // return this.http.put(`${ apiUrl }/users/5f85d2c85be5532208edbc58`, {"allergies":"uno,dosX,tres,cuatro"}, { headers })
-      return this.http.put(`${ apiUrl }/users/${uid}`, allergies, { headers })
+      return this.http.put( url , allergies, { headers })
         .pipe(map( resp => {
           console.log( 'UserService: updateUserDataAllergies() => Actualizacion de alergias', resp )
         }))
           .pipe(catchError( err => {
             return throwError( err )
           }))
+    }
+
+    updateUserDataDiseases( data: Diseases ){
+
+      console.log('UserService: updateUserDataDiseases() => Start')
+      
+      let token = localStorage.getItem('jwttoken');
+      let uid = localStorage.getItem('user-id');
+      let url = `${ apiUrl }/user/medicalhistory/${ uid }`
+
+      let headers = new HttpHeaders().set('Content-Type','application/x-www-form-urlencoded');
+      headers = headers.set('authorization', token)
+
+      console.log( data )
+
+      const httpParamsData = new HttpParams()
+      .set("diabetes", data.diabetes.toString() )
+      .set("epilepsy", data.epilepsy.toString() )
+      .set("heartDisease",data.heartDisease.toString() )
+      .set("hypertension",data.hypertension.toString() )
+      .set("prevSurgeries", data.prevSurgeries.toString() )
+      .set("others", "true");
+
+
+      console.log( 'Data to susbcribre: ' , httpParamsData )
+      return this.http.post(url, httpParamsData, {headers})
+        .pipe(map( resp => {
+          console.log( 'UserService: HTTP request response: ', resp )
+        }))
+        .pipe(catchError( err => {
+          return throwError(err)
+        }))
     }
 
     logout() {
@@ -199,8 +249,8 @@ export class UserserviceService {
       console.log( 'UserserviceService: logout() => LocalStorage clean' )
     }
 
-    saveLocals(){
-
+    // funcion sin usar
+    saveLocalStorage( userData, ){
       console.log( 'UserService: saveLocalS() => Data almacenada en el local storage' )
     }
 

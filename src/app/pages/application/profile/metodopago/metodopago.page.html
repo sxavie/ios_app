@@ -47,13 +47,72 @@
         <div class="underline"> <hr> </div>
       </div>
       
-      <ion-list class="list">
+      <div class="list">
 
-       
+        <div *ngFor="let card of cards" 
+          class="slotCard"
+          [ngClass]="{'default' : card.default_source } || async"
+          (click)="changeMethod(card.cardID)">
+          
+          <span 
+            class="iconBrand" 
+            [ngClass]="{'Visa': card.brand === 'Visa', 'MasterCard': card.brand === 'MasterCard'} || async"> </span>
+
+          <div class="cardNumber"> <span> ************{{card.last4}} </span> </div>
+          
+          <!-- Eliminar method -->
+          <!-- <ion-icon class="iconRight" name="trash" slot="end" ></ion-icon> -->
+        </div>
+
+        <!-- <div  class="slotCard default">
+          <span class="iconBrand Visa" > </span>
+          <div class="cardNumber"> <span> ************7655 </span> </div>
+         </div>
+        <div  class="slotCard">
+          <span class="iconBrand MasterCard" > </span>
+          <div class="cardNumber"> <span> ************2312 </span> </div>
+         </div>
+        <div  class="slotCard">
+          <span class="iconBrand Visa" > </span>
+          <div class="cardNumber"> <span> ************9998 </span> </div>
+         </div>
+        <div  class="slotCard">
+          <span class="iconBrand Visa" > </span>
+          <div class="cardNumber"> <span> ************7126 </span> </div>
+         </div>
+        <div  class="slotCard">
+          <span class="iconBrand MasterCard" > </span>
+          <div class="cardNumber"> <span> ************9908 </span> </div>
+          </div>
+        <div  class="slotCard">
+          <span class="iconBrand MasterCard" > </span>
+          <div class="cardNumber"> <span> ************6675 </span> </div>
+         </div> -->
         
 
-      </ion-list>
-      
+        <h4> Agregar métodos de pago </h4>
+
+        <div class="addMethod">
+
+          <button routerLink="/app/agregarpago" class="creditCard">
+
+            <span> Tarjeta de </span>
+            <span> débito/crédito</span>
+          </button>
+
+          <button class="paypal">
+
+            <span> Efectivo </span>
+            
+          </button>
+
+
+        </div>
+
+
+      </div>
+
+
     </div>
     
   </div>

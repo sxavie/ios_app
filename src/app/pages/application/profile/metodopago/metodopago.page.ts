@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
+import { PayMethodsService } from 'src/app/services/paymethods.service';
 
 @Component({
   selector: 'app-metodopago',
@@ -10,15 +11,46 @@ import { MenuController } from '@ionic/angular';
 export class MetodopagoPage implements OnInit {
 
   public imgAvatar = localStorage.getItem('user-filename');
+  // public cards: any[] = [];
+  public cards: any;
 
   constructor(private menuCtrl: MenuController,
-    private router: Router) { }
+    private router: Router,
+    private payservice: PayMethodsService) { }
 
   ngOnInit() {
+
+    this.getPayCards();
+    
+  }
+
+  getPayCards(){
+
+    this.payservice.getPayMethods().toPromise().then( (data:any) => {
+      console.log( 'ToPromise Data ', data )
+      this.cards = data.cards;
+      console.log( 'ToPromise Cards ', this.cards )
+    })
+    
+    // .subscribe( (resp:any) => {
+    //   this.cards = resp;
+    //   console.log( 'MetodopagoPage: ngOnInit() => Susbcription Response ', this.cards )
+    // })
+
+  }
+
+  changeMethod( idCard ){
+    
+    this.payservice.setPayMethod( idCard ).subscribe( resp => {
+      this.getPayCards()
+    })
+
   }
 
   goHome(){
     this.router.navigate(['/app/home'])
   }
+
+
 
 }

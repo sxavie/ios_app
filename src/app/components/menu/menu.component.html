@@ -33,11 +33,13 @@
       
       <!-- Si es Obs agregar | async -->
       <ion-menu-toggle *ngFor="let opt of menuOpts | async">
+        
         <ion-item color="transparent"
           [routerLink]="opt.redirectTo" detail >
           <ion-icon [name]="opt.icon" slot="start"></ion-icon>
           <ion-text class="optTitle">{{ opt.title }}</ion-text>
-        </ion-item>     
+        </ion-item>    
+         
       </ion-menu-toggle>
 
     </ion-list>

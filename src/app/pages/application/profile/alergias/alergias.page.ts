@@ -27,18 +27,22 @@ export class AlergiasPage implements OnInit {
   ngOnInit() {
 
     if( localStorage.getItem('UserData') ) {
+
       console.log( 'LolcaStorage Data' )
       this.userData =  JSON.parse( localStorage.getItem('UserData') )
       this.alergias = this.userData.allergies;
       this.validarAlergias(this.alergias);
+
     }else{ 
+
       console.log( 'UserService Data' );
       this.userservice.getUserData().subscribe( (resp:any) => {
         localStorage.setItem('UserData', JSON.stringify(resp) )
         this.userData = resp;
         this.alergias = this.userData.allergies;
         this.validarAlergias(this.alergias);
-      })   
+      }) 
+        
     } 
 
   }
@@ -46,10 +50,13 @@ export class AlergiasPage implements OnInit {
   backProfile(){
     
     // validar si hay daos pendientes por alamcenar
-    if( this.nuevasAlergias.length ) {
+    if( this.nuevasAlergias.length || this.strAlergia != '' ) {
 
       console.log( 'existen datos si guardar')
     } else{
+
+      this.isAdding = false;
+
       console.log( 'navegando' )
       // this.router.navigate(['/app/perfil'])
     }
@@ -116,7 +123,7 @@ export class AlergiasPage implements OnInit {
 
   addAllergies(){
 
-    if(this.strAlergia == "") {
+    if(this.strAlergia === "") {
       console.log("No se agrega")
     }else{
 

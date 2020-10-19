@@ -1,0 +1,76 @@
+<ion-content id="container" no-scroll padding>
+
+  <div class="main">
+
+    <div class="navContainer">
+      
+      <ion-item 
+          lines="none" 
+          color="transparent">
+
+        <ion-buttons slot="start">
+          <ion-back-button
+            defaultHref="/app/consultas"
+            text=""
+            class="navIconBtn">
+          </ion-back-button>
+        </ion-buttons>
+        
+        <div id="logo">
+          <ion-img src="/assets/tidulogowhite_s.png"></ion-img>
+        </div>
+          
+        <ion-buttons slot="end">
+          <ion-button routerLink="/app">
+            <ion-icon 
+              class="navIconBtn"
+              slot="icon-only"
+              name="home-outline" ></ion-icon>
+          </ion-button>
+        </ion-buttons>
+        
+      </ion-item>
+
+    </div> <!-- navButtons -->
+    
+    <div id="cardContent">
+
+      <h2> CONSULTAS </h2>
+     
+      <!-- content -->
+
+      <div class="switch">
+        
+        <ion-item lines="none">
+          <ion-label> Virtual </ion-label>
+          <ion-toggle> </ion-toggle>
+        </ion-item>
+        
+      </div>
+
+      <ion-button  class="reqBtn" 
+          color="primaryTUx"
+          expand="block"
+          shape="round" > 
+          <ion-text class="btnTxt"> Solicitar Ahora </ion-text> 
+      </ion-button>   
+
+
+      <div class="map"></div>
+
+      <ion-item></ion-item>
+      <ion-item detail>
+        <span class="icon-calendar" > </span>
+        <ion-text> Agendar </ion-text>
+        
+      </ion-item>
+    
+      <!-- content -->
+      
+    </div>
+    
+  </div>
+</ion-content> 
+
+
+

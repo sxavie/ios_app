@@ -29,3 +29,19 @@ export interface UpdateForm {
     email: string;
     userType: string;
 }
+
+export interface Diseases {
+    diabetes: boolean;
+    hypertension: boolean;
+    heartDisease: boolean;
+    epilepsy: boolean;
+    prevSurgeries: boolean;
+}
+
+export interface Card {
+    number: string;
+    month: string;
+    year: string;
+    cvc: string;
+    user: string;
+}

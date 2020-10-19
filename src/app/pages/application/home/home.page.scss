@@ -36,6 +36,8 @@
     margin: auto;
 }
 
- agm-map{
-     height: 220px;
+ #map{
+     height: 250px;
+     width: 100%;
+     z-index: 100
  }

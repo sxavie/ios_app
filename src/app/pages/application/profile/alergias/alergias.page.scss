@@ -4,6 +4,7 @@
 }
 .main {
     padding: 14px;
+    min-height: 80%;
     height: 80%;
 }
 .navContainer{
@@ -36,11 +37,13 @@ ion-avatar{
     height: 100%;
 }
 #cardContent{
-    padding:100px 20px 20px 20px ;
+    padding:100px 20px 10px 20px ;
+    margin-bottom: 20px;
     border:1px solid #c2c2c2;
     background-color: #ffffff;
     border-radius: 30px;
-    height: 95%;
+    min-height: 95%;
+    height: auto;
     transform: translateY(-75px);
 }
 

@@ -1,0 +1,100 @@
+<ion-content id="container" no-scroll padding>
+
+  <div class="main">
+
+    <div class="navContainer">
+      
+      <ion-item 
+          lines="none" 
+          color="transparent">
+
+        <ion-buttons slot="start">
+          <ion-back-button
+            defaultHref="/app/perfil"
+            text=""
+            class="navIconBtn">
+          </ion-back-button>
+        </ion-buttons>
+        
+        <div id="logo">
+          <ion-img src="../../../assets/tidulogowhite_s.png"></ion-img>
+        </div>
+          
+        <ion-buttons slot="end">
+          <ion-button routerLink="/app">
+            <ion-icon 
+              class="navIconBtn"
+              slot="icon-only"
+              name="home-outline" ></ion-icon>
+          </ion-button>
+        </ion-buttons>
+        
+      </ion-item>
+
+    </div> <!-- navButtons -->
+
+    <div id="avatar">
+      <ion-avatar>
+          <img [src]="imgAvatar">
+      </ion-avatar>
+    </div>
+
+    
+    <div id="cardContent">
+      
+      <div class="title">
+        <ion-text class="titulo"> Agregar Tarjeta </ion-text>
+        <div class="underline"> <hr> </div>
+      </div>
+      
+  
+      <div class="cardForm">
+
+        <!-- (ionChange)="masking()" -->
+        <ion-input placeholder="XXXX XXXX XXXX 7674"
+          [(ngModel)]="cardNumber"
+          maxlength="16"
+          class="cardNumber"> </ion-input>
+
+        <ion-grid id="grid">
+          <ion-row>
+            <ion-col>
+
+              <ion-input placeholder="MM/AA" 
+                [(ngModel)]="cardDetail"
+                maxlength="4"
+                class="cardDetail_left masked"
+                pattern="(1[0-2]|0[1-9])\/(1[5-9]|2\d)"
+                data-valid-example="05/22" ></ion-input>
+
+            </ion-col>
+
+            <ion-col>
+
+              <ion-input placeholder="CVV" 
+                [(ngModel)]="cardCVV"
+                maxlength="3"
+                class="cardDetail_right" ></ion-input>
+              
+            </ion-col>
+
+          </ion-row>
+        </ion-grid>
+
+        <!-- <ion-button (click)="masking()" expand="full"> Mask </ion-button> -->
+
+        <div class="button">
+
+            <div class="addCardBtn"
+              (click)="cardValidation()">
+              <span > Agregar </span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+    
+  </div>
+</ion-content> 

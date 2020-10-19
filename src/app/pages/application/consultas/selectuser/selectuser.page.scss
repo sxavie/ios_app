@@ -1,0 +1,77 @@
+#container{
+    --background: url('/assets/appbackground.png') 0 0/100% 100% no-repeat ;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.main {
+    padding: 14px;
+    min-height: 80%;
+    height: 80%;
+}
+
+//navegacion
+.navContainer{
+    padding-top: 1.5rem;
+}
+.navIconBtn{
+    color: white;
+}
+//logo
+#logo{
+    width: 50%;
+    margin: auto;
+}
+//  tarjeta de contenido
+#cardContent{
+    padding:15px ;
+    border:1px solid #c2c2c2;
+    background-color: #ffffff;
+    border-radius: 30px;
+    min-height: 100%;
+    height: auto;
+    margin-top: 30px;
+    margin-bottom: 16px;
+    padding-bottom: 2rem;
+}
+// titulo
+#cardContent h2{
+    color: #014c68;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 25px;
+}
+.title{
+    margin-left: 20px;;
+}
+.titulo{ 
+    font-size: 22px;
+    color: #014c68;
+}
+.underline{
+    width: 230px;
+}
+.underline hr{
+    background-color: #00b3bc;
+    border: .5px solid #00b3bc;
+    width: 100%;
+    margin-top: -3px;
+}
+//lista
+#cardContent .list{
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 3rem}
+#cardContent .list ion-text{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 18px;
+    letter-spacing: -1px;
+    color: #a6a6a6;
+    padding-left: 15px;}
+.reqBtn{
+    font-size:20px;
+    letter-spacing: 1.5pt;
+    width: 60%;
+    margin: auto;}
+.reqBtn .btnTxt{
+    color: #ffffff;
+    font-weight: 100;}
+    

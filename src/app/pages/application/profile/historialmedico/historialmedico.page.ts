@@ -37,24 +37,23 @@ export class HistorialmedicoPage implements OnInit {
       localStorage.setItem('UserData', JSON.stringify(resp) )
       this.userData = resp;
 
-
-      this.diseasesFormData = this.fb.group({
-        diabetes: resp.diseases.diabetes,
-        hypertension: resp.diseases.epilepsy,
-        heartDisease: resp.diseases.heartDisease,
-        epilepsy: resp.diseases.hypertension,
-        prevSurgeries: resp.diseases.prevSurgeries,
-        others: resp.diseases.others
-    })
-    
-    
-    
+        this.diseasesFormData = this.fb.group({
+          diabetes: resp.diseases.diabetes,
+          hypertension: resp.diseases.epilepsy,
+          heartDisease: resp.diseases.heartDisease,
+          epilepsy: resp.diseases.hypertension,
+          prevSurgeries: resp.diseases.prevSurgeries,
+          others: resp.diseases.others
+      })
     })   
   }
 
   hMedicalSave(){
-
     console.log( 'ChekBox IonChange: SUscribirse al servicio ', this.diseasesFormData.value )
+
+    this.userservice.updateUserDataDiseases( this.diseasesFormData.value ).subscribe( resp => {
+      console.log(  'Subscription to service response ===> ',  resp )
+    })
   }
 
   goHome(){

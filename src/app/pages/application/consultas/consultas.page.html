@@ -1,24 +1,84 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>consultas</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content id="container" no-scroll padding>
 
-<ion-content>
+  <div class="main">
+
+    <div class="navContainer">
+      
+      <ion-item 
+          lines="none" 
+          color="transparent">
+
+        <ion-buttons slot="start">
+          <ion-back-button
+            defaultHref="/app/consultas"
+            text=""
+            class="navIconBtn">
+          </ion-back-button>
+        </ion-buttons>
+        
+        <div id="logo">
+          <ion-img src="/assets/tidulogowhite_s.png"></ion-img>
+        </div>
+          
+        <ion-buttons slot="end">
+          <ion-button routerLink="/app">
+            <ion-icon 
+              class="navIconBtn"
+              slot="icon-only"
+              name="home-outline" ></ion-icon>
+          </ion-button>
+        </ion-buttons>
+        
+      </ion-item>
+
+    </div> <!-- navButtons -->
+    
+    <div id="cardContent">
+
+      <h2> CONSULTAS </h2>
+
+      <!-- content -->
+      <div class="list">
+
+        <ion-item class="fstItem"></ion-item>
+
+        <ion-item detail>
+          <span class="icon-scope" ></span>
+          <ion-text> Consulta general </ion-text>
+          
+        </ion-item>
+
+        <ion-item detail>
+          <span class="icon-jeringa" ></span>
+          <ion-text> Aplicación de medicamento </ion-text>
+         
+        </ion-item>
+
+        <ion-item detail>
+          <span class="icon-needle" ></span>
+          <ion-text> Retiro de puntos </ion-text>
+         
+        </ion-item>
+
+        <ion-item detail>
+          <span class="icon-band" > </span>
+          <ion-text> Heridas / curaciones </ion-text>
+          
+        </ion-item>
+
+        <ion-item detail>
+          <span class="icon-clock" > </span>
+          <ion-text> Consultas agendadas </ion-text>
+        </ion-item>
 
 
-  <ion-button (click)="validarToken()" > Decode </ion-button>
-  <ion-button (click)="logOut()" > Log Out </ion-button>
-
-  <ion-list>
-    <ion-item *ngFor="let all of alergias">
-      <ion-text> {{ all }} </ion-text>
-    </ion-item>
-  </ion-list>
-
-  <ion-input [(ngModel)]="allerg" placeholder="add"> </ion-input>
-  <ion-button (click)="addAllergies()" > add </ion-button>
-  <ion-button (click)="updateAllergies()" > Servicio alergias </ion-button>
+      </div>
+      <!-- content -->
+      
+    </div>
+    
+  </div>
+</ion-content> 
 
 
-</ion-content>
+

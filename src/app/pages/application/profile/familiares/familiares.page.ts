@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MenuController } from '@ionic/angular';
+import { ModalController, PopoverController } from '@ionic/angular';
 import { Usuario } from 'src/app/models/usuario.model';
 import { UserserviceService } from 'src/app/services/userservice.service';
+import { AgregarfamiliarPage } from '../agregarfamiliar/agregarfamiliar.page';
 
 @Component({
   selector: 'app-familiares',
@@ -14,9 +15,11 @@ export class FamiliaresPage implements OnInit {
   public imgAvatar = localStorage.getItem('user-filename');
   public userData : Usuario[] = [];
 
-  constructor(private menuCtrl: MenuController,
+  constructor(
     private router: Router,
-    private userservice: UserserviceService) { }
+    private userservice: UserserviceService,
+    private modalCtrl: ModalController,
+    private popoverCtrl: PopoverController) { }
 
   ngOnInit() {
 
@@ -30,9 +33,25 @@ export class FamiliaresPage implements OnInit {
         this.userData = resp;
       })   
     }
+  }
 
-    // error
-    // console.log( this.userData.family )
+  async addMemberModal(ev: any){    
+    console.log('FamiliaresPage addMemberModal() ==> Ejecutando el modal ')
+
+    const modal = await this.modalCtrl.create({
+      component: AgregarfamiliarPage,
+      cssClass: ''
+    });
+    return await modal.present();
+
+    // const popover = await this.popoverCtrl.create({
+    //   component: AgregarfamiliarPage,
+    //   cssClass: 'popover_class',
+    //   event: ev,
+    //   translucent: true,
+    //   animated: true
+    // });
+    // return await popover.present();
 
   }
 

@@ -3,6 +3,7 @@
 }
 .main {
     padding: 14px;
+    min-height: 80%;
     height: 80%;
 }
 .navContainer{
@@ -16,8 +17,11 @@
     margin: auto;
 }
 // contenido:
+
 #avatar{
     width: 50%;
+    height: 150px;
+    width: 150px;
     min-width: 100px;
     min-height: 100px;
     max-width: 150px;
@@ -33,11 +37,13 @@
     height: 100%;
 }
 #cardContent{
-    padding:100px 20px 20px 20px ;
+    padding:100px 20px 10px 20px ;
+    margin-bottom: 20px;
     border:1px solid #c2c2c2;
     background-color: #ffffff;
     border-radius: 30px;
-    height: 95%;
+    min-height: 95%;
+    height: auto;
     transform: translateY(-75px);
 }
 
@@ -62,3 +68,23 @@
 #cardContent .list{
     margin-top: 25px;
 }
+
+
+#editSpan{
+    position: relative;
+    z-index: 2;
+    float: right;
+    margin-right: 35px;
+    font-size: 35px;
+}
+.list ion-item{
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+.popover_class .popover-content {
+        //width: 80% !important; - this wont work or the bottom one.
+        --width: 500px !important;
+        width: 500px !important;
+}
+

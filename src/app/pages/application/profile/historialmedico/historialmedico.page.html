@@ -63,7 +63,7 @@
           <ion-item>
             <ion-text> Hipertención arterial </ion-text>  
             <ion-checkbox name="hypertension"
-              (ionChange)="hMedicalSave()"
+            (ionChange)="hMedicalSave()"
               formControlName="hypertension"
               slot="end"></ion-checkbox>
           </ion-item>
@@ -71,6 +71,7 @@
           <ion-item>
             <ion-text> Enfermedades cardiacas </ion-text>  
             <ion-checkbox name="heartDisease"
+            (ionChange)="hMedicalSave()"
               formControlName="heartDisease"
               slot="end"></ion-checkbox>
           </ion-item>
@@ -78,6 +79,7 @@
           <ion-item>
             <ion-text> Epilepsia </ion-text>  
             <ion-checkbox name="epilepsy"
+            (ionChange)="hMedicalSave()"
               formControlName="epilepsy" 
               slot="end"></ion-checkbox>
           </ion-item>
@@ -85,16 +87,18 @@
           <ion-item>
             <ion-text> Cirugías previas </ion-text>  
             <ion-checkbox name="prevSurgeries"
+            (ionChange)="hMedicalSave()"
               formControlName="prevSurgeries"
               slot="end"></ion-checkbox>
           </ion-item>
 
-          <ion-item>
+          <!-- <ion-item>
             <ion-text> Otros </ion-text>  
             <ion-checkbox name="others"
+              (ionChange)="hMedicalSave()"
               formControlName="others"
               slot="end"></ion-checkbox>
-          </ion-item>
+          </ion-item> -->
 
         </ion-list>
 
