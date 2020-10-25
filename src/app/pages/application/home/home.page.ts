@@ -13,8 +13,6 @@ const { Toast, Geolocation } = Capacitor.Plugins;
 
 // declare var google;
 
-/// <reference types="googlemaps" />
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',

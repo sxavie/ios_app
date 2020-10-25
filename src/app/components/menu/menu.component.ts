@@ -30,18 +30,11 @@ export class MenuComponent implements OnInit {
       }
       
   ngOnInit() {
-        
-    console.log('MenuComponent: ngOnInit() => Menu Init' );
     this.menuOpts = this.menuData.getMenuOpts();
-    console.log('MenuComponent: ngOnInit() => Obtiene la data del menu por menuDataService.getMenuOpts() ' );
-
   }
 
   logOut(){
-
     this.authservice.logout();
-
-    console.log( 'Login Out' )
   }
 
 }

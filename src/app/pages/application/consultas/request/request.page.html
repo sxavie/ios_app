@@ -57,7 +57,7 @@
       <ion-item class="addres-selector">
         <ion-label>Dirección</ion-label>
         <ion-select ok-text="OK" cancel-text="Cancelar" [(ngModel)]="selAddress" (ionChange)="selectedAddress()">
-          <ion-select-option value="pinMap">Seleccionar en el mapa</ion-select-option>
+          <ion-select-option value="pinMap">Pin</ion-select-option>
           <ion-select-option *ngFor="let addres of AddrList || async" [value]="addres._id" > {{ addres.name }} </ion-select-option>
         </ion-select>
       </ion-item>
@@ -65,7 +65,7 @@
       <div class="map">
         <!-- <app-map *ngIf="(coordinates$|async) as coords" [coords]="coords" ></app-map> -->
         
-        <div #mapa class="mapa"></div>
+        <div #mapa id="mapa" class="mapa"></div>
         
       </div>
 

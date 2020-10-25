@@ -19,7 +19,6 @@ export class PayMethodsService {
 
   
   addPayMethod( cardData: Card ){
-    // https://api.cavimex.vasster.com/payment/card	agregar metodo de pago a un paciente
 
     let token = localStorage.getItem('jwttoken')
     let url = `${ apiUrl }/payment/card`
@@ -28,11 +27,11 @@ export class PayMethodsService {
       'authorization': token
     })
 
-    console.log( 'PayMethodsService: addPayMethod() => cardData', cardData );
+    // console.log( 'PayMethodsService: addPayMethod() => cardData', cardData );
 
     return this.http.post( url, cardData, { headers } )
       .pipe(tap( resp => {
-        console.log( 'PayMethodsService: addPayMethod() => HTTP POST Response ', resp )
+        // console.log( 'PayMethodsService: addPayMethod() => HTTP POST Response ', resp )
         this.router.navigate(['/app/metodopago'])
       }))
       .pipe(catchError( err => {
@@ -54,7 +53,7 @@ export class PayMethodsService {
 
     return this.http.get( url, { headers }  )
     .pipe(tap( resp => {
-      console.log( 'PayMethodsService: getPayMethods() => HTTP GET Response ', resp )
+      // console.log( 'PayMethodsService: getPayMethods() => HTTP GET Response ', resp )
     }))
     .pipe(catchError ( err => {
       return throwError( err );
@@ -72,11 +71,11 @@ export class PayMethodsService {
       'authorization': token
     });
 
-    console.log( 'PayMethodsService: addPayMethod() => cardData', cardId );
+    // console.log( 'PayMethodsService: addPayMethod() => cardData', cardId );
 
     return this.http.post(url, {"user": uid, "card": cardId}, { headers })
       .pipe(map( resp => {
-        console.log( 'PayMethodsService: setPayMethod() => HTTP POS Response ', resp )
+        // console.log( 'PayMethodsService: setPayMethod() => HTTP POS Response ', resp )
       }))
       .pipe(catchError( err => {
         return throwError( err );
