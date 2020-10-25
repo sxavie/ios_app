@@ -47,24 +47,25 @@
       <ion-list class="list">
 
         <ion-item lines="none">
-          <ion-label slot="start"> Consulta General </ion-label>
+          <ion-label slot="start"> {{ ordSummary.consultReason}} </ion-label>
           <ion-label slot="start"> # cédula </ion-label>
           <ion-label class="ion-text-right" slot="end"> $490.00 </ion-label>
         </ion-item>
 
         <ion-item lines="none">
           <ion-label> Tarifa de Distancia </ion-label>
-          <ion-label class="ion-text-right" slot="end"> $65.00 </ion-label>
+          <ion-label class="ion-text-right" slot="end"> $120.00 </ion-label>
         </ion-item>
 
       <ion-item lines="none">
         <ion-label>  Método de pago </ion-label>
-        <ion-label> 4776********6780 </ion-label>
+        <!-- <ion-label> 4776********6780 </ion-label> -->
+        <ion-label> {{ ordSummary.paymentMethod }} </ion-label>
       </ion-item>
 
         <ion-item id="totals" >
             <h1> Total </h1>
-            <h1 class="ion-text-right price" slot="end"> $555.00 </h1>
+            <h1 class="ion-text-right price" slot="end"> $ {{ ordSummary.amount }}.00 </h1>
         </ion-item>
     
       </ion-list>
@@ -83,7 +84,7 @@
         
       
       
-
+ 
       
     </div>
     

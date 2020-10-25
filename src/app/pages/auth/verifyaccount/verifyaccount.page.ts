@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
-import { UserserviceService } from 'src/app/services/userservice.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-verifyaccount',
@@ -13,7 +13,7 @@ export class VerifyaccountPage implements OnInit {
   public pinIsValid = false;
   public pin = '';
   
-  constructor( private userservice: UserserviceService,
+  constructor( private authservice: AuthService,
     private toastCtrl: ToastController,
     private router: Router ) { }
 
@@ -25,7 +25,7 @@ export class VerifyaccountPage implements OnInit {
     let email = localStorage.getItem('email-verify')
     console.log( 'VerifyaccountPage: verifyAccount() => Susbcribe al servicio de verifycar cuenta' )
     
-    this.userservice.verifyAcccount(email, this.pin).subscribe( (resp:any) => {
+    this.authservice.verifyAcccount(email, this.pin).subscribe( (resp:any) => {
       if (resp.message === 'Usuario no encontrado.'){
         this.showToast( resp.message );
       }else {

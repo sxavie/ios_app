@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ConsultSumm } from 'src/app/models/consultsumm.model';
 
 @Component({
   selector: 'app-summary',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SummaryPage implements OnInit {
 
+  ordSummary: ConsultSumm = JSON.parse(localStorage.getItem('orderSummary'))
+
+
   constructor() { }
 
   ngOnInit() {
   }
 
 }
+ 

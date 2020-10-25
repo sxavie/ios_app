@@ -47,53 +47,62 @@
 
         <ion-item>
           <ion-text> Dolor abdominal </ion-text>
-          <ion-checkbox name="abdominal"
-              slot="end"></ion-checkbox>
+          <ion-checkbox value="Dolor abdominal"
+              slot="end"  (click)="addMotivo(  $event.target.value )"></ion-checkbox>
         </ion-item>
 
         <ion-item>
           <ion-text> Dolor de cabeza </ion-text>
-          <ion-checkbox name="Cabeza"
-              slot="end"></ion-checkbox>
+          <ion-checkbox value="Dolor de cabeza"
+              slot="end" (click)="addMotivo(  $event.target.value )"></ion-checkbox>
         </ion-item>
         <ion-item>
           <ion-text> Dolor de garganta </ion-text>
-          <ion-checkbox name="Garganta"
-              slot="end"></ion-checkbox>
+          <ion-checkbox value="Dolor de Garganta"
+              slot="end" (click)="addMotivo(  $event.target.value )"></ion-checkbox>
         </ion-item>
         <ion-item>
           <ion-text> Fiebre </ion-text>
-          <ion-checkbox name="Fiebre"
-              slot="end"></ion-checkbox>
+          <ion-checkbox value="Fiebre"
+              slot="end" (click)="addMotivo(  $event.target.value )"></ion-checkbox>
         </ion-item>
         <ion-item>
           <ion-text> Diarrea </ion-text>
-          <ion-checkbox name="Diarrea"
-              slot="end"></ion-checkbox>
+          <ion-checkbox value="Diarrea"
+              slot="end" (click)="addMotivo(  $event.target.value )"></ion-checkbox>
         </ion-item>
         <ion-item>
           <ion-text> Náuseas / vómito </ion-text>
-          <ion-checkbox name="Nauseas"
-              slot="end"></ion-checkbox>
+          <ion-checkbox value="Nauseas/Vomito"
+              slot="end" (click)="addMotivo(  $event.target.value )"></ion-checkbox>
         </ion-item>
         <ion-item>
           <ion-text> Tos </ion-text>
-          <ion-checkbox name="Tos"
-              slot="end"></ion-checkbox>
+          <ion-checkbox value="Tos"
+              slot="end" (click)="addMotivo(  $event.target.value )"></ion-checkbox>
         </ion-item>
         <ion-item>
           <ion-text> Dificultad para respirar </ion-text>
-          <ion-checkbox name="Respirar"
-              slot="end"></ion-checkbox>
+          <ion-checkbox value="Dificultad para respirar"
+              slot="end" (click)="addMotivo(  $event.target.value )"></ion-checkbox>
         </ion-item>
         <ion-item>
           <ion-text> Otras </ion-text>
-          <ion-checkbox name="Otras"
-              slot="end"></ion-checkbox>
+          <ion-checkbox value="Otras"
+              slot="end" (click)="addMotivo(  $event.target.value )"></ion-checkbox>
         </ion-item>
-
+ 
 
       </div>
+
+      <ion-button  class="reqBtn" 
+          color="secondaryTUx"
+          expand="block"
+          shape="round"
+          (click)="reqNewOrder()"> 
+          <ion-text class="btnTxt"> Siguiente </ion-text> 
+      </ion-button>   
+
       <!-- content -->
       
     </div>

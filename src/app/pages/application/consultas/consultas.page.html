@@ -8,13 +8,14 @@
           lines="none" 
           color="transparent">
 
-        <ion-buttons slot="start">
-          <ion-back-button
-            defaultHref="/app/consultas"
-            text=""
-            class="navIconBtn">
-          </ion-back-button>
-        </ion-buttons>
+          <ion-buttons slot="start">
+            <ion-button (click)="toggleMenu()">
+              <ion-icon 
+                class="navIconBtn"
+                slot="icon-only" 
+                name="menu-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
         
         <div id="logo">
           <ion-img src="/assets/tidulogowhite_s.png"></ion-img>
@@ -42,25 +43,25 @@
 
         <ion-item class="fstItem"></ion-item>
 
-        <ion-item detail>
+        <ion-item detail (click)="reqNewOrder('1')">
           <span class="icon-scope" ></span>
           <ion-text> Consulta general </ion-text>
           
         </ion-item>
 
-        <ion-item detail>
+        <ion-item detail (click)="reqNewOrder('2')">
           <span class="icon-jeringa" ></span>
           <ion-text> Aplicación de medicamento </ion-text>
          
         </ion-item>
 
-        <ion-item detail>
+        <ion-item detail (click)="reqNewOrder('3')">
           <span class="icon-needle" ></span>
           <ion-text> Retiro de puntos </ion-text>
          
         </ion-item>
 
-        <ion-item detail>
+        <ion-item detail (click)="reqNewOrder('4')">
           <span class="icon-band" > </span>
           <ion-text> Heridas / curaciones </ion-text>
           

@@ -1,6 +1,6 @@
 {
-  "appId": "io.ionic.starter",
-  "appName": "TIDU",
+  "appId": "tidux.app",
+  "appName": "tidux",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",

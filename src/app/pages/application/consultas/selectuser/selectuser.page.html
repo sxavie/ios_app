@@ -46,75 +46,63 @@
 
       <ion-list class="list">
 
+        <ion-radio-group [(ngModel)]="userSelectedID" value="userData._id">
+
+       
+
         <ion-item>
-
           <ion-avatar slot="start">
-            <img src="">
+            <img [src]="imgAvatar">
           </ion-avatar>
-
           <ion-label> 
-            <h3> member.name </h3>  
-            <p> member.relationship   </p>
+            <h3> {{userData.name}} </h3>  
+            <p> Yo   </p>
           </ion-label>
-          <ion-checkbox slot="end"></ion-checkbox>
-          
+          <ion-radio mode="md" slot="end" [value]="userData._id"></ion-radio>
+        </ion-item>
+
+
+        <ion-item *ngFor=" let member of userData.family || async " >
+          <ion-avatar slot="start">
+            <img [src]="member.filename | image:'user'">
+          </ion-avatar>
+          <ion-label> 
+            <h3> {{member.name}} </h3>  
+            <p> {{member.relationship}}   </p>
+          </ion-label>
+          <ion-radio mode="md" [value]="member._id" slot="end"></ion-radio>
         </ion-item>
 
         <ion-item>
-
           <ion-avatar slot="start">
             <img src="">
           </ion-avatar>
-
           <ion-label> 
-            <h3> member.name </h3>  
-            <p> member.relationship   </p>
+            <h3> Invitado </h3>  
+            <p> </p>
           </ion-label>
-          <ion-checkbox slot="end"></ion-checkbox>
-          
+          <ion-radio mode="md" slot="end" [value]="'isGuest'"></ion-radio>
         </ion-item>
+       
 
-        <ion-item>
-
-          <ion-avatar slot="start">
-            <img src="">
-          </ion-avatar>
-
-          <ion-label> 
-            <h3> member.name </h3>  
-            <p> member.relationship   </p>
-          </ion-label>
-          <ion-checkbox slot="end"></ion-checkbox>
-          
-        </ion-item>
-
-        <ion-item>
-
-          <ion-avatar slot="start">
-            <img src="">
-          </ion-avatar>
-
-          <ion-label> 
-            <h3> member.name </h3>  
-            <p> member.relationship   </p>
-          </ion-label>
-          <ion-checkbox slot="end"></ion-checkbox>
-          
-        </ion-item>
+       
+      </ion-radio-group>
+        
 
       </ion-list>
 
       <ion-button  class="reqBtn" 
         color="secondaryTUx"
         expand="block"
-        shape="round" > 
+        shape="round"
+        (click)="request()" > 
         <ion-text class="btnTxt"> Solicitar </ion-text> 
       </ion-button>   
       
     
       <!-- content -->
       
-    </div>
+    </div> 
     
   </div>
 </ion-content> 

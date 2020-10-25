@@ -15,7 +15,8 @@ export const environment = {
   },
   googleAPIKey: 'AIzaSyBXEfZu4nE1HF-2HMPL7hmykTtCol_76KQ',
   // apiUrl: 'http://192.168.72.209:3090',
-  apiUrl: 'https://api.cavimex.vasster.com'
+  apiUrl: 'https://api.cavimex.vasster.com',
+  mapBoxToken: 'pk.eyJ1Ijoic3hhdmllIiwiYSI6ImNrZ2prOXkwdzA3c24ydWp3Y2YzZzZiM28ifQ.stcBbQsl1rcwGho4dnsaDw'
 };
 
 /*

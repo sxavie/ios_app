@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
+import { AuthService } from 'src/app/services/auth.service';
 import { UserserviceService } from 'src/app/services/userservice.service';
 
 @Component({
@@ -25,13 +26,13 @@ export class RegisterPage implements OnInit {
   constructor( private fb: FormBuilder,
     private router: Router,
     private toastCtrl: ToastController,
-    private userservice: UserserviceService 
+    private authservice: AuthService 
     ) { }
 
   ngOnInit() {
-    if( localStorage.getItem('user-name') ){
-      this.router.navigate(['/app/home'])
-    }
+    // if( localStorage.getItem('user-name') ){
+    //   this.router.navigate(['/app/home'])
+    // }
   }
 
   onRegister() {
@@ -41,7 +42,7 @@ export class RegisterPage implements OnInit {
       console.log('RegisterPage: onRegister() => Formulario OK')
 
       // console.log('======TEST====== : No subscriptions')
-      this.userservice.register( this.formData.value ).subscribe( () => {
+      this.authservice.register( this.formData.value ).subscribe( () => {
         console.log('RegisterPage: onRegister() => Subscription a UserserviceService.register()')
       })
 

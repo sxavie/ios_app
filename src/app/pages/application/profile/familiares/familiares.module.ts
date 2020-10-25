@@ -8,6 +8,10 @@ import { FamiliaresPageRoutingModule } from './familiares-routing.module';
 
 import { FamiliaresPage } from './familiares.page';
 
+import { ImagePipe } from '../../../../pipes/image.pipe';
+
+
+
 @NgModule({
   imports: [ 
     CommonModule,
@@ -16,6 +20,6 @@ import { FamiliaresPage } from './familiares.page';
     FamiliaresPageRoutingModule,
     ReactiveFormsModule
   ],
-  declarations: [FamiliaresPage]
+  declarations: [FamiliaresPage, ImagePipe]
 })
 export class FamiliaresPageModule {}

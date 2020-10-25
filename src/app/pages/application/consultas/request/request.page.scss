@@ -39,9 +39,6 @@
     text-align: center;
     margin-bottom: 25px;
 }
-.switch{  
-    margin-bottom: 3rem;
-}
 //lista
 #cardContent .list{
     padding: 10px;
@@ -60,11 +57,6 @@
 .reqBtn .btnTxt{
     color: #ffffff;
     font-weight: 100;}
-.map{
-    width: 100%;
-    height: 250px;
-    margin: 15px auto;
-    border: 1px solid black;}
 .icon-calendar{
     margin-top: 10px;
     margin-bottom: 10px;
@@ -74,3 +66,223 @@
     // background-size: cover;
 }
 
+.map{
+    width: 100%;
+    height: 250px;
+    margin: 15px auto;
+    box-shadow: 3px 3px 5px #c1c1c1;}
+
+.mapa{
+    background-color: red;
+    width: 50%;
+    height: 50%;;
+}
+
+
+// swicth personalizado
+.switchBtn {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    height: 45px;
+}
+.switchBtn input {display:none;}
+
+.slide {
+    position: absolute;
+    cursor: pointer;
+    content: "Presencial";
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #014c68;
+    -webkit-transition: .4s;
+    transition: .4s;
+    padding: 8px;
+    color: #fff;
+}
+.slide:before {
+    position: absolute;
+    content: "";
+    height: 41px;
+    width: 50%;
+    left: 50%;
+    bottom: 2px;
+    background-color: #04bbbf;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+input:checked + .slide {
+    // background-color: #8CE196;
+    padding-left: 40px;
+}
+input:focus + .slide {
+    box-shadow: 0 0 1px #01aeed;
+}
+input:checked + .slide:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+    left: -25px;
+}
+
+.slide.round {
+    border-radius: 34px;
+}
+.slide.round:before {
+    border-radius: 25px;
+}
+// swicth personalizado
+
+
+
+// tarjeta
+div#cardContent .Visa{
+    padding-left: 56px;
+    padding-top: 5px;
+    background: url('/assets/visa_pay_m_cardicon_.png') center left no-repeat;
+}
+div#cardContent .MasterCard{
+    padding-left: 56px;
+    padding-top: 5px;
+    background: url('/assets/master_pay_m_cardicon_.png') center left no-repeat;
+
+}
+.slotCard{
+    height: 65px;
+    font-size: 20px;
+    font-weight: bold;
+    clear: both;
+    padding: 10px 0px 0px 0px;
+}
+.iconBrand{
+    float: left;
+    height: 100%;
+    margin-bottom: 10px;
+    margin-left: -6px;
+}
+.cardNumber{
+    float: left;
+    height: 100%;
+    vertical-align: middle;
+    margin-left: 20px;
+    padding-top: 16px;
+    letter-spacing: 1px;
+    padding-bottom: 15px;
+}
+.iconRight{
+    height: 100%;
+    float: right;
+    font-size: 10px;
+    color: #04bbbf;
+}
+.addres-selector{
+    border:1px solid #c1c1c1;
+    margin: 10px 0px;
+    font-size: 18px;
+}
+
+
+// SWITCHER
+$black: #000000;
+$white: #FFFFFF;
+$grey:  #c1c1c1;
+.switch{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    margin-bottom: 30px;
+    
+    span.switcher {
+        position: relative;
+        width:100%;
+        height:50px;
+        border-radius:25px;
+        margin:20px 0;
+        
+        input {
+        appearance: none;
+        position: relative;
+
+        width:100%;
+        height:50px;
+        border-radius:25px;
+
+        background-color:$black;
+        outline:none;
+
+        font-family: 'Oswald', sans-serif;
+        &:before, &:after {
+            z-index:2;
+
+            position: absolute;
+            top:50%;
+            transform:translateY(-50%);
+
+            color:$white;
+        }
+        &:before {
+            content: 'Virtual';
+            left:20px;
+        }
+        &:after {
+            content: 'Presencial';
+            right:20px;
+        }
+        }
+        label {
+        z-index:1;
+        position: absolute;
+        top:5px;
+        bottom:5px;
+        
+        border-radius:20px;
+        }
+        &.switcher-1 {
+        input {
+            transition:.25s -.1s;
+
+            $backGrndDrk: #004d69;
+            $backGrndLgt: #00b4bd;
+            &:checked {
+                background-color:$backGrndDrk;
+                &:before {
+                    color:$white;
+                    transition: color .5s .2s;
+                }
+                &:after {
+                    color:$grey;
+                    transition: color .5s;
+                }
+                &+label {
+                    left:5px;
+                    right:50%;
+                    background:$backGrndLgt;
+                    transition: left .5s, right .5s;
+                }
+            }
+
+            &:not(:checked) {
+                background:$backGrndDrk;
+                transition: background .5s -.1s;
+                &:before {
+                    color:$grey;
+                    transition: color .5s;
+                }
+                &:after {
+                    color:$white;
+                    transition: color .5s .2s;
+                }
+                &+label {
+                    left:50%;
+                    right:5px;
+                    background:$backGrndLgt;
+                    transition: left .5s, right .5s, background .35s -.1s;
+                }
+            }
+        }
+        }
+    }
+}

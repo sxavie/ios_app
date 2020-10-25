@@ -71,14 +71,17 @@
           </div>
         </ion-col>
       </ion-row>
-    </ion-grid>
+    </ion-grid> 
 
 
 
     
   </div> <!-- main -->
   
-  <div #map id="map"></div> 
+  <!-- <div #map id="map"></div>  -->
+
+  <app-map *ngIf="(coordinates$|async) as coords" [coords]="coords" ></app-map>
+
 
  
 </ion-content>

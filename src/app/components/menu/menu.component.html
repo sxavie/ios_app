@@ -38,9 +38,14 @@
           [routerLink]="opt.redirectTo" detail >
           <ion-icon [name]="opt.icon" slot="start"></ion-icon>
           <ion-text class="optTitle">{{ opt.title }}</ion-text>
-        </ion-item>    
+        </ion-item>  
          
       </ion-menu-toggle>
+
+      <ion-item color="transparent" (click)="logOut()" detail >
+        <ion-icon name="power-outline" slot="start"></ion-icon>
+        <ion-text class="optTitle">Log Out</ion-text>
+      </ion-item>  
 
     </ion-list>
 

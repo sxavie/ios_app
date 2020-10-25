@@ -1,0 +1,91 @@
+<ion-item lines="none">
+  <ion-icon name="close-outline" slot="end"
+      (click)="close()" ></ion-icon>
+</ion-item>
+
+<div id="cardContent">
+
+      
+  <div class="title ion-text-center">
+    <ion-text class="titulo"> Selecciona un metodo de pago </ion-text>
+  </div>
+  
+  <div class="list"> 
+    
+    <!-- <span ngfor="let card of cards" >  {{ card[0] }} </span> -->
+
+    <div *ngFor="let card of cards || async" 
+      class="slotCard"
+      [ngClass]="{'default' : card.default_source }"
+      (click)="changeMethod(card.cardID)">
+      
+      <span 
+        class="iconBrand" 
+        [ngClass]="{'Visa': card.brand === 'Visa', 'MasterCard': card.brand === 'MasterCard'}"> </span>
+
+      <div class="cardNumber"> <span> **** **** ****{{ card.last4}} </span> </div> 
+ 
+    </div>
+
+    <div class="slotCard efectivo" (click)="changeMethod('0')">
+      
+      <span 
+        class="iconBrand" 
+        ngClass="cash"> </span>
+
+      <div class="cardNumber"> <span> Efectivo </span> </div> 
+ 
+    </div>
+
+
+    <!-- <div  class="slotCard default">
+      <span class="iconBrand Visa" > </span>
+      <div class="cardNumber"> <span> **** **** **** 7655 </span> </div>
+     </div>
+    <div  class="slotCard">
+      <span class="iconBrand MasterCard" > </span>
+      <div class="cardNumber"> <span> **** **** **** 2312 </span> </div>
+     </div>
+    <div  class="slotCard">
+      <span class="iconBrand Visa" > </span>
+      <div class="cardNumber"> <span> **** **** **** 9998 </span> </div>
+     </div>
+    <div  class="slotCard">
+      <span class="iconBrand Visa" > </span>
+      <div class="cardNumber"> <span> **** **** **** 7126 </span> </div>
+     </div>
+    <div  class="slotCard">
+      <span class="iconBrand MasterCard" > </span>
+      <div class="cardNumber"> <span> **** **** **** 9908 </span> </div>
+      </div>
+    <div  class="slotCard">
+      <span class="iconBrand MasterCard" > </span>
+      <div class="cardNumber"> <span> **** **** **** 6675 </span> </div>
+     </div> -->
+    
+
+    <!-- <h4> Agregar métodos de pago </h4>
+
+    <div class="addMethod">
+
+      <button routerLink="/app/agregarpago" class="creditCard">
+
+        <span> Tarjeta de </span>
+        <span> débito/crédito</span>
+
+      </button>
+
+      <button class="paypal">
+
+        <span> Efectivo </span>
+        
+      </button>
+
+
+    </div> -->
+
+
+  </div>
+
+
+</div>

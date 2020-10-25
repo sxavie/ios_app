@@ -14,6 +14,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { environment } from '../environments/environment';
 import { HttpRequestInterceptor } from './interceptors/http-loading.interceptor';
 
+import { Geolocation } from '@ionic-native/geolocation/ngx'
 
 
 
@@ -25,22 +26,23 @@ import { HttpRequestInterceptor } from './interceptors/http-loading.interceptor'
     IonicModule.forRoot(), 
     AppRoutingModule,
     ComponentsModule,
-    HttpClientModule,
+    HttpClientModule
+    
     // firebase Uninstalled npm i @angular/fire
     // AngularFireModule.initializeApp(environment.firebase),
     // AngularFireAuthModule,
     
-
   ],
   providers: [
     StatusBar,
     SplashScreen,
+    Geolocation,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HttpRequestInterceptor,
-      multi: true
-    }
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: HttpRequestInterceptor,
+    //   multi: true
+    // }
   ],
   bootstrap: [AppComponent]
 })

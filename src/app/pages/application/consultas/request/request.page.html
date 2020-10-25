@@ -38,33 +38,56 @@
       <h2> CONSULTAS </h2>
      
       <!-- content -->
-
       <div class="switch">
-        
-        <ion-item lines="none">
-          <ion-label> Virtual </ion-label>
-          <ion-toggle> </ion-toggle>
-        </ion-item>
-        
+
+        <span class="switcher switcher-1">
+          <input type="checkbox" id="switcher-1" [(ngModel)]="isVirtual"> 
+          <label for="switcher-1"></label>
+       </span>        
       </div>
 
       <ion-button  class="reqBtn" 
           color="primaryTUx"
           expand="block"
-          shape="round" > 
+          shape="round"
+          (click)="reqOrderNow(false)"> 
           <ion-text class="btnTxt"> Solicitar Ahora </ion-text> 
       </ion-button>   
 
+      <ion-item class="addres-selector">
+        <ion-label>Dirección</ion-label>
+        <ion-select ok-text="OK" cancel-text="Cancelar" [(ngModel)]="selAddress" (ionChange)="selectedAddress()">
+          <ion-select-option value="pinMap">Seleccionar en el mapa</ion-select-option>
+          <ion-select-option *ngFor="let addres of AddrList || async" [value]="addres._id" > {{ addres.name }} </ion-select-option>
+        </ion-select>
+      </ion-item>
 
-      <div class="map"></div>
+      <div class="map">
+        <!-- <app-map *ngIf="(coordinates$|async) as coords" [coords]="coords" ></app-map> -->
+        
+        <div #mapa class="mapa"></div>
+        
+      </div>
 
       <ion-item></ion-item>
-      <ion-item detail>
+
+      <ion-item  (click)="reqOrderNow(true)" detail> 
         <span class="icon-calendar" > </span>
         <ion-text> Agendar </ion-text>
-        
       </ion-item>
-    
+
+        <ion-item class="slotCard" *ngIf="defMethod || async "
+          [ngClass]="{'default' : defMethod.default_source }">
+          
+          <span 
+            class="iconBrand" 
+            [ngClass]="{'Visa': defMethod.brand === 'Visa', 'MasterCard': defMethod.brand === 'MasterCard'}"> </span>
+
+          <div class="cardNumber"> <span> **** **** **** {{defMethod.last4}} </span> </div>
+          
+          <span class="iconRight" slot="end" (click)="changeMethod()"> CAMBIAR </span>
+
+      </ion-item>
       <!-- content -->
       
     </div>

@@ -56,7 +56,7 @@
       <ion-item *ngFor=" let member of userData.family" detail>
 
         <ion-avatar slot="start">
-          <img [src]="imgAvatar">
+          <img [src]="member.filename | image:'user'">
         </ion-avatar>
         <ion-label> 
           <h3> {{ member.name }} </h3>  
@@ -64,10 +64,7 @@
         </ion-label>
       </ion-item>
 
- 
-
-
-      </ion-list>
+    </ion-list>
 
       
       

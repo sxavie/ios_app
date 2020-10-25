@@ -45,3 +45,31 @@ export interface Card {
     cvc: string;
     user: string;
 }
+
+export interface Address {
+    city: string
+    country: string
+    latitude: number
+    longitude: number
+    name: string
+    neighborhood: string
+    state: string
+    street: string
+}
+
+export interface AddressList {
+    _id: string,
+    city: string
+    clientId: string
+    country: string
+    latitude: number
+    longitude: number
+    name: string
+    neighborhood: string
+    number: string
+    references: string
+    state: string
+    street: string
+    zipcode: string
+}
+

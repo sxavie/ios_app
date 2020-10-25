@@ -7,13 +7,19 @@ import { IonicModule } from '@ionic/angular';
 import { SchedulePageRoutingModule } from './schedule-routing.module';
 
 import { SchedulePage } from './schedule.page';
+import { ComponentsModule } from 'src/app/components/components.module';
+
+
+ 
+
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    SchedulePageRoutingModule
+    SchedulePageRoutingModule,
+    ComponentsModule
   ],
   declarations: [SchedulePage]
 })

@@ -1,9 +1,15 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MenuController, NavController } from '@ionic/angular';
+import { MenuController, NavController, LoadingController, AlertController } from '@ionic/angular';
 import { MenuDataService } from 'src/app/services/menu-data.service';
 import { UserserviceService } from 'src/app/services/userservice.service';
 import {} from 'googlemaps';
+
+import { Capacitor, Plugins, GeolocationPosition } from '@capacitor/core';
+import { Observable, of, from as fromPromise } from 'rxjs';
+import { tap, map, switchMap } from 'rxjs/operators';
+
+const { Toast, Geolocation } = Capacitor.Plugins;
 
 // declare var google;
 
@@ -16,37 +22,51 @@ import {} from 'googlemaps';
 }) 
 export class HomePage implements OnInit {
 
-
-  @ViewChild('map') public mapElement: any
-  map: google.maps.Map;
-
+  public coordinates$: Observable<GeolocationPosition>;
+  public defaulPosition: { latitude: 25.681473, longitude: 100.355192 };
 
   userData: any;
   public imgAvatar;
-
 
   constructor(  private menuCtrl: MenuController,
     public router: Router,
     public menuData: MenuDataService,
     public userservice: UserserviceService, 
-    ) {
+    public loadingCtrl: LoadingController,
+    public alertCtrl: AlertController
+    ) { }
+      
+    ngOnInit(){
 
+      this.displayLoader().then((loader: any) => {
+          // get the position
+          return this.getCurrentPosition().then(position => {
+              //close the loader = return the position
+              loader.dismiss();
+              // console.log( position.coords.latitude )
+              return position;
+          })
+            // if error
+            .catch( err => {
+              // close lader + return Null
+              loader.dismiss();
+              return null
+            });
+        });
 
+        if( localStorage.getItem('UserData') ) {
+          this.userData =  JSON.parse( localStorage.getItem('UserData') )
+          console.log( 'Home: Constructor() => UserData obtenido del localStorage JSON.parse()' )
+        }else{ 
+          this.userservice.getUserData().subscribe( async(resp:any) => {
+            localStorage.setItem('UserData', JSON.stringify(resp) )
+            this.userData = resp;
+            console.log( 'Home: Constructor() => UserData obtenido del userservice.getUserData().subscribe()' )
+          })   
+        }
     }
-      
-  ngOnInit(): void {
 
-    const mapProperties = {
-      center: new google.maps.LatLng(35.2271, -80.8431),
-      zoom: 15,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
 
-    this.map = new google.maps.Map(this.mapElement.ElementRef, mapProperties);
-    
-
-  }
-      
   toggleMenu(){
     // this.menuCtrl.toggle(this.nameMenuId);
     this.menuCtrl.toggle('tdxMenu');
@@ -77,35 +97,55 @@ export class HomePage implements OnInit {
 
   }
 
-  loadMap(){
 
 
-    
+  async displayLoader(){
+    const loading = await this.loadingCtrl.create({
+      spinner: 'lines',
+      translucent: true
+    });
+    await loading.present();
+    return this.loadingCtrl;
+  }
 
+  private async presentAlert( message: string): Promise<HTMLIonAlertElement>{
 
-      const center: google.maps.LatLngLiteral = {lat: 51.678418, lng: 7.809007};
-      this.map = new google.maps.Map(this.mapElement.nativeElement, {
-        zoom: 14,
-        center: center,
-        disableDefaultUI: false,
-        mapTypeControl: false,
-        scaleControl: false,
-        streetViewControl: false,
-        fullscreenControl: false,
-        zoomControl: true,
-      });
+    const alert = await this.alertCtrl.create({
+      header: 'Alert',
+      subHeader: 'We are ofline',
+      message: message,
+      buttons: ['OK']
+    });
+    await alert.present();
+    return alert;
+  }
+  
+  private async getCurrentPosition(): Promise<any> {
+    const isAvaliable: boolean = Capacitor.isPluginAvailable('Geolocation');
 
+    if(!isAvaliable){
+      console.log( 'Err: plugin is no avaliable' );
+      return of( new Error('Err, Plugin not avaliable') )
+    }
 
-    
- 
-    return this.map;
+    const POSITION = Plugins.Geolocation.getCurrentPosition()
+    //hanlde capacitor
+    .catch(err =>{
+      console.log('Err:', err);
+      return new Error(err.message || 'customized meeesage');
+    });
+
+    this.coordinates$ = fromPromise(POSITION).pipe(
+      switchMap((data: any) => of(data.coords)),
+      tap(data => console.log(data))
+    );
+
+    return POSITION;
     
   }
 
-  ionViewDidLoad(){
-
-    // this.loadMap();
-
+  ngOnDestroy(){
+    // this.coordinates$.
   }
-
+  
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
+import { UserserviceService } from 'src/app/services/userservice.service';
 
 @Component({
   selector: 'app-agregarfamiliar',
@@ -16,14 +17,20 @@ export class AgregarfamiliarPage implements OnInit {
   })
 
   constructor( private fb: FormBuilder,
-    private modalCtrl: ModalController ) { }
+    private modalCtrl: ModalController,
+    private userservice: UserserviceService ) { }
 
   ngOnInit() {
   }
 
-  addFamiliar(){
+  addFamiliar(){  
 
-    console.log( this.FormFamiliar.value )
+    console.log(   this.FormFamiliar.value )
+
+    this.userservice.addMember( this.FormFamiliar.value ).subscribe( resp =>{
+      console.log( 'AgregarFamiliarPage: Subscription response ', resp );
+      this.close();
+    })
   }
 
   close(){
@@ -33,5 +40,6 @@ export class AgregarfamiliarPage implements OnInit {
       });
 
   }
+  
 
 }

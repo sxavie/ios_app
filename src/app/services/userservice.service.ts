@@ -30,62 +30,13 @@ export class UserserviceService {
     private router: Router
     ) { }
     
-    get headers() {
+    get authHeaders() {
 
-      let headers = new HttpHeaders({
-        'authorization': localStorage.getItem('jwttoken')
+      let x = new HttpHeaders({
+        'authorization': this.token
       });
 
-      return headers;
-    }
-    
-    register( formData: RegisterForm) {
-
-      console.log( formData );
-
-      let url = `${ apiUrl }/user/register`
-      
-      console.log( 'UserService: register() => HTTP Post registro de usuario'  )    
-      return this.http.post(url, formData)
-        .pipe(map( (resp: any) =>{
-          console.log( 'UserService: register() => HTTP Post Usuario registrado ', resp  )
-          localStorage.setItem('email-verify', formData.email );
-          console.log( 'UserService: register() => almacenando el LocalStorage email para verificar ', resp  )
-          this.router.navigate(['/verifyaccount'])
-          console.log( 'UserserviceService: register() => RouterLink /verifyaccount' )
-        }))
-        .pipe(catchError( err => {
-          return throwError( err )
-        }));
-    
-    }
-    verifyAcccount( email: string, pin: string) {
-    
-      console.log( 'UserService: verifyAcccount() => HTTP Post para verificar cuenta'  ) 
-      const body = {  }   
-      return this.http.post(`${ apiUrl }/users/verifyAccount`, { email,pin } )
-        .pipe(map( (resp: any) =>{
-          console.log( 'UserService: verifyAcccount() => HTTP Post Cuenta Vrificada ', resp  )
-        }))
-        .pipe(catchError(err => {
-          return throwError(err);
-        }))
-    
-    }
-
-    login( formData: LoginForm ) {
-
-      return this.http.post(`${ apiUrl }/user/login`, formData)
-        .pipe(map( (resp: any)=>{
-
-          localStorage.setItem('jwttoken', resp.token)
-          console.log( 'UserService: login() => Token almacenado en el LocalStorage jwttoken'  )
-          this.decodeToken( resp.token );
-
-        }))
-        .pipe(catchError( err => {
-          return throwError( err )
-        }));
+      return x;
     }
 
     // mover a auth service.
@@ -111,8 +62,6 @@ export class UserserviceService {
       this.router.navigate(['/app'])
       console.log( 'UserserviceService: decodeToken() => RouterLink /app' )
     }
-
-    
 
     getUserData(): Observable<Usuario>{
     // getUserData(){
@@ -238,15 +187,38 @@ export class UserserviceService {
         }))
     }
 
-    logout() {
-      localStorage.removeItem('jwttoken');
-      localStorage.removeItem('user-name')
-      localStorage.removeItem('user-email')
-      localStorage.removeItem('user-filename')
-      localStorage.removeItem('user-id')
-      localStorage.removeItem('UserData')
-      localStorage.removeItem('email-verify')
-      console.log( 'UserserviceService: logout() => LocalStorage clean' )
+    addMember( data ){
+
+      let token = localStorage.getItem('jwttoken');
+      let uid = localStorage.getItem('user-id')
+      let url = `${ apiUrl }/user/addmember/${ uid }`;
+
+      let headers = new HttpHeaders({
+        'authorization': token
+      });
+
+      return this.http.post( url, data, {headers} )
+        .pipe(map(resp => {
+          console.log( 'UserService: addMember() => HTTP POST Response ', resp )
+          localStorage.removeItem('UserData');
+        }))
+        .pipe(catchError( err => {
+          return throwError( err );
+        }))
+
+    }
+
+    getAddressList(){
+      let url = `${ apiUrl }/addresses/${this.userid}/list`
+      let headers = this.authHeaders;
+
+      return this.http.get( url, { headers })
+        .pipe(tap( addressList => {
+          console.log('UserService: getAddressList => HTTP GET Response: ', addressList)
+        }))
+        .pipe(catchError( err => {
+          return throwError( err );
+        }))
     }
 
     // funcion sin usar

@@ -47,8 +47,8 @@ export class HttpRequestInterceptor implements HttpInterceptor {
             }),
             catchError(err => {
                 console.log('error: ', err);
-                this.showToast("Error al intentar conectar con el servidor")
-                //this.showToast(err.message)
+                // this.showToast("Error al intentar conectar con el servidor")
+                this.showToast(err.error.message)
                 return EMPTY;
             }),
             finalize( () => {
@@ -65,7 +65,8 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     async showToast(msg) {
         const toast = await this.toastCtrl.create({
             message: msg,
-            duration: 1000
+            duration: 2000,
+            
         });
         toast.present();
     }

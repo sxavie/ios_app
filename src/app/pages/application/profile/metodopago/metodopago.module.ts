@@ -3,9 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
-
 import { MetodopagoPageRoutingModule } from './metodopago-routing.module';
-
 import { MetodopagoPage } from './metodopago.page';
 
 @NgModule({
@@ -15,6 +13,6 @@ import { MetodopagoPage } from './metodopago.page';
     IonicModule,
     MetodopagoPageRoutingModule
   ],
-  declarations: [MetodopagoPage]
+  declarations: [MetodopagoPage] 
 })
 export class MetodopagoPageModule {}

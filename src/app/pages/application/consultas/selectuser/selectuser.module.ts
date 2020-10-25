@@ -8,6 +8,8 @@ import { SelectuserPageRoutingModule } from './selectuser-routing.module';
 
 import { SelectuserPage } from './selectuser.page';
 
+import { ImagePipe } from '../../../../pipes/image.pipe'
+
 @NgModule({
   imports: [
     CommonModule,
@@ -15,6 +17,6 @@ import { SelectuserPage } from './selectuser.page';
     IonicModule,
     SelectuserPageRoutingModule
   ],
-  declarations: [SelectuserPage]
+  declarations: [SelectuserPage, ImagePipe]
 })
 export class SelectuserPageModule {}

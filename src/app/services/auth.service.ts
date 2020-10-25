@@ -70,5 +70,11 @@ export class AuthService {
       }));
   }
 
+  logout() {
+    localStorage.clear()
+    this.router.navigate(['/'])
+    console.log( 'UserserviceService: logout() => LocalStorage clean' )
+  }
+
 
 }

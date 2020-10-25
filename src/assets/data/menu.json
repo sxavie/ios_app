@@ -12,4 +12,14 @@
     "icon": "settings-outline",
     "redirectTo": "/app/resacas"
   }
+  ,{
+    "title": "Google Maps Native",
+    "icon": "map-outline",
+    "redirectTo": "/view-test"
+  }
+  ,{
+    "title": "MapBox",
+    "icon": "navigate-outline",
+    "redirectTo": "/mapbox"
+  }
 ] 

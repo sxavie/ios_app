@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ConsultSumm } from 'src/app/models/consultsumm.model';
 
 @Component({
   selector: 'app-incoming',
@@ -7,9 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IncomingPage implements OnInit {
 
-  constructor() { }
+  ordSummary: ConsultSumm;
+
+  constructor( private router: Router ) { }
 
   ngOnInit() {
+
+    this.ordSummary = JSON.parse(localStorage.getItem('orderSummary'))
+  }
+
+
+
+  nextt(){
+    this.router.navigate(['app/consultas/summary'])
   }
 
   calling(){

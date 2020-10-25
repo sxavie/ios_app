@@ -9,6 +9,8 @@ import { OutletappPageRoutingModule } from './outletapp-routing.module';
 import { OutletappPage } from './outletapp.page';
 import { ComponentsModule } from 'src/app/components/components.module';
 
+
+
 @NgModule({
   imports: [
     CommonModule,

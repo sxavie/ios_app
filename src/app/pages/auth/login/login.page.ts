@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
-import { UserserviceService } from 'src/app/services/userservice.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 
 @Component({
@@ -21,7 +21,7 @@ export class LoginPage implements OnInit {
 
   constructor( private fb: FormBuilder,
     private router: Router,
-    private userservice: UserserviceService,
+    private authservice: AuthService,
     private toastCtrl: ToastController
     ) { }
 
@@ -37,7 +37,7 @@ export class LoginPage implements OnInit {
     
     if ( this.frmValidation() ) {
 
-      this.userservice.login( this.formData.value  )
+      this.authservice.login( this.formData.value  )
         .subscribe( () => {
           // enrutamos en el user.service
           // this.router.navigate(['app'])

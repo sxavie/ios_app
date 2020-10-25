@@ -5,13 +5,17 @@ import { AuthGuard } from './guards/auth.guard';
 const routes: Routes = [
   // Publicas
   {
+    path: '',
+    loadChildren: () => import('./pages/application/consultas/schedule/schedule.module').then( m => m.SchedulePageModule)
+  },
+  {
+    path: 'inicio',
+    loadChildren: () => import('./pages/auth/inicio/inicio.module').then( m => m.InicioPageModule)
+  },
+  {
     path: 'app',
     loadChildren: () => import('./pages/application/outletapp.module').then( m => m.OutletappPageModule),
     // canActivate: [AuthGuard]
-  },
-  {
-    path: '',
-    loadChildren: () => import('./pages/auth/inicio/inicio.module').then( m => m.InicioPageModule)
   },
   {
     path: 'register',
@@ -36,6 +40,14 @@ const routes: Routes = [
   {
     path: 'changepwdreq',
     loadChildren: () => import('./pages/auth/changepwdreq/changepwdreq.module').then( m => m.ChangepwdreqPageModule)
+  },
+  {
+    path: 'view-test',
+    loadChildren: () => import('./pages/view-test/view-test.module').then( m => m.ViewTestPageModule)
+  },
+  {
+    path: 'mapbox',
+    loadChildren: () => import('./pages/mapbox/mapbox.module').then( m => m.MapboxPageModule)
   },
 ];
 

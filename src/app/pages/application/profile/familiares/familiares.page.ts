@@ -18,21 +18,12 @@ export class FamiliaresPage implements OnInit {
   constructor(
     private router: Router,
     private userservice: UserserviceService,
-    private modalCtrl: ModalController,
+    private modalCtrl: ModalController, 
     private popoverCtrl: PopoverController) { }
 
   ngOnInit() {
 
-    if( localStorage.getItem('UserData') ) {
-      console.log( 'LolcaStorage Data' )
-      this.userData =  JSON.parse( localStorage.getItem('UserData') )
-    }else{ 
-      console.log( 'UserService Data' );
-      this.userservice.getUserData().subscribe( (resp:any) => {
-        localStorage.setItem('UserData', JSON.stringify(resp) )
-        this.userData = resp;
-      })   
-    }
+    this.getData();
   }
 
   async addMemberModal(ev: any){    
@@ -40,9 +31,17 @@ export class FamiliaresPage implements OnInit {
 
     const modal = await this.modalCtrl.create({
       component: AgregarfamiliarPage,
-      cssClass: ''
+      cssClass: 'addMember-modal',
+      backdropDismiss: false
+      
+    }); 
+    
+    modal.onWillDismiss().then(() => {
+      this.getData();
     });
+
     return await modal.present();
+
 
     // const popover = await this.popoverCtrl.create({
     //   component: AgregarfamiliarPage,
@@ -57,6 +56,19 @@ export class FamiliaresPage implements OnInit {
 
   goHome(){
     this.router.navigate(['/app/home'])
+  }
+
+  getData(){
+    if( localStorage.getItem('UserData') ) {
+      this.userData =  JSON.parse( localStorage.getItem('UserData') )
+      console.log( 'Perfil: Constructor() => UserData obtenido del localStorage JSON.parse()' )
+    }else{ 
+      this.userservice.getUserData().subscribe( async(resp:any) => {
+        localStorage.setItem('UserData', JSON.stringify(resp) )
+        this.userData = resp;
+        console.log( 'Perfil: Constructor() => UserData obtenido del userservice.getUserData().subscribe()' )
+      })   
+    }
   }
 
 }
