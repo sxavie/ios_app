@@ -5,6 +5,8 @@ import { environment } from 'src/environments/environment';
 
 import { tap, map, catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { ToastController } from '@ionic/angular';
+import { AlertsService } from './alerts.service';
 
 
 const apiUrl = environment.apiUrl;
@@ -18,7 +20,8 @@ export class OrderService {
   public userid = localStorage.getItem('user-id')
 
   constructor( private http: HttpClient,
-    private router: Router) { }
+    private router: Router,
+    private alertsservice: AlertsService) { }
 
   get authHeaders(){
 
@@ -31,22 +34,33 @@ export class OrderService {
 
   genNewOrder( orderData ){
 
-    // https://api.cavimex.vasster.com/order
     let url = `${apiUrl}/order`
 
     let headers = this.authHeaders;
 
     return this.http.post( url, orderData, {headers} )
       .pipe(tap( (resp:any) => {
-        console.log( 'OrderService: genNewOrder => HTTP Response ', resp )
-        localStorage.setItem('orderSummary', JSON.stringify(resp))
-        this.router.navigate(['app/consultas/incoming'])
+
+        // console.log( 'OrderService: genNewOrder => HTTP Response ', resp )
+
+        if(resp.meeting){
+          this.alertsservice.showToast('Su orden ha sido agendada', 2000)
+          this.router.navigate(['app/'])
+        }else{
+          localStorage.setItem('orderSummary', JSON.stringify(resp))
+          this.router.navigate(['app/consultas/incoming'])
+        }
+        
+        localStorage.removeItem('orderDetail')
+
       }))
       .pipe(catchError( err => {
         return throwError( err )
       }));
 
   }
+
+
 
 }
  

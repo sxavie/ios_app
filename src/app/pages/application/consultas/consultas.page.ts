@@ -19,9 +19,6 @@ export class ConsultasPage implements OnInit {
 
   ngOnInit() {
 
-    if(localStorage.getItem('orderSummary')){ this.alertOrderInPorgress()} {
-
-    }
   }
 
   toggleMenu(){
@@ -58,8 +55,6 @@ export class ConsultasPage implements OnInit {
     });
 
     await alert.present();
-  }
-
-  
+  }  
 
 }

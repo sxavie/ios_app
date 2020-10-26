@@ -22,4 +22,9 @@
     "icon": "navigate-outline",
     "redirectTo": "/mapbox"
   }
+  ,{
+    "title": "Camara",
+    "icon": "camera-outline",
+    "redirectTo": "/labs"
+  }
 ] 

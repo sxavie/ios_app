@@ -50,7 +50,8 @@
           color="primaryTUx"
           expand="block"
           shape="round"
-          (click)="reqOrderNow(false)"> 
+          (click)="reqOrderNow(false)"
+          [disabled]="isIncomming"> 
           <ion-text class="btnTxt"> Solicitar Ahora </ion-text> 
       </ion-button>   
 
@@ -63,7 +64,7 @@
       </ion-item>
 
 
-      <input id="googleAuto">
+      <!-- <input id="googleAuto"> -->
 
       <div class="map">
         <!-- <app-map *ngIf="(coordinates$|async) as coords" [coords]="coords" ></app-map> -->
@@ -74,7 +75,7 @@
 
       <ion-item></ion-item>
 
-      <ion-item  (click)="reqOrderNow(true)" detail> 
+      <ion-item (click)="reqOrderNow(true)" detail> 
         <span class="icon-calendar" > </span>
         <ion-text> Agendar </ion-text>
       </ion-item>

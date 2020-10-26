@@ -51,39 +51,40 @@
     color: #a6a6a6;
     padding-left: 15px;
 }
+
 //Iconos
 .icon-band{
     margin-top: 10px;
     margin-bottom: 10px;
     width: 50px;
     height: 50px;
-    background: url('/assets/consultas/BandAid.svg') center left no-repeat;
-    background-size: cover;}
+    background: url('/assets/consultas/BandAid.svg') center no-repeat;
+    background-size: contain;}
 .icon-scope{
     margin-top: 10px;
     margin-bottom: 10px;
     width: 50px;
     height: 50px;
-    background: url('/assets/consultas/Stetoscope.svg') center left no-repeat;
-    background-size: cover;}
+    background: url('/assets/consultas/Stetoscope.svg') center no-repeat;
+    background-size: contain;}
 .icon-jeringa{
     margin-top: 10px;
     margin-bottom: 10px;
     width: 50px;
     height: 50px;
-    background: url('/assets/consultas/Jeringa.svg') center left no-repeat;
-    background-size: cover;}
+    background: url('/assets/consultas/Jeringa.svg') center no-repeat;
+    background-size: contain;}
 .icon-needle{
     margin-top: 10px;
     margin-bottom: 10px;
     width: 50px;
     height: 50px;
-    background: url('/assets/consultas/Needle.svg') center left no-repeat;
-    background-size: cover;}
+    background: url('/assets/consultas/Needle.svg') center no-repeat;
+    background-size: contain;}
 .icon-clock{
     margin-top: 10px;
     margin-bottom: 10px;
     width: 50px;
     height: 50px;
-    background: url('/assets/consultas/Clock.svg') center left no-repeat;
-    background-size: cover;}
+    background: url('/assets/consultas/Clock.svg') center no-repeat;
+    background-size: contain;}

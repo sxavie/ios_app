@@ -58,7 +58,7 @@
             class="iconBrand" 
             [ngClass]="{'Visa': card.brand === 'Visa', 'MasterCard': card.brand === 'MasterCard'} || async"> </span>
 
-          <div class="cardNumber"> <span> **** **** ****{{ card.last4}} </span> </div>
+          <div class="cardNumber"> <span> **** **** **** {{card.last4}} </span> </div>
           
           <!-- Eliminar method -->
           <!-- <ion-icon class="iconRight" name="trash" slot="end" ></ion-icon> -->
@@ -90,23 +90,15 @@
          </div> -->
         
 
-        <h4> Agregar métodos de pago </h4>
+        <ion-text class="subTitle"> Agregar métodos de pago </ion-text>
 
         <div class="addMethod">
 
           <button routerLink="/app/agregarpago" class="creditCard">
-
-            <span> Tarjeta de </span>
-            <span> débito/crédito</span>
+            <ion-text><span class="icon-card"></span> </ion-text> <br> <br>
+            <ion-text > Tarjeta de </ion-text>
+            <ion-text > débito/crédito</ion-text>
           </button>
-
-          <button class="paypal">
-
-            <span> Efectivo </span>
-            
-          </button>
-
-
         </div>
 
 

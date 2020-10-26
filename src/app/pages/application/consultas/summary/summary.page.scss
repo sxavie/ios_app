@@ -5,7 +5,7 @@
 .main {
     padding: 14px;
     min-height: 80%;
-    height: 80%;
+    height: 80%; 
 }
 .navContainer{
     padding-top: 1.5rem;
@@ -116,14 +116,17 @@ ion-avatar{
     background-size: cover;
     float: right;
 }
-#totals h1{
+.totalFont{
     font-size: 40px;
     font-weight: 300;
     color: #00b3bc;
 }
 
-#totals h1.price{
+.totalPrice{
+    font-size: 40px;
+    font-weight: 300;
     color: black;
+    padding-bottom: 20px;
 }
 
 .topTitle{
@@ -139,4 +142,15 @@ ion-avatar{
     font-size: 14px;
     color: #00b3bc;
     font-weight: bold;
+}
+
+
+.order_details{
+    margin: 10px 0px 20px 0px;
+    color: #616161;
+    font-size: 18px;
+    border-bottom: 1px solid #c1c1c1;
+}
+.order_details div{
+    padding: 0px 15px;
 }

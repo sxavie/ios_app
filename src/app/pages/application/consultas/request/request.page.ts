@@ -28,6 +28,8 @@ export class RequestPage implements OnInit, AfterViewInit {
   
   public selAddress;
   public isVirtual = false 
+
+  public isIncomming = true;
   
   // map varaibles
   // @ViewChild('mapa') mapElement: ElementRef; 
@@ -48,6 +50,9 @@ export class RequestPage implements OnInit, AfterViewInit {
 
   ngOnInit() {
 
+    if(localStorage.getItem('orderSummary'))
+    { this.isIncomming = true}else{ this.isIncomming = false}
+
     this.getAddressList();
 
   }
@@ -65,15 +70,17 @@ export class RequestPage implements OnInit, AfterViewInit {
         let cash = { brand: 'cash', cardID: 'cash', default_source: 'cash', last4: '' }
         this.defMethod = cash;
 
+        console.log( this.defMethod, ' metodo ' )
+
       }else{
 
         this.payservice.getPayMethods().subscribe( (resp:any) => {
           this.defMethod = resp.cards[0];
+          console.log( this.defMethod )
         });
 
       }
 
-      console.log( this.defMethod, ' metodo ' )
 
 
   }
@@ -119,8 +126,8 @@ export class RequestPage implements OnInit, AfterViewInit {
 
     this.consult.meeting = meeting
 
-    if( this.isVirtual ) { this.consult.consultType = 2
-    }else{ this.consult.consultType = 1} 
+    if( this.isVirtual ) { this.consult.consultType = 1
+    }else{ this.consult.consultType = 2} 
 
     this.consult.lat = this.myLatLng.lat
     this.consult.lon = this.myLatLng.lng

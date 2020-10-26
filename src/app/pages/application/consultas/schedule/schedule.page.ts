@@ -40,16 +40,17 @@ export class SchedulePage implements OnInit {
       console.log(  'La fecha es menor a hoy' )
     }else{
 
+      if( Number(this.month) < 10 )this.month = `0${this.month}`
+      if( Number(this.day) < 10) this.day = `0${this.day}`
+      if( Number(this.time + 1) < 10) this.time = `0${this.time + 1}:00`
+      else this.time = `${this.time + 1}:00`
+     
       this.consult.month = this.month.toString();
       this.consult.day = this.day.toString();
       this.consult.year = this.year.toString();
-            
-      this.time = (this.time + 1).toString();
-      this.time = this.time + ':00'
       this.consult.hour = this.time
-      this.consult.meeting = true;
 
-      
+      this.consult.meeting = true;
 
       localStorage.setItem('orderDetail', JSON.stringify(this.consult))
 

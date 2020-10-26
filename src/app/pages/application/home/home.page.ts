@@ -8,6 +8,7 @@ import {} from 'googlemaps';
 import { Capacitor, Plugins, GeolocationPosition } from '@capacitor/core';
 import { Observable, of, from as fromPromise } from 'rxjs';
 import { tap, map, switchMap } from 'rxjs/operators';
+import { Consult } from 'src/app/models/consult.model';
 
 const { Toast, Geolocation } = Capacitor.Plugins;
 
@@ -80,7 +81,9 @@ export class HomePage implements OnInit {
         break;
       }
       case 'Resacas': {
-        this.router.navigate(['app/resacas'])
+        let consult:Consult = new Consult(5)
+        localStorage.setItem('orderDetail', JSON.stringify(consult))
+        this.router.navigate(['app/consultas/request'])
         break
       }
       case 'Farmaica': {

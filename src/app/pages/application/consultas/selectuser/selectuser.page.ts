@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Consult } from 'src/app/models/consult.model';
+import { AlertsService } from 'src/app/services/alerts.service';
 import { OrderService } from 'src/app/services/order.service';
 
 @Component({
@@ -16,23 +17,24 @@ export class SelectuserPage implements OnInit {
   public consult:Consult =  JSON.parse(localStorage.getItem('orderDetail'))
   public userSelectedID;
 
-  constructor( private router: Router,
+  public txtType;
+
+  constructor( private alsertsservice: AlertsService,
     private orderservice: OrderService,
     ) { }
 
   ngOnInit() {
 
-    console.log( 'data del usuario ', this.userData )
-    console.log( 'data de la consulta ', this.consult )
+    if(this.consult.meeting) this.txtType = 'Agendar'
+    else this.txtType = 'Solicitar'
 
-  }
+  } 
+
 
   request(){
 
-    console.log( this.userSelectedID )
-
     if( !this.userSelectedID ) {
-      console.log(' debe seleccionar a un usuario' )
+      this.alsertsservice.showAelrt('Debe seleccionar un usuario', 'Usuario')
     }else {
 
       if( this.userSelectedID === 'isGuest') {

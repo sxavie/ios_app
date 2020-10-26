@@ -7,7 +7,7 @@
       <ion-item 
           lines="none" 
           color="transparent">
-
+ 
         <ion-buttons slot="start">
           <ion-button (click)="toggleMenu()">
             <ion-icon 
@@ -43,34 +43,33 @@
         <ion-text class="titulo"> Resumen Servicio  </ion-text>
         <div class="underline"> <hr> </div>
       </div>
-      
-      <ion-list class="list">
 
-        <ion-item lines="none">
-          <ion-label slot="start"> {{ ordSummary.consultReason}} </ion-label>
-          <ion-label slot="start"> # cédula </ion-label>
-          <ion-label class="ion-text-right" slot="end"> $490.00 </ion-label>
-        </ion-item>
+      <div class="order_details">
 
-        <ion-item lines="none">
+        <div style="padding-top: 20px;">
+          <ion-label> {{ ordSummary.consultReason }} </ion-label>
+          <ion-label style="float: right;"> $ {{ ordSummary.amount }} </ion-label>   
+        </div>
+        <div> <ion-label style="color:#b1b1b1; font-size: 16px;"> Realizado {{ ordSummary.date }} </ion-label> </div>
+        
+        <div style="padding-top: 5px;">
           <ion-label> Tarifa de Distancia </ion-label>
-          <ion-label class="ion-text-right" slot="end"> $120.00 </ion-label>
-        </ion-item>
+          <ion-label style="float: right;"> $ {{ 130 }} </ion-label>   
+        </div>
 
-      <ion-item lines="none">
-        <ion-label>  Método de pago </ion-label>
-        <!-- <ion-label> 4776********6780 </ion-label> -->
-        <ion-label> {{ ordSummary.paymentMethod }} </ion-label>
-      </ion-item>
+        <div style="padding-top: 10px;"> <ion-label> Método de pago </ion-label>  </div>
+        <div> <ion-label style="color:#b1b1b1; font-size: 16px;" > xxxx xxxx xxxx 1234 </ion-label> </div>
+        
+        <div style="padding-top: 15px;">
+          <ion-label class="totalFont"> Total </ion-label>
+          <ion-label class="totalPrice"style="float: right;"> $ 700.00 </ion-label>   
+        </div>
 
-        <ion-item id="totals" >
-            <h1> Total </h1>
-            <h1 class="ion-text-right price" slot="end"> $ {{ ordSummary.amount }}.00 </h1>
-        </ion-item>
-    
-      </ion-list>
+      </div>
 
+      
       <ion-text class="calName">Califica a Norma </ion-text>
+
       <ion-item lines="none">
         <ion-avatar slot="start">
           <img src="">
@@ -78,7 +77,9 @@
         <ion-img class="rating" src="../../../../../assets/Rating.svg"></ion-img>
       </ion-item>
 
-      <textarea name="" id="" cols="47" rows="7"></textarea>
+      <ion-item>
+        <ion-textarea rows="6" cols="20" placeholder="Deja un comentario..."></ion-textarea>
+      </ion-item>
 
       <h1 class="clientService ion-text-center">Servicio a Clientes</h1>
         

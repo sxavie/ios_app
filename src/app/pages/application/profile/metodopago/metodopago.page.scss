@@ -47,9 +47,6 @@ ion-avatar{
 }
 
 //titulo
-.title{
-    // margin-left: 20px;;
-}
 .titulo{ 
     font-size: 25px;
     color: #014c68;
@@ -79,18 +76,23 @@ div#cardContent .MasterCard{
     padding-left: 56px;
     padding-top: 5px;
     background: url('/assets/master_pay_m_cardicon_.png') center left no-repeat;
-
+}
+div#cardContent .icon-card{
+    padding-left: 25px;
+    padding-bottom: 5px;
+    background: url('/assets/credit-card.svg') center left no-repeat;
 }
 
 .slotCard{
     border: 1px solid #c2c2c2;
-    margin-bottom: 30px;
+    margin-bottom: 15px;
     height: 65px;
     border-radius: 7px;
     font-size: 20px;
     font-weight: bold;
     clear: both;
     padding: 0px 20px 0px 0px;
+    box-shadow: 3px 3px 5px #c1c1c1;
 }
 
 .iconBrand{
@@ -129,6 +131,8 @@ div#cardContent .MasterCard{
     height: 100%;
     width: 45%;
     float: left;
+    text-align: center;
+    box-shadow: 3px 3px 5px #c1c1c1;
 }
 
 .paypal{
@@ -137,5 +141,15 @@ div#cardContent .MasterCard{
     height: 100%;
     width: 45%;
     float: right;
+    box-shadow: 3px 3px 5px #c1c1c1;
 }
 
+.subTitle{
+    font-size: 22px;
+    color: #014c68 ; 
+}
+
+.addMethod ion-text{
+    color: #014c68;
+    font-size: 18px;
+}

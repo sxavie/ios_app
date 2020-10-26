@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MenuController } from '@ionic/angular';
+import { AlertController, MenuController } from '@ionic/angular';
 import { Usuario } from 'src/app/models/usuario.model';
 import { UserserviceService } from 'src/app/services/userservice.service';
 
@@ -22,7 +22,8 @@ export class AlergiasPage implements OnInit {
 
   constructor(private menuCtrl: MenuController,
     private router: Router,
-    private userservice: UserserviceService) { }
+    private userservice: UserserviceService,
+    private alertCtrl: AlertController) { }
 
   ngOnInit() {
 
@@ -52,13 +53,13 @@ export class AlergiasPage implements OnInit {
     // validar si hay daos pendientes por alamcenar
     if( this.nuevasAlergias.length || this.strAlergia != '' ) {
 
-      console.log( 'existen datos si guardar')
+      let title = 'Datos sin guardar';
+      let msg = 'Existen datos sin guardar, ¿desea continuar?';
+      this.showAlert(title, msg)
+
     } else{
-
       this.isAdding = false;
-
-      console.log( 'navegando' )
-      // this.router.navigate(['/app/perfil'])
+      this.router.navigate(['/app/perfil'])
     }
 
   }
@@ -164,6 +165,30 @@ export class AlergiasPage implements OnInit {
 
   goHome(){
     this.router.navigate(['/app/home'])
+  }
+
+  async showAlert( header, message) {
+    const alert = await this.alertCtrl.create({
+      cssClass: 'custom_alertCss',
+      header,
+      message,
+      buttons: [
+        {
+          text: 'Permanecer',
+          role: 'cancel',
+          cssClass: 'secondary'
+        }, {
+          text: 'Continuar',
+          handler: () => {
+            this.router.navigate(['/app/perfil'])
+            this.isAdding = false;
+            this.nuevasAlergias = [];
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
 }
