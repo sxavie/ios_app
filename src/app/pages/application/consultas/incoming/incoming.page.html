@@ -51,48 +51,49 @@
         <img class="rating" src="../../../../../assets/Rating.svg" >
       </div>
       
-      <ion-list class="list">
+      <div class="order_details">
 
-        <ion-item lines="none">
-          <ion-label> # cédula </ion-label>
-        </ion-item>
-        <ion-item lines="none">
-          <ion-label> Médico General </ion-label>
-        </ion-item>
-        <ion-item lines="none">
-            <ion-label> Total estimado </ion-label>
-            <ion-label class="ion-text-right" slot="end"> $555 </ion-label>
-        </ion-item>
-    
-        <ion-item lines="none">
+        <div> # Cedula </div>
+        <div> Médico General</div>
+        <div>
+          <ion-label> Total estimado </ion-label>
+          <ion-label style="float: right;"> $ 500</ion-label>  
+        </div>
+
+        <div class="arriving_time">
           <ion-label> Tu médico está en ruta </ion-label>
-          <ion-label class="ion-text-right"> 8 min </ion-label>
-        </ion-item>
+          <ion-label style="float: right; padding-left: 5px;"> 8 min </ion-label>
+          <ion-icon style="float: right; margin-top: 1px; color: #00b3bc;" slot="icon-only" name="time-outline"></ion-icon>
+        </div>
+        
+      </div>
+      
+      <div id="map" class="map">
 
-      </ion-list>
+        <!-- <ion-searchbar id="searchBar" placeholder="pa´ onde?" [debounce]="250"></ion-searchbar> -->
 
-      <div class="map"></div>
-
-      <h5> Método de pago</h5>
+      </div>
+    
+      <!-- <h5> Método de pago</h5>
       <ion-item lines="none">
         <ion-label> 4776********6780 </ion-label>
         <ion-label class="ion-text-right"> cambiar </ion-label>
-      </ion-item>
+      </ion-item> -->
 
       <ion-button  class="cancelBtn" 
-          color="primaryTUx"
+          color="secondaryTUx"
           expand="block"
           shape="round" > 
           <ion-text class="btnTxt"> Cancelar </ion-text> 
       </ion-button>   
-
+<!-- 
       <ion-button  (click)="nextt()"
         class="cancelBtn" 
           color="primaryTUx"
           expand="block"
           shape="round" > 
           <ion-text class="btnTxt"> nextt </ion-text> 
-      </ion-button>   
+      </ion-button>    -->
    
     </div>
     

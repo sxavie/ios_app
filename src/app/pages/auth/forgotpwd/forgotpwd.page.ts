@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router'
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-forgotpwd',
@@ -10,7 +11,8 @@ export class ForgotpwdPage implements OnInit {
 
   public email = '';
 
-  constructor( private router: Router ) { }
+  constructor( private router: Router,
+    private authservice: AuthService ) { }
 
   ngOnInit() {
   }
@@ -21,7 +23,12 @@ export class ForgotpwdPage implements OnInit {
 
       localStorage.setItem('fpwdEmail', this.email)
 
-      this.router.navigate(['/verifyfpwdpin'])
+      this.authservice.passwordResetRequest( this.email )
+        .subscribe( resp => {
+          
+        })
+
+
 
     }
     

@@ -4,12 +4,12 @@ import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   // Publicas
+  // {
+  //   path: '',
+  //   loadChildren: () => import('./pages/application/consultas/schedule/schedule.module').then( m => m.SchedulePageModule)
+  // },
   {
     path: '',
-    loadChildren: () => import('./pages/application/consultas/schedule/schedule.module').then( m => m.SchedulePageModule)
-  },
-  {
-    path: 'inicio',
     loadChildren: () => import('./pages/auth/inicio/inicio.module').then( m => m.InicioPageModule)
   },
   {

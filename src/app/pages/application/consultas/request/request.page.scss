@@ -146,7 +146,13 @@ div#cardContent .MasterCard{
     padding-left: 56px;
     padding-top: 5px;
     background: url('/assets/master_pay_m_cardicon_.png') center left no-repeat;
-
+}
+div#cardContent .cash{
+    margin-left: 0px;
+    margin-top: 10px;
+    padding-left: 56px;
+    padding-top: 5px;
+    background: url('/assets/cash_pay_m_cardicon_.png') center left no-repeat;
 }
 .slotCard{
     height: 65px;

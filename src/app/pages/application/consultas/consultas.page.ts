@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MenuController } from '@ionic/angular';
+import { AlertController, MenuController } from '@ionic/angular';
 import { Consult } from 'src/app/models/consult.model';
 import { UserserviceService } from 'src/app/services/userservice.service';
 
@@ -13,10 +13,15 @@ export class ConsultasPage implements OnInit {
   
   constructor( public userservice: UserserviceService,
     private router: Router,
-    private menuCtrl: MenuController
+    private menuCtrl: MenuController,
+    private alertCtrl: AlertController
     ) { }
 
   ngOnInit() {
+
+    if(localStorage.getItem('orderSummary')){ this.alertOrderInPorgress()} {
+
+    }
   }
 
   toggleMenu(){
@@ -25,12 +30,34 @@ export class ConsultasPage implements OnInit {
 
 
   reqNewOrder(  reason ){
-    console.log( reason )
     let consult:Consult = new Consult(parseInt(reason))
     localStorage.setItem('orderDetail', JSON.stringify(consult))
     this.router.navigate(['/app/consultas/request'])
-    
-    
+  }
+
+  async alertOrderInPorgress() {
+    const alert = await this.alertCtrl.create({
+      cssClass: 'my-custom-class',
+      header: 'Orden en progreso!',
+      message: 'Actualmente tiene una orden en progreso.',
+      buttons: [
+        {
+          text: 'Regresar',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            this.router.navigate(['/app'])
+          }
+        }, {
+          text: 'Okay',
+          handler: () => {
+            this.router.navigate(['/app/consultas/incoming'])
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
   

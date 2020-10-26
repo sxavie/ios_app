@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-verifyfpwdpin',
@@ -11,18 +12,27 @@ export class VerifyfpwdpinPage implements OnInit {
   public fEmailAccount = localStorage.getItem('fpwdEmail');
   public pinIsValid = false;
   public pin = '';
+  public resend = false;
 
-  constructor( private router: Router) { }
+  constructor( private router: Router,
+    private authservice: AuthService ) { }
 
   ngOnInit() {
+
   }
 
-  verifyAccount(){
+  verifyPin(){
 
-    // let email = localStorage.getItem('email-verify')
-    console.log( 'VerifyaccountPage: verifyAccount() => Susbcribe al servicio de verifycar cuenta' )
-    this.router.navigate(['/changepwdreq'])
+    this.authservice.passwordResetVerify( this.fEmailAccount, this.pin )
+      .subscribe( resp => {
+      })
+    
+  }
   
+  codeResend(){   
+    this.authservice.ResetRequestResendCode( this.fEmailAccount ).subscribe( resp => {
+      this.resend = true;
+    })
   }
 
   pinValidation( ) {
@@ -35,9 +45,6 @@ export class VerifyfpwdpinPage implements OnInit {
 
   }
 
-  codeResend(){
-    console.log( 'VerifyaccountPage: codeResend() => click reenvio de codigo' )
-  }
 
   // async showToast(msg) {
   //   const toast = await this.toastCtrl.create({

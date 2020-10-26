@@ -1,23 +1,18 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
-// import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { Capacitor, Plugins, GeolocationOptions } from '@capacitor/core'
+import { Capacitor, Plugins } from '@capacitor/core'
 import { LoadingController, ModalController, ToastController } from '@ionic/angular';
-import { Observable, of, from as fromPromise } from 'rxjs';
-import { tap, map, switchMap } from 'rxjs/operators';
 
 import { PayMethodsService } from 'src/app/services/paymethods.service';
 import { UserserviceService } from 'src/app/services/userservice.service';
 import { AddressList } from 'src/app/interfaces/interfaces';
 import { Consult } from 'src/app/models/consult.model';
 import { ChangepaymentComponent } from 'src/app/components/changepayment/changepayment.component';
-import { GoogleMap } from '@ionic-native/google-maps';
 
 declare var google;
 
 const { Geolocation } = Capacitor.Plugins;
-
 
 @Component({
   selector: 'app-request',
@@ -35,15 +30,9 @@ export class RequestPage implements OnInit, AfterViewInit {
   public isVirtual = false 
   
   // map varaibles
-
   // @ViewChild('mapa') mapElement: ElementRef; 
   public map;
   public myLatLng = {lat:0,lng:0};
-
-  // public coordinates$: Observable<GeolocationOptions>;
-  public coords: { lat: 0, lon: 0 }
-  public coordslat
-  public coordslon
 
   constructor( private loadingCtrl: LoadingController,
     private router: Router,
@@ -55,49 +44,48 @@ export class RequestPage implements OnInit, AfterViewInit {
 
       this.getDefaultPayment();
       
-    }
-  async ngAfterViewInit() {
-    // this.initMap();
-
-
-    this.initMap(this.myLatLng, 1, 'current')
-
-    
   }
+
   ngOnInit() {
 
-    this.getAddressList()
+    this.getAddressList();
 
-    // this.displayLoader().then((loader: any) => {
-    //   return this.getCurrentPosition()
-    //     .then(  position => {
-
-    //       this.coordslat = position.coords.latitude
-    //       this.coordslon = position.coords.longitude
-         
-    //       loader.dismiss();
-    //       return position;
-
-    //     })  
-    //     .catch( err => {
-    //       console.log( err )
-    //       loader.dismiss();
-    //       return null
-    //     }) 
-    // })
-
-
-  } // NGonInit()
-  getDefaultPayment(){
-    this.payservice.getPayMethods().subscribe( (resp:any) => {
-      this.defMethod = resp.cards[0];
-    })
   }
+  
+  async ngAfterViewInit() {
+
+    this.initMap(this.myLatLng, 1, 'current');
+  
+  }
+
+  getDefaultPayment(){
+
+      if(this.consult.paymentMethod === 1){
+
+        let cash = { brand: 'cash', cardID: 'cash', default_source: 'cash', last4: '' }
+        this.defMethod = cash;
+
+      }else{
+
+        this.payservice.getPayMethods().subscribe( (resp:any) => {
+          this.defMethod = resp.cards[0];
+        });
+
+      }
+
+      console.log( this.defMethod, ' metodo ' )
+
+
+  }
+
   getAddressList(){
+
     this.userservice.getAddressList().subscribe( (resp:any) => {
       this.AddrList = resp;
     });
+
   }
+
   selectedAddress(){
     
     if(this.selAddress === 'pinMap'){
@@ -115,13 +103,18 @@ export class RequestPage implements OnInit, AfterViewInit {
       }
   
       this.initMap(this.myLatLng, 2, address.name)
-    }
+    };
+
   }
+
   validatePayment(){
+
     if(!this.consult.paymentMethod){
       this.consult.paymentMethod = 2 
-    }
+    };
+
   }
+
   reqOrderNow( meeting : boolean){
 
     this.consult.meeting = meeting
@@ -140,9 +133,12 @@ export class RequestPage implements OnInit, AfterViewInit {
       this.router.navigate(['app/consultas/schedule'])
     }else{
       this.router.navigate(['app/consultas/motivos'])
-    }
+    };
+
   }
+
   async changeMethod(){
+
     const modal = await this.modalCtrl.create({
       component: ChangepaymentComponent,
       cssClass: 'changePay-modal',
@@ -153,10 +149,9 @@ export class RequestPage implements OnInit, AfterViewInit {
       this.getDefaultPayment();
     });
     return await modal.present();
+
   }
 
-
- 
   // Map definition
   async initMap( pos, source, title ){
     
@@ -168,7 +163,7 @@ export class RequestPage implements OnInit, AfterViewInit {
     if( source === 1 ){ 
       pos = await this.getCurrentPosition() 
       zoom = 18;
-    }
+    };
 
     const mapHtml = document.getElementById('mapa');
 
@@ -180,11 +175,13 @@ export class RequestPage implements OnInit, AfterViewInit {
       streetViewControl: false,
       fullscreenControl: false,
       zoomControl: false
-    }
+    };
 
     this.map = new google.maps.Map( mapHtml, mapOpts);
 
     if( source === 2 ){ 
+
+      let ico = './assets/pin_31x36.png'
 
       // source 2: Usuario selecciona de direcciones guardadas
       const marker = new google.maps.Marker({ 
@@ -192,17 +189,21 @@ export class RequestPage implements OnInit, AfterViewInit {
         map:this.map,
         title: title,
         animation: google.maps.Animation.DROP,
-      })
+        icon: ico
+      });
 
-    }else {
+    } else {
 
       // soruce 1: geolocalizacion OnInit y seleccionar en el mapa
+
+      let ico = './assets/pin_3.png'
       const darggMarker = new google.maps.Marker({
         position: pos,
         map: this.map,
         draggable: true,
         title: title,
         animation: google.maps.Animation.DROP,
+        icon:ico
       });
   
       darggMarker.addListener("click", () => {
@@ -232,6 +233,7 @@ export class RequestPage implements OnInit, AfterViewInit {
   }
 
   private async getCurrentPosition(){
+
     try {
       const position = await Plugins.Geolocation.getCurrentPosition();
       return this.myLatLng = {
@@ -246,8 +248,6 @@ export class RequestPage implements OnInit, AfterViewInit {
     
   }
 
-
-  // Cooords Plugin Geolocation
   async displayLoader(){
 
     const loading = await this.loadingCtrl.create({
@@ -258,26 +258,6 @@ export class RequestPage implements OnInit, AfterViewInit {
     return this.loadingCtrl;
 
   }
-
-  // private async getCurrentPosition(): Promise<any> {
-  //   const isAvaliable: boolean = Capacitor.isPluginAvailable('Geolocation');
-
-  //   if(!isAvaliable){
-  //     console.log( 'Err: plugin is no avaliable' );
-  //     return of( new Error('Err, Plugin not avaliable') )
-  //   }
-
-  //   const POSITION = Plugins.Geolocation.getCurrentPosition()
-  //   .catch(err =>{
-  //     console.log('Err:', err);
-  //     return new Error(err.message || 'mensaje personalizado');
-  //   });
-
-  //   this.coordinates$ = fromPromise(POSITION).pipe(
-  //     switchMap((data: any) => of(data.coords)));
-
-  //   return POSITION;
-  // }
 
   async showToast(msg: string){
 

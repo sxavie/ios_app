@@ -57,10 +57,13 @@
       <ion-item class="addres-selector">
         <ion-label>Dirección</ion-label>
         <ion-select ok-text="OK" cancel-text="Cancelar" [(ngModel)]="selAddress" (ionChange)="selectedAddress()">
-          <ion-select-option value="pinMap">Pin</ion-select-option>
+          <ion-select-option value="pinMap">Pin en el mapa</ion-select-option>
           <ion-select-option *ngFor="let addres of AddrList || async" [value]="addres._id" > {{ addres.name }} </ion-select-option>
         </ion-select>
       </ion-item>
+
+
+      <input id="googleAuto">
 
       <div class="map">
         <!-- <app-map *ngIf="(coordinates$|async) as coords" [coords]="coords" ></app-map> -->
@@ -81,9 +84,14 @@
           
           <span 
             class="iconBrand" 
-            [ngClass]="{'Visa': defMethod.brand === 'Visa', 'MasterCard': defMethod.brand === 'MasterCard'}"> </span>
+            [ngClass]="{
+              'Visa': defMethod.brand === 'Visa', 
+              'MasterCard': defMethod.brand === 'MasterCard',
+              'cash': defMethod.brand === 'cash'
+            }"> </span>
 
-          <div class="cardNumber"> <span> **** **** **** {{defMethod.last4}} </span> </div>
+          <div class="cardNumber" *ngIf="defMethod.last4"> <span> **** **** **** {{ defMethod.last4}} </span> </div>
+          <div class="cardNumber" *ngIf="!defMethod.last4" > <span> Efectivo </span> </div>
           
           <span class="iconRight" slot="end" (click)="changeMethod()"> CAMBIAR </span>
 

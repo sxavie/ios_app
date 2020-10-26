@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 
 import { LoginForm, RegisterForm } from '../interfaces/interfaces';
 import { environment } from '../../environments/environment';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { UserserviceService } from './userservice.service';
 
@@ -41,6 +41,7 @@ export class AuthService {
       }));
   
   }
+
   verifyAcccount( email: string, pin: string) {
   
     console.log( 'UserService: verifyAcccount() => HTTP Post para verificar cuenta'  ) 
@@ -69,6 +70,59 @@ export class AuthService {
         return throwError( err )
       }));
   }
+
+  passwordResetRequest( email ){
+
+    let url = `${apiUrl}/users/password-reset-request`
+
+    return this.http.post(url, { email })
+      .pipe(map(resp => {
+        this.router.navigate(['/verifyfpwdpin']) 
+      }))
+      .pipe(catchError( err => {
+        return throwError( err );
+      }))
+
+  }
+
+  passwordResetVerify( email, pin ){
+    let url = `${apiUrl}/users/password-reset-verify`
+
+    return this.http.post(url, {email, pin})
+      .pipe(tap( resp => {
+        localStorage.setItem('pin', pin)
+        this.router.navigate(['/changepwdreq'])
+      }))
+      .pipe(catchError( err => {
+        return throwError(err);
+      }))
+  }
+
+  ResetRequestResendCode( email ){
+    let url = `${apiUrl}/users/resendcode?password=true`
+
+    return this.http.post( url, {email})
+      .pipe(map( resp => {
+      }))
+      .pipe(catchError ( err => {
+        return throwError( err )
+      }))
+  }
+
+  changePasswordRequest( email, pin, password){
+    let url = `${apiUrl}/users/password-reset`
+
+    return this.http.post( url, { email, pin, password })
+      .pipe(map( resp => {
+        localStorage.removeItem('fpwdEmail')
+        localStorage.removeItem('pin')
+        this.router.navigate(['/login']);
+      }))
+      .pipe(catchError( err => {
+        return throwError( err );
+      }))
+  }
+
 
   logout() {
     localStorage.clear()

@@ -27,9 +27,7 @@ export class ChangepaymentComponent implements OnInit {
   getPayCards(){
 
     this.payservice.getPayMethods().toPromise().then( (data:any) => {
-      console.log( 'ToPromise Data ', data )
       this.cards = data.cards;
-      console.log( 'ToPromise Cards ', this.cards )
     })
   }
 
@@ -37,14 +35,10 @@ export class ChangepaymentComponent implements OnInit {
 
     if(idCard === '0' ){
       this.consult.paymentMethod = 1;
-      console.log('pago en efectivo')
-
-
+        this.close();
     }else{   
       this.consult.paymentMethod = 2;
-      console.log( 'pago con tarjeta' )
       this.payservice.setPayMethod( idCard ).subscribe( resp => {
-        console.log( 'rresponse after choose payment method , ChangePaymento.component ', resp )
         this.close();
       })
     }

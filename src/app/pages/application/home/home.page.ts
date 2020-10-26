@@ -34,35 +34,35 @@ export class HomePage implements OnInit {
     public alertCtrl: AlertController
     ) { }
       
-    ngOnInit(){
+  ngOnInit(){
 
-      this.displayLoader().then((loader: any) => {
-          // get the position
-          return this.getCurrentPosition().then(position => {
-              //close the loader = return the position
-              loader.dismiss();
-              // console.log( position.coords.latitude )
-              return position;
-          })
-            // if error
-            .catch( err => {
-              // close lader + return Null
-              loader.dismiss();
-              return null
-            });
-        });
+    this.displayLoader().then((loader: any) => {
+        // get the position
+        return this.getCurrentPosition().then(position => {
+            //close the loader = return the position
+            loader.dismiss();
+            // console.log( position.coords.latitude )
+            return position;
+        })
+          // if error
+          .catch( err => {
+            // close lader + return Null
+            loader.dismiss();
+            return null
+          });
+      });
 
-        if( localStorage.getItem('UserData') ) {
-          this.userData =  JSON.parse( localStorage.getItem('UserData') )
-          console.log( 'Home: Constructor() => UserData obtenido del localStorage JSON.parse()' )
-        }else{ 
-          this.userservice.getUserData().subscribe( async(resp:any) => {
-            localStorage.setItem('UserData', JSON.stringify(resp) )
-            this.userData = resp;
-            console.log( 'Home: Constructor() => UserData obtenido del userservice.getUserData().subscribe()' )
-          })   
-        }
-    }
+      if( localStorage.getItem('UserData') ) {
+        this.userData =  JSON.parse( localStorage.getItem('UserData') )
+        console.log( 'Home: Constructor() => UserData obtenido del localStorage JSON.parse()' )
+      }else{ 
+        this.userservice.getUserData().subscribe( async(resp:any) => {
+          localStorage.setItem('UserData', JSON.stringify(resp) )
+          this.userData = resp;
+          console.log( 'Home: Constructor() => UserData obtenido del userservice.getUserData().subscribe()' )
+        })   
+      }
+  }
 
 
   toggleMenu(){

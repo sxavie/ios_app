@@ -11,8 +11,11 @@
 
       <div id="verifyContent">
 
-        <p class="ion-text-center"> 
+        <p *ngIf="!resend" class="ion-text-center"> 
           Te enviamos al correo <b> {{ fEmailAccount }} </b> un PIN de verificación 
+        </p>
+        <p *ngIf="resend" class="ion-text-center"> 
+         Se reenvio un correo a <b> {{ fEmailAccount }} </b> con el PIN de verificación 
         </p>
 
         <div class="input">
@@ -33,7 +36,7 @@
           color="primaryTUx" 
           expand="block" 
           shape="round" 
-          (click)="verifyAccount()" > 
+          (click)="verifyPin()" > 
 
           <ion-text class="btnTxt"> VERIFICAR </ion-text>
 
