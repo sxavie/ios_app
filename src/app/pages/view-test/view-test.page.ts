@@ -1,15 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
-// import {
-//   GoogleMaps,
-//   GoogleMap,
-//   GoogleMapsEvent,
-//   GoogleMapOptions,
-//   CameraPosition,
-//   MarkerOptions,
-//   Marker,
-//   Environment
-// } from '@ionic-native/google-maps';
 
 import { Capacitor, Plugins, GeolocationPosition } from '@capacitor/core';
 import { Observable, of, from as fromPromise, throwError } from 'rxjs';

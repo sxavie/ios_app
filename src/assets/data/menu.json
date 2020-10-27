@@ -25,6 +25,6 @@
   ,{
     "title": "Camara",
     "icon": "camera-outline",
-    "redirectTo": "/labs"
+    "redirectTo": "/app/labs"
   }
 ] 

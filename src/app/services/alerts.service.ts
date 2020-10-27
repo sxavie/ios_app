@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AlertController, LoadingController, ToastController } from '@ionic/angular';
+import { Plugins, Capacitor } from '@capacitor/core'
+
+const { Toast } = Capacitor.Plugins
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +38,14 @@ export class AlertsService {
       console.log( loading )
     });
     // return loader
+  }
+
+  async nativeToast( text ){
+
+    Toast.show({
+      text
+    })
+
   }
 
 }

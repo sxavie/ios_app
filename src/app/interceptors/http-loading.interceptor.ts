@@ -2,15 +2,18 @@
 import { Injectable } from "@angular/core";
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { EMPTY, Observable } from 'rxjs';
-import { AlertController, LoadingController, ToastController } from '@ionic/angular';
-import { catchError, delay, finalize, map, retryWhen, take, tap } from 'rxjs/operators';
+import { LoadingController, } from '@ionic/angular';
+import { catchError, delay, finalize, map, retryWhen, take } from 'rxjs/operators';
+
+import { Plugins, Capacitor } from '@capacitor/core'
+
+const { Toast } = Capacitor.Plugins;
+
 
 @Injectable()
 export class HttpRequestInterceptor implements HttpInterceptor {
 
-    constructor( private loadingCtrl: LoadingController, 
-        private toastCtrl: ToastController,
-        private alterCtrl: AlertController ) { }
+    constructor( private loadingCtrl: LoadingController ) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
             
@@ -25,7 +28,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
         this.loadingCtrl.getTop().then(hasLoading => {
             if (!hasLoading) {
                 this.loadingCtrl.create({
-                    spinner: 'lines',
+                    spinner: 'lines-small',
                     translucent: true
                 }).then(loading => loading.present());
             }
@@ -35,9 +38,6 @@ export class HttpRequestInterceptor implements HttpInterceptor {
             retryWhen(err => {
                 return err.pipe(
                     delay(1000),
-                    // tap(() => {
-                    //     this.showToast(retries)
-                    // }),
                     take(3),
                     map(error => {
                         
@@ -62,21 +62,11 @@ export class HttpRequestInterceptor implements HttpInterceptor {
         // }
     }
 
-    async showToast(msg) {
-        const toast = await this.toastCtrl.create({
-            message: msg,
-            duration: 2000,
-            
+    async showToast( text ){
+        
+        Toast.show({
+          text
         });
-        toast.present();
     }
 
-    async presentAlert(msg){
-        const alert = await this.alterCtrl.create({
-            header: 'Oops',
-            message: msg,
-            buttons: ['OK']
-        });
-        await alert.present();
-    }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ToastController } from '@ionic/angular';
+import { AlertsService } from 'src/app/services/alerts.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserserviceService } from 'src/app/services/userservice.service';
 
@@ -25,7 +25,7 @@ export class RegisterPage implements OnInit {
 
   constructor( private fb: FormBuilder,
     private router: Router,
-    private toastCtrl: ToastController,
+    private alertsservice: AlertsService,
     private authservice: AuthService 
     ) { }
 
@@ -60,22 +60,22 @@ export class RegisterPage implements OnInit {
     frmValidation():boolean{
 
       if( !this.formData.valid ) {
-        this.showToast('Debe completar los campos')
+        this.alertsservice.nativeToast('Debe completar los campos')
         return false;
       }
 
       if ( !this.isEmail( this.formData.value.email )) {
-        this.showToast('El email no es valido')
+        this.alertsservice.nativeToast('El email no es valido')
         return false
       }
 
       if ( !this.validPhone( this.formData.value.mobile )) {
-        this.showToast('El numero no es valido')
+        this.alertsservice.nativeToast('El numero no es valido')
         return false
       }
 
       if ( !this.formData.value.terminos ){
-        this.showToast('Debe aceptar los términos')
+        this.alertsservice.nativeToast('Debe aceptar los términos')
         return false
       }
 
@@ -92,13 +92,5 @@ export class RegisterPage implements OnInit {
       let emailRgx = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/i
       return emailRgx.test(email)
     }
-
-    async showToast(msg) {
-      const toast = await this.toastCtrl.create({
-          message: msg,
-          duration: 2000
-      });
-      toast.present();
-    }
-
+    
 }

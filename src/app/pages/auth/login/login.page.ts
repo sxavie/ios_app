@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ToastController } from '@ionic/angular';
+import { AlertsService } from 'src/app/services/alerts.service';
 import { AuthService } from 'src/app/services/auth.service';
 
 
@@ -20,9 +20,8 @@ export class LoginPage implements OnInit {
   })
 
   constructor( private fb: FormBuilder,
-    private router: Router,
     private authservice: AuthService,
-    private toastCtrl: ToastController
+    private alertsservice: AlertsService
     ) { }
 
   ngOnInit() {
@@ -38,10 +37,7 @@ export class LoginPage implements OnInit {
     if ( this.frmValidation() ) {
 
       this.authservice.login( this.formData.value  )
-        .subscribe( () => {
-          // enrutamos en el user.service
-          // this.router.navigate(['app'])
-      }, (err) => {
+        .subscribe( () => {}, (err) => {
         throw err
       });
 
@@ -53,11 +49,11 @@ export class LoginPage implements OnInit {
   frmValidation():boolean{
 
     if( !this.formData.valid ) {
-      this.showToast('Debe completar los campos')
+      this.alertsservice.nativeToast('Debe completar los campos')
       return false;
     }
     if ( !this.isEmail( this.formData.value.email ) ) {
-      this.showToast('El email no es valido')
+      this.alertsservice.nativeToast('El email no es valido')
       return false
     }
     return true;
@@ -67,12 +63,6 @@ export class LoginPage implements OnInit {
     let emailRgx = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/i
     return emailRgx.test(email)
   }
-  async showToast(msg) {
-    const toast = await this.toastCtrl.create({
-        message: msg,
-        duration: 2000
-    });
-    toast.present();
-  }
+
 
 }

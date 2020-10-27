@@ -46,12 +46,5 @@ export class VerifyfpwdpinPage implements OnInit {
   }
 
 
-  // async showToast(msg) {
-  //   const toast = await this.toastCtrl.create({
-  //       message: msg,
-  //       duration: 2000
-  //   });
-  //   toast.present();
-  // }
 
 }

@@ -5,7 +5,6 @@ import { environment } from 'src/environments/environment';
 
 import { tap, map, catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
-import { ToastController } from '@ionic/angular';
 import { AlertsService } from './alerts.service';
 
 
@@ -44,7 +43,7 @@ export class OrderService {
         // console.log( 'OrderService: genNewOrder => HTTP Response ', resp )
 
         if(resp.meeting){
-          this.alertsservice.showToast('Su orden ha sido agendada', 2000)
+          this.alertsservice.nativeToast('Su orden ha sido agendada')
           this.router.navigate(['app/'])
         }else{
           localStorage.setItem('orderSummary', JSON.stringify(resp))

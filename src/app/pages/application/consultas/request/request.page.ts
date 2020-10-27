@@ -2,13 +2,14 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Capacitor, Plugins } from '@capacitor/core'
-import { LoadingController, ModalController, ToastController } from '@ionic/angular';
+import { LoadingController, ModalController } from '@ionic/angular';
 
 import { PayMethodsService } from 'src/app/services/paymethods.service';
 import { UserserviceService } from 'src/app/services/userservice.service';
 import { AddressList } from 'src/app/interfaces/interfaces';
 import { Consult } from 'src/app/models/consult.model';
 import { ChangepaymentComponent } from 'src/app/components/changepayment/changepayment.component';
+import { AlertsService } from 'src/app/services/alerts.service';
 
 declare var google;
 
@@ -40,8 +41,8 @@ export class RequestPage implements OnInit, AfterViewInit {
     private router: Router,
     private payservice: PayMethodsService,
     private userservice: UserserviceService,
+    private alertsservice: AlertsService,
     private modalCtrl: ModalController,
-    private toastCtrl: ToastController,
     private loadCtrl:LoadingController ) {
 
       this.getDefaultPayment();
@@ -249,8 +250,9 @@ export class RequestPage implements OnInit, AfterViewInit {
       }
     } catch (err) {
       console.log( 'getCurrentPosition() => ', err )
-      if(err.code === 1){ this.showToast('Usuario denego ubicación')};
-      if(err.code === 2){ this.showToast('Ubocación no disponible')};
+      if(err.code === 1){ this.alertsservice.nativeToast('Usuario denego ubicación')};
+      if(err.code === 2){ this.alertsservice.nativeToast('Ubocación no disponible')};
+  
     }
     
   }
@@ -263,17 +265,6 @@ export class RequestPage implements OnInit, AfterViewInit {
     });
     await loading.present();
     return this.loadingCtrl;
-
-  }
-
-  async showToast(msg: string){
-
-    const toast = await this.toastCtrl.create({
-      message: msg,
-      duration: 2000
-    });
-
-    toast.present();
 
   }
 

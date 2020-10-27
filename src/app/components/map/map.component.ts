@@ -4,7 +4,6 @@ import { Capacitor, Plugins, GeolocationPosition } from '@capacitor/core';
 import { Observable, of, from as fromPromise } from 'rxjs';
 import { tap, map, switchMap } from 'rxjs/operators';
 
-import { Geolocation } from '@ionic-native/geolocation/ngx'
 import { ViewDidLeave, ViewWillLeave } from '@ionic/angular';
 
 @Component({

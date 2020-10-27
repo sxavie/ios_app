@@ -9,8 +9,9 @@ import { Capacitor, Plugins, GeolocationPosition } from '@capacitor/core';
 import { Observable, of, from as fromPromise } from 'rxjs';
 import { tap, map, switchMap } from 'rxjs/operators';
 import { Consult } from 'src/app/models/consult.model';
+import { AlertsService } from 'src/app/services/alerts.service';
 
-const { Toast, Geolocation } = Capacitor.Plugins;
+const { Geolocation } = Capacitor.Plugins;
 
 // declare var google;
 
@@ -32,7 +33,8 @@ export class HomePage implements OnInit {
     public menuData: MenuDataService,
     public userservice: UserserviceService, 
     public loadingCtrl: LoadingController,
-    public alertCtrl: AlertController
+    public alertCtrl: AlertController,
+    public alertsservice: AlertsService
     ) { }
       
   ngOnInit(){

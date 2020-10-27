@@ -8,7 +8,6 @@ import { ViewTestPageRoutingModule } from './view-test-routing.module';
 
 import { ViewTestPage } from './view-test.page';
 
-import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 @NgModule({
   imports: [
@@ -18,6 +17,6 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
     ViewTestPageRoutingModule
   ],
   declarations: [ViewTestPage],
-  providers: [ Geolocation ]
+  providers: [  ]
 })
 export class ViewTestPageModule {}

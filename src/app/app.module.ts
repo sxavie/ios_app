@@ -3,20 +3,18 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ComponentsModule } from './components/components.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import { environment } from '../environments/environment';
 import { HttpRequestInterceptor } from './interceptors/http-loading.interceptor';
 
-import { Geolocation } from '@ionic-native/geolocation/ngx'
+import { defineCustomElements } from '@ionic/pwa-elements/loader';
 
 
+defineCustomElements(window);
 
 @NgModule({
   declarations: [AppComponent],
@@ -26,17 +24,9 @@ import { Geolocation } from '@ionic-native/geolocation/ngx'
     IonicModule.forRoot(), 
     AppRoutingModule,
     ComponentsModule,
-    HttpClientModule
-    
-    // firebase Uninstalled npm i @angular/fire
-    // AngularFireModule.initializeApp(environment.firebase),
-    // AngularFireAuthModule,
-    
+    HttpClientModule    
   ],
   providers: [
-    StatusBar,
-    SplashScreen,
-    Geolocation,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     // {
     //   provide: HTTP_INTERCEPTORS,
@@ -45,5 +35,9 @@ import { Geolocation } from '@ionic-native/geolocation/ngx'
     // }
   ],
   bootstrap: [AppComponent]
+  
 })
+
+
+
 export class AppModule {}

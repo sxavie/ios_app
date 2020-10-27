@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ToastController } from '@ionic/angular';
+import { AlertsService } from 'src/app/services/alerts.service';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -14,7 +14,7 @@ export class VerifyaccountPage implements OnInit {
   public pin = '';
   
   constructor( private authservice: AuthService,
-    private toastCtrl: ToastController,
+    private alertsservice: AlertsService,
     private router: Router ) { }
 
   ngOnInit() {
@@ -27,9 +27,9 @@ export class VerifyaccountPage implements OnInit {
     
     this.authservice.verifyAcccount(email, this.pin).subscribe( (resp:any) => {
       if (resp.message === 'Usuario no encontrado.'){
-        this.showToast( resp.message );
+        this.alertsservice.nativeToast( resp.message );
       }else {
-        this.showToast( resp.message );
+        this.alertsservice.nativeToast( resp.message );
         this.router.navigate(['/login'])
       }
     })
@@ -50,12 +50,5 @@ export class VerifyaccountPage implements OnInit {
     console.log( 'VerifyaccountPage: codeResend() => click reenvio de codigo' )
   }
 
-  async showToast(msg) {
-    const toast = await this.toastCtrl.create({
-        message: msg,
-        duration: 2000
-    });
-    toast.present();
-  }
 
 }
