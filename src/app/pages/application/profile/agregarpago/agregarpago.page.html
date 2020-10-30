@@ -27,6 +27,7 @@
               slot="icon-only"
               name="home-outline" ></ion-icon>
           </ion-button>
+          
         </ion-buttons>
         
       </ion-item>
@@ -51,18 +52,29 @@
       <div class="cardForm">
 
         <!-- (ionChange)="masking()" -->
-        <ion-input placeholder="XXXX XXXX XXXX 7674"
+
+        <div class="cardNumber">
+
+          <ion-input style="padding-left: 30px !important;" placeholder="XXXX XXXX XXXX 7674"
           [(ngModel)]="cardNumber"
           maxlength="16"
-          class="cardNumber"> </ion-input>
+          (ionBlur)="mask($event)">
+        </ion-input>
+
+          <span class="icon-card"></span>
+
+        </div>
+        
 
         <ion-grid id="grid">
           <ion-row>
             <ion-col>
 
-              <ion-input placeholder="MM/AA" 
+              <ion-input 
+                (ionChange)="day_month($event)"
+                placeholder="MM/AA" 
                 [(ngModel)]="cardDetail"
-                maxlength="4"
+                maxlength="5"
                 class="cardDetail_left masked"
                 pattern="(1[0-2]|0[1-9])\/(1[5-9]|2\d)"
                 data-valid-example="05/22" ></ion-input>
@@ -83,11 +95,11 @@
 
         <!-- <ion-button (click)="masking()" expand="full"> Mask </ion-button> -->
 
-        <div class="button">
+        <div class="buttonAddCard">
 
-            <div class="addCardBtn"
+            <div class="ux_button"
               (click)="cardValidation()">
-              <span > Agregar </span>
+              <ion-text > Agregar </ion-text>
           </div>
 
         </div>

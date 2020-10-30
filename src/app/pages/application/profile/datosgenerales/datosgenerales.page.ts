@@ -66,9 +66,7 @@ export class DatosgeneralesPage implements OnInit {
     return edad;
   }
 
-  edit(){
-
-    
+  edit(){ 
     if( !this.isEdit ){
       this.edit_save = 'Guardar'
     }else{
@@ -76,7 +74,6 @@ export class DatosgeneralesPage implements OnInit {
     }
 
     this.isEdit = !this.isEdit
-
   }
 
   goHome(){

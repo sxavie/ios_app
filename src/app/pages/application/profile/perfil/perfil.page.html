@@ -38,6 +38,11 @@
       <ion-avatar>
           <img [src]="imgAvatar">
       </ion-avatar>
+
+      <div class="edit" (click)="presentActionSheet()">
+        <ion-icon name="pencil-outline" slot="icon-only"></ion-icon>
+      </div>
+
     </div>
 
     
@@ -84,8 +89,18 @@
         </ion-item>
 
       </ion-list>
+
+      <!-- Testing Area -->
+
+      <!-- <input  [(ngModel)]="photo" type="file"> -->
+      <!-- <ion-button (click)="getPhoto()"> subir Photo </ion-button>  -->
+
+      <!-- Testing Area -->
       
     </div>
+
+
+  
     
   </div>
 </ion-content> 

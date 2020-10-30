@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MenuController } from '@ionic/angular';
+import { LoadingController, MenuController } from '@ionic/angular';
 import { PayMethodsService } from 'src/app/services/paymethods.service';
 
 @Component({
@@ -16,7 +16,8 @@ export class MetodopagoPage implements OnInit {
 
   constructor(private menuCtrl: MenuController,
     private router: Router,
-    private payservice: PayMethodsService) { }
+    private payservice: PayMethodsService,
+    private loaderCtrl: LoadingController) { }
 
   ngOnInit() {
 
@@ -39,10 +40,17 @@ export class MetodopagoPage implements OnInit {
 
   }
 
-  changeMethod( idCard ){
+  async changeMethod( idCard ){
+
+    let loader = await this.loaderCtrl.create({
+      spinner: 'lines-small'
+    })
+
+    loader.present();
     
     this.payservice.setPayMethod( idCard ).subscribe( resp => {
       this.getPayCards()
+      loader.dismiss();
     })
 
   }

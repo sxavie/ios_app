@@ -9,6 +9,7 @@ import { PayMethodsService } from 'src/app/services/paymethods.service';
 })
 export class AgregarpagoPage implements OnInit {
 
+  public imgAvatar = localStorage.getItem('user-filename')
 
   public cardNumber:string;
   public cardDetail:string;
@@ -32,19 +33,18 @@ export class AgregarpagoPage implements OnInit {
   cardValidation(){
 
     // validar los campos
-    console.log( ' cardNumber ', this.cardNumber )
-    console.log( ' cardDetail ', this.cardDetail )
-    console.log( ' cardCVV ', this.cardCVV )
+    // console.log( ' cardNumber ', this.cardNumber )
+    // console.log( ' cardDetail ', this.cardDetail )
+    // console.log( ' cardCVV ', this.cardCVV )
 
     // send la data correcta
+   
+    let cardDet = this.cardDetail.split('/');
 
-    let mes = this.cardDetail.substring(0,2);
-    let ano = this.cardDetail.substring(2,4)
-    
     this.cardFormData = this.fb.group({
-      number: this.cardNumber,
-      month: mes,
-      year: ano,
+      number: this.cardNumber.replace(/\s/g, ''),
+      month: cardDet[0],
+      year: cardDet[1],
       cvv: this.cardCVV,
       user: localStorage.getItem('user-id')
   })
@@ -55,19 +55,39 @@ export class AgregarpagoPage implements OnInit {
 
   addPaymentMethod( data ){
 
+    console.log(data)
+
     this.payservice.addPayMethod(data).subscribe( resp => {
       console.log( "AgregarpagoPage service.addPayMethod() subscription response " , resp )
     })
     
   }
 
-  // masking( ){
+  mask(event){
+    setTimeout(() => {
+      var inputTxt = event.srcElement.value;
+      inputTxt = inputTxt ? inputTxt.split(" ").join("") : "";
+      inputTxt = inputTxt.length > 16 ? inputTxt.substring(0, 16) : inputTxt;
+      this.cardNumber = this.maskString(inputTxt);
+    }, 500);
+  }
+    
+  maskString(inputTxt) {
+    inputTxt = inputTxt.replace(/\D/g, "");
+    inputTxt = inputTxt.replace(/(\d{4})(\d)/, "$1 $2");
+    inputTxt = inputTxt.replace(/(\d{4})(\d)/, "$1 $2");
+    inputTxt = inputTxt.replace(/(\d{4})(\d)/, "$1 $2");
+    inputTxt = inputTxt.replace(/(\d{4})(\d)/, "$1 $2");
+    return inputTxt;
+  }
 
-  //   console.log( "hola mundo" )
+  day_month() {
+    let v = this.cardDetail
+    v = v.replace(/^(\d{2})(\d)/, '$1/$2'); //Insert a dot between the second and third digits
+    this.cardDetail = v
+  }
 
-  //   this.cardNumber = this.cardNumber.replace(/\d{12}(\d{4})/, "XXXXXXXXXXXX$1");
-  
-  // }
+
 
 
 

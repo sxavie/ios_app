@@ -49,7 +49,6 @@ export class SelectuserPage implements OnInit {
 
 
       this.orderservice.genNewOrder( this.consult ).subscribe( resp => {
-        // console.log( 'SelectuserPage: request => OrderService subscription response ', resp )
       })
       
 

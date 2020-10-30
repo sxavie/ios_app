@@ -3,11 +3,11 @@
 }
 .main {
     padding: 14px;
-    height: 80%;
     min-height: 80%;
+    height: 80%;
 }
 .navContainer{
-    padding-top: 1.5rem; 
+    padding-top: 1.5rem;
 }
 .navIconBtn{
     color: white;
@@ -36,7 +36,7 @@ ion-avatar{
     height: 100%;
 }
 #cardContent{
-    padding:100px 20px 10px 20px ;
+    padding:100px 20px 20px 20px ;
     margin-bottom: 20px;
     border:1px solid #c2c2c2;
     background-color: #ffffff;
@@ -46,16 +46,12 @@ ion-avatar{
     transform: translateY(-75px);
 }
 
-//titulo
-.title{
-    // margin-left: 20px;;
-}
 .titulo{ 
     font-size: 25px;
     color: #014c68;
 }
 .underline{
-    width: 150px;
+    width: 170px;
 }
 .underline hr{
     background-color: #00b3bc;
@@ -65,38 +61,27 @@ ion-avatar{
 // titulo
 
 
-
-// div#cardContent .Visa{
-//     padding-left: 56px;
-//     padding-top: 5px;
-//     background: url('/assets/visa_pay_m_cardicon_.png') center left no-repeat;
-// }
-// div#cardContent .MasterCard{
-//     padding-left: 56px;
-//     padding-top: 5px;
-//     background: url('/assets/master_pay_m_cardicon_.png') center left no-repeat;
-
-// }
-
 .cardForm{
     margin-top: 30px;
 }
 
-.cardForm ion-grid{
-    padding: 10px 0px 10px 0px 
-}
-
-.cardForm ion-col{
-
-    padding: 0
+.cardForm ion-grid{padding: 10px 0px 10px 0px }
+.cardForm ion-col{padding: 0}
+.cardForm ion-input{
+    height: 55px;
+    color: #909090;
+    font-size: 18px;
+    letter-spacing: 0px;
+    font-weight: 600;
+    font-family: inherit;
+    text-align: center;
 }
 
 .cardNumber{
     vertical-align: middle;
-    padding-top: 16px;
     width: 100%;
     margin-bottom: 30px;
-
+    display: flex;
     border:1px solid #c2c2c2;
     border-radius: 5px;
     box-shadow: 2px 2px 5px #808080;
@@ -108,7 +93,6 @@ ion-avatar{
 .cardDetail_left{
     float: left;
     width: 90%;
-
     border: 1px solid #c2c2c2; 
     border-radius: 5px;
     box-shadow: 2px 2px 5px #808080;
@@ -126,19 +110,27 @@ ion-avatar{
     height: 55px;
 }
 
-.button{
- width: 60%;
- margin: 0 auto;
+.icon-card{
+    padding-left: 25px;
+    padding-right: 25px;
+    background: url('/assets/credit-card.svg') center no-repeat;
 }
 
-.addCardBtn{
+.buttonAddCard{
+    width: 60%;
+    margin: 0 auto;
+}
+.ux_button{
     position: fixed;
-    box-shadow: 2px 2px 5px #808080; 
+    box-shadow: 5px 5px 10px #808080; 
     width: 50%;
     bottom: 50px;
     border-radius: 40px;
     height: 45px;
+    text-align: center;
+    font-size: 20px;
+    letter-spacing: 1px;
+    background-color: #03babe;
+    color: #ffffff;
+    padding-top: 7px;
 }
-
-
-

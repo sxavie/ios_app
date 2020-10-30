@@ -4,9 +4,22 @@ import { Routes, RouterModule } from '@angular/router';
 import { FarmaciaPage } from './farmacia.page';
 
 const routes: Routes = [
+  // {
+  //   path: '',
+  //   component: FarmaciaPage,
+  // },
   {
     path: '',
-    component: FarmaciaPage
+    loadChildren: () => import('./products/products.module').then( m => m.ProductsPageModule)
+  },{
+    path: 'cart',
+    loadChildren: () => import('./cart/cart.module').then( m => m.CartPageModule)
+  },{
+    path: 'product-detail/:name',
+    loadChildren: () => import('./product-detail/product-detail.module').then( m => m.ProductDetailPageModule)
+  },{
+    path: 'cart-checkout',
+    loadChildren: () => import('./cart-checkout/cart-checkout.module').then( m => m.CartCheckoutPageModule)
   }
 ];
 

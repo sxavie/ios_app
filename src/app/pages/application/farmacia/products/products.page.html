@@ -1,0 +1,129 @@
+<ion-content id="container" no-scroll padding>
+
+  <div class="main">
+    <div class="navContainer">
+      <ion-item lines="none" 
+          color="transparent">
+        <ion-buttons slot="start">
+          <ion-back-button
+            defaultHref="/app"
+            text=""
+            class="navIconBtn">
+          </ion-back-button>
+        </ion-buttons>
+        <div id="logo">
+          <ion-img src="/assets/tidulogowhite_s.png"></ion-img>
+        </div>
+        <ion-buttons slot="end">
+
+        <ion-button routerLink='/app/farmacia/cart'>
+          <ion-icon
+            [ngClass]="cesta"  
+            class="navIconBtn" 
+            slot="icon-only" 
+            name="cart-outline"></ion-icon>
+        </ion-button>
+
+          <ion-button routerLink="/app">
+            <ion-icon 
+              class="navIconBtn"
+              slot="icon-only"
+              name="home-outline" ></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-item>
+    </div> <!-- navContainer -->
+
+    <div id="cardContent">
+
+      <h2> MEDICAMENTOS </h2>
+
+      <div class="title">
+        <ion-text class="titulo"> Compra de productos </ion-text>
+        <div class="underline"> <hr> </div>
+      </div>
+
+      <ion-text *ngIf="!productItems" color="danger">
+        <h4 > No se encnontraron productos </h4>
+      </ion-text>
+
+      <ion-list *ngIf="productItems" class="list">
+
+        <ion-searchbar placeholder="Buscar producto..." (ionInput)="search( $event.target.value )"></ion-searchbar>
+
+        <div *ngFor="let item of productItems || async" class="product-item" >
+
+          <ion-thumbnail (click)="viewItemDetail( item )" class="product-thumb" slot="start">
+            <img [src]="item.fileName">
+          </ion-thumbnail>
+        
+          <div class="product-dtl">
+            <div class="product-desc">
+              <div style="display: flex;">
+                <ion-label (click)="viewItemDetail(item)" style="float: left;"> {{ item.name }} </ion-label> 
+                <ion-icon  (click)="addToCart(item)" class="cart-icon" slot="icon-only" name="cart-outline"></ion-icon>
+              </div>
+              <ion-label class="subBody"> {{ item.description }} </ion-label> <br>
+            </div> <!-- product-desc -->
+
+            <div class="produc-prc" (click)="viewItemDetail( item )">
+              <ion-label class="price"> $ {{ item.price }} </ion-label> <br>
+              <div>
+                <div>
+                  <ion-label class="subBody" style="font-size: 10px"> Envio gratis </ion-label>
+                  <ion-label class="quantity"> Cantidad: 1 </ion-label>
+                </div>
+                <!-- <div class="add-icon">
+                  <ion-icon (click)="add_quantity()" name="chevron-up-outline"></ion-icon> <br>
+                  <ion-icon (click)="remove_quantity()" name="chevron-down-outline"></ion-icon>
+                </div> add-icon -->
+              </div>
+            </div> <!-- produc-prc -->
+          </div> <!-- Product Detail -->
+
+
+        </div> <!--  Produc-item -->
+
+        <!-- FakeItems -->
+
+        <!-- <div *ngFor="let fakeItem of fakeItems || async" class="product-item">
+          <ion-thumbnail class="product-thumb" slot="start">
+            <img [src]="fakeItem.fileName">
+          </ion-thumbnail>
+          <div class="product-dtl">
+            <div class="product-desc">
+              <div style="display: flex;">
+                <ion-label style="float: left;"> {{ fakeItem.name }} </ion-label> 
+                <ion-icon  (click)="addToCart(fakeItem)" class="cart-icon" slot="icon-only" name="cart-outline"></ion-icon>
+              </div>
+              <ion-label class="subBody"> {{ fakeItem.description }} </ion-label> <br>
+            </div> 
+            <div class="produc-prc">
+              <ion-label class="price"> $ {{ fakeItem.price }} </ion-label> <br>
+              <div>
+                <div>
+                  <ion-label class="subBody" style="font-size: 10px"> Envio gratis </ion-label>
+                  <ion-label class="quantity"> Cantidad: 1 </ion-label>
+                </div>
+                <div class="add-icon">
+                  <ion-icon (click)="add_quantity()" name="chevron-up-outline"></ion-icon> <br>
+                  <ion-icon (click)="remove_quantity()" name="chevron-down-outline"></ion-icon>
+                </div> 
+              </div>
+            </div> 
+          </div> 
+        </div>  -->
+
+        <!-- Fake Item-->
+
+
+      </ion-list>
+     
+      
+    </div> <!-- cardContent -->
+  </div> <!-- main -->
+
+</ion-content> 
+
+
+

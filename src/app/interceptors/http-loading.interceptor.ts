@@ -17,13 +17,13 @@ export class HttpRequestInterceptor implements HttpInterceptor {
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
             
-        if( request.url === '/assets/data/menu.json' ) {
-            console.log( 'INTERCEPTOR:::::::::', request.url )
-            const fakeUrl = `/assets/data/menu.json`;
-            const fakeRequest = request.clone({url: fakeUrl});
-            console.log( 'URL INTERCEPTADA' )
-            return next.handle(request);
-        }
+        // if( request.url === '/assets/data/menu.json' ) {
+        //     console.log( 'INTERCEPTOR:::::::::', request.url )
+        //     const fakeUrl = `/assets/data/menu.json`;
+        //     const fakeRequest = request.clone({url: fakeUrl});
+        //     console.log( 'URL INTERCEPTADA' )
+        //     return next.handle(request);
+        // }
 
         this.loadingCtrl.getTop().then(hasLoading => {
             if (!hasLoading) {

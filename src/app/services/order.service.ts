@@ -53,8 +53,9 @@ export class OrderService {
         localStorage.removeItem('orderDetail')
 
       }))
-      .pipe(catchError( err => {
-        return throwError( err )
+      .pipe(catchError( e => {
+        this.alertsservice.nativeToast(e.error.message)
+        return throwError( e )
       }));
 
   }

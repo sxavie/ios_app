@@ -1,0 +1,110 @@
+<ion-content id="container" no-scroll padding>
+
+  <div class="main">
+    <div class="navContainer">
+      <ion-item lines="none" 
+          color="transparent">
+        <ion-buttons slot="start">
+          <ion-back-button
+            defaultHref="/app/farmacia"
+            text=""
+            class="navIconBtn">
+          </ion-back-button>
+        </ion-buttons>
+        <div id="logo">
+          <ion-img src="/assets/tidulogowhite_s.png"></ion-img>
+        </div>
+        <ion-buttons slot="end">
+          <ion-button routerLink="/app">
+            <ion-icon 
+              class="navIconBtn"
+              slot="icon-only"
+              name="home-outline" ></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-item>
+    </div> <!-- navContainer -->
+
+
+    <div id="cardContent">
+
+      <div>
+        <h2> CHECKOUT </h2>
+      </div>
+
+      <div class="title">
+        <ion-text class="titulo"> Resumen de compra </ion-text>
+        <div class="underline"> <hr> </div>
+      </div>
+
+
+      <ion-list class="list" >
+        <div *ngFor="let item of myCarrito || async " class="product-item" lines="none">
+
+          <ion-thumbnail class="product-thumb" slot="start">
+            <img [src]="item.fileName">
+          </ion-thumbnail>
+        
+          <div class="product-dtl">
+            <div class="product-desc">
+              <div style="display: flex;">
+                <ion-label style="float: left;"> {{ item.name }} </ion-label> 
+                <ion-icon  (click)="itemContextual(item)" class="cart-icon" slot="icon-only" name="ellipsis-vertical-outline"></ion-icon>
+              </div>
+              <ion-label class="subBody"> {{ item.description }} </ion-label> <br>
+            </div> 
+
+            <div class="produc-prc">
+              <ion-label class="item-price"> $ {{ item.price || async }} </ion-label> <br>
+              <div>
+                <div>
+                  <ion-label class="subBody" style="font-size: 10px"> Envio gratis </ion-label>
+                  <ion-label class="quantity"> Cantidad: {{ item.quantity || async }} </ion-label>
+                </div>
+              </div>
+            </div>
+          </div> 
+          <br>
+        </div> 
+      </ion-list>
+
+
+      <hr class="priceDivider">
+
+      <div style="margin: 30px 20px;" >
+
+        <div style="font-size: 15px;">
+          <ion-text style="color: #00b3bc;"> Productos ({{ itemsQty }}) </ion-text>
+          <ion-text style="float:right"> ${{itemsTotal}} </ion-text>
+        </div>
+
+        <div style="font-size: 15px;">
+          <ion-text style="color: #00b3bc;"> Envio al C.P 20010, monterrey </ion-text>
+          <ion-text style="float:right"> ${{shiping}} </ion-text>
+        </div>
+
+        <div class="totals">
+          <ion-text style="color: #00b3bc;"> Total </ion-text>
+          <ion-text style="float:right; font-weight: bold;"> ${{ ordTotal }} </ion-text>
+        </div>
+
+
+        <div class="buttonAddCard">
+          <div class="ux_button"
+            (click)="cardValidation()">
+            <ion-text > Comprar </ion-text>
+          </div>
+        </div>
+
+      </div>
+
+    </div> <!-- cardContent -->
+     
+      
+
+  </div> <!-- main -->>
+
+</ion-content> 
+
+
+
