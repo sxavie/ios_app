@@ -41,21 +41,31 @@ export class UserserviceService {
 
     // mover a auth service.
 
+    transformFilename( u:any ){
+
+      let imgPath;
+      localStorage.removeItem('user-filename')
+      
+      if( u === null || u === undefined ){
+        imgPath = 'https://cdns.iconmonstr.com/wp-content/assets/preview/2018/240/iconmonstr-user-circle-thin.png';
+      }else{
+        let splitImgFormat = u.split('.');
+        imgPath = `${apiUrl}/images/users/${splitImgFormat[0]}`
+      }
+      
+      console.log( 'transformFilename- returned ', imgPath );
+      localStorage.setItem('user-filename', imgPath)
+    }
+
     decodeToken( token ) {
 
       const u = helper.decodeToken( token )
       // console.log( 'UserserviceService: decodeToken() => token en decodificado, u.id: ', u.id )
-      let imgPath;
-      if( u.filename === null ){
-        imgPath = 'https://cdns.iconmonstr.com/wp-content/assets/preview/2018/240/iconmonstr-user-circle-thin.png';
-      }else{
-        let splitImgFormat = u.filename.split('.');
-        imgPath = `${ apiUrl }/images/users/${ splitImgFormat[0] }`
-      }
+
+      this.transformFilename(u.filename)
 
       localStorage.setItem('user-name', u.name)
       localStorage.setItem('user-email', u.email)
-      localStorage.setItem('user-filename', imgPath)
       localStorage.setItem('user-id', u.id)
 
       // console.log( 'UserserviceService: decodeToken() => data de Usuario guardado en el LocalStorage' )
@@ -82,6 +92,8 @@ export class UserserviceService {
 
       return this.http.get<Usuario>(  url ,{ headers } )
         .pipe(tap( (x:any) => {
+
+          this.transformFilename(x.filename)
 
           // console.log( 'UserserviceService: getUserData() => http.get https://api.cavimex.vasster.com/users/:userid ' )
           

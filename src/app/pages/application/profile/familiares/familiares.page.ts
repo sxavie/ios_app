@@ -71,4 +71,8 @@ export class FamiliaresPage implements OnInit {
     }
   }
 
+  goFamiliar( id ){
+    this.router.navigate([`/app/familiares/familiar/${id}`]);
+  }
+
 }

@@ -1,0 +1,64 @@
+
+#logo{
+    width: 50%;
+    margin: 0 auto;
+}
+.listSubTitle{
+    font-size: 13px;
+    color: #d8d8d8;
+    margin: 5px 10px;
+    letter-spacing: 1px;
+    font-family: monospace;
+}
+.main-addresContainer{
+    width: 90%;
+    font-size: 13px; 
+    color: #808080;
+    padding:5px 20px;
+  }
+.main-addresContainer div{
+    padding: 1px 0;
+}
+.main-iconContainer{
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    color: #03babe;
+    padding:5px
+}
+.main-iconContainer ion-icon{
+    font-size: 14px;
+}
+
+.addAddress-txt{
+    color: #03babe;
+    padding: 0px 10px;
+    font-size: 12px;
+    font-weight: lighter;
+}
+
+.addAddress-ico{
+    color: #03babe;
+    padding: 10px 5px 0px 0px;
+    font-size: 14px;
+}
+
+.buttonContainer{
+
+    width: 60%;
+    margin: 100px auto 0;
+}
+
+.ux_button{
+    box-shadow: 5px 5px 10px #808080; 
+    width: 100%;
+    border-radius: 40px;
+    height: 45px;
+    text-align: center;
+    font-size: 20px;
+    letter-spacing: 1px;
+    background-color: #03babe;
+    color: #ffffff;
+    padding-top: 7px;
+}
+

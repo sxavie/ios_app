@@ -63,9 +63,9 @@
     margin-bottom: 25px;
 }
 //Subtitulos
-.title{margin-left: 20px;;}
-.titulo{ font-size: 25px; color: #014c68;}
-.underline hr{background-color: #00b3bc;
+.title{margin-left: 20px; display: flex;}
+.titulo{ font-weight: 500; font-size: 22px; color: #014c68; text-decoration: underline; text-decoration-color: #00b3bc; }
+.title hr{background-color: #00b3bc;
     width: 100%;}
 //Subtitulos
 

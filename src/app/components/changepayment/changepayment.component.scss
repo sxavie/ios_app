@@ -1,4 +1,4 @@
-#cardContent{
+#Content{
     padding:20px 10px;
     height: 100%;
 }
@@ -8,22 +8,22 @@
     color: #014c68;
 }
 
-#cardContent .list{
+#Content .list{
     margin-top: 25px;
 }
 
 
-div#cardContent .Visa{
+div#Content .Visa{
     padding-left: 56px;
     padding-top: 5px;
     background: url('/assets/visa_pay_m_cardicon_.png') center left no-repeat;
 }
-div#cardContent .MasterCard{
+div#Content .MasterCard{
     padding-left: 56px;
     padding-top: 5px;
     background: url('/assets/master_pay_m_cardicon_.png') center left no-repeat;
 }
-div#cardContent .cash{
+div#Content .cash{
     padding-left: 56px;
     padding-top: 5px;
     background: url('/assets/cash_pay_m_cardicon_.png') center left no-repeat;

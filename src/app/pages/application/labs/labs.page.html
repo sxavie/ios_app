@@ -1,9 +1,92 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>labs</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content id="container" no-scroll padding>
 
-<ion-content>
+  <div class="main">
+    <div class="navContainer">
+      <ion-item lines="none" 
+          color="transparent">
+        <ion-buttons slot="start">
+          <ion-back-button
+            defaultHref="/app/farmacia"
+            text=""
+            class="navIconBtn">
+          </ion-back-button>
+        </ion-buttons>
+        <div id="logo">
+          <ion-img src="/assets/tidulogowhite_s.png"></ion-img>
+        </div>
+        <ion-buttons slot="end">
+          <ion-button routerLink="/app">
+            <ion-icon 
+              class="navIconBtn"
+              slot="icon-only"
+              name="home-outline" ></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-item>
+    </div> <!-- navContainer -->
 
-</ion-content>
+    <div id="cardContent">
+
+      <div>
+        <h2> LABORATORIOS </h2>
+      </div>
+
+      <div class="title">
+        <ion-text class="titulo"> Servicios Ofrecidos </ion-text>
+      </div>
+
+
+      <ion-list class="list">
+
+        <ion-radio-group [(ngModel)]="serviceSelected" value="">
+
+          <ion-item>
+            <ion-text> Perfil hermetico </ion-text>
+            <ion-radio value="hermetico" slot="end" mode="md"></ion-radio>
+          </ion-item>
+
+          <ion-item>
+            <ion-text> Perfil bioquimico </ion-text>
+            <ion-radio value="bioquimico" slot="end" mode="md"></ion-radio>
+          </ion-item>
+
+          <ion-item>
+            <ion-text> Perfil hepatico </ion-text>
+            <ion-radio value="hepatico" slot="end" mode="md"></ion-radio>
+          </ion-item>
+
+          <ion-item>
+            <ion-text> EGO </ion-text>
+            <ion-radio value="EGO" slot="end" mode="md"></ion-radio>
+          </ion-item>
+
+          <ion-item>
+            <ion-text> Antidoping </ion-text>
+            <ion-radio value="Antidoping" slot="end" mode="md"></ion-radio>
+          </ion-item>
+
+          <ion-item>
+            <ion-text> Prueba Covid-19 </ion-text>
+            <ion-radio value="Covid-19" slot="end" mode="md"></ion-radio>
+          </ion-item>
+
+        </ion-radio-group>
+
+      </ion-list>  
+
+      <div class="buttonContainer">
+        <div class="ux_button"
+        (click)="serviceRequest()">
+          <ion-text > Solicitar </ion-text>
+        </div>
+      </div>
+     
+
+    </div> <!-- cardContent -->
+  
+  </div> <!-- main -->
+
+</ion-content> 
+
+
+

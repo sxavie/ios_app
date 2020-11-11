@@ -46,13 +46,9 @@ export class SelectuserPage implements OnInit {
       }
 
       localStorage.setItem('orderDetail', JSON.stringify(this.consult))
-
-
       this.orderservice.genNewOrder( this.consult ).subscribe( resp => {
       })
       
-
-      // this.router.navigate(['app/consultas/incoming'])
     }
 
   }

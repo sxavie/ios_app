@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { AlertsService } from 'src/app/services/alerts.service';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -35,12 +34,10 @@ export class LoginPage implements OnInit {
   onLogin() {
     
     if ( this.frmValidation() ) {
-
       this.authservice.login( this.formData.value  )
         .subscribe( () => {}, (err) => {
         throw err
       });
-
     }
 
   }

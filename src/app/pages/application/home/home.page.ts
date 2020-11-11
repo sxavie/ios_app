@@ -35,7 +35,9 @@ export class HomePage implements OnInit {
     public loadingCtrl: LoadingController,
     public alertCtrl: AlertController,
     public alertsservice: AlertsService
-    ) { }
+    ) { 
+      localStorage.removeItem('UserData')
+    }
       
   ngOnInit(){
 
@@ -55,16 +57,13 @@ export class HomePage implements OnInit {
           });
       });
 
-      if( localStorage.getItem('UserData') ) {
-        this.userData =  JSON.parse( localStorage.getItem('UserData') )
-        console.log( 'Home: Constructor() => UserData obtenido del localStorage JSON.parse()' )
-      }else{ 
         this.userservice.getUserData().subscribe( async(resp:any) => {
           localStorage.setItem('UserData', JSON.stringify(resp) )
           this.userData = resp;
+          this.userservice.transformFilename( resp.filename );
           console.log( 'Home: Constructor() => UserData obtenido del userservice.getUserData().subscribe()' )
         })   
-      }
+      
   }
 
 
@@ -148,7 +147,7 @@ export class HomePage implements OnInit {
   }
 
   ngOnDestroy(){
-    // this.coordinates$.
+    localStorage.removeItem('User-Data')
   }
   
 }

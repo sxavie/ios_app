@@ -48,12 +48,11 @@
       
     <div class="title">
       <ion-text class="titulo"> Familiares </ion-text>
-      <div class="underline"> <hr> </div>
     </div>
       
     <ion-list class="list">
 
-      <ion-item *ngFor=" let member of userData.family" detail>
+      <ion-item *ngFor=" let member of userData.family" detail (click)="goFamiliar( member._id )" >
 
         <ion-avatar slot="start">
           <img [src]="member.filename | image:'user'">

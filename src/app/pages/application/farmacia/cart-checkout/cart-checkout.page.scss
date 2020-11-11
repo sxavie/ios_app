@@ -1,3 +1,6 @@
+#container{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 #cardContent{
     overflow: hidden;
 }
@@ -102,3 +105,82 @@
     height: 20px;
     color: red;
 }
+.listSubTitle{
+    font-size: 13px;
+    color: #d8d8d8;
+    margin: 5px 10px;
+    letter-spacing: 1px;
+    font-family: monospace;
+}
+// tarjeta
+div#cardContent .Visa{
+    padding-left: 56px;
+    padding-top: 5px;
+    background: url('/assets/visa_pay_m_cardicon_.png') center left no-repeat;
+}
+div#cardContent .MasterCard{
+    padding-left: 56px;
+    padding-top: 5px;
+    background: url('/assets/master_pay_m_cardicon_.png') center left no-repeat;
+}
+div#cardContent .cash{
+    margin-left: 0px;
+    margin-top: 10px;
+    padding-left: 56px;
+    padding-top: 5px;
+    background: url('/assets/cash_pay_m_cardicon_.png') center left no-repeat;
+}
+.slotCard{
+    height: 65px;
+    font-size: 18px;
+    font-weight: bold;
+    clear: both;
+    padding: 10px 0px 0px 0px;
+}
+.iconBrand{
+    float: left;
+    height: 100%;
+    margin-bottom: 10px;
+    margin-left: -6px;
+}
+.cardNumber{
+    float: left;
+    height: 100%;
+    vertical-align: middle;
+    margin-left: 20px;
+    padding-top: 16px;
+    letter-spacing: 1px;
+    padding-bottom: 15px;
+}
+.iconRight{
+    height: 100%;
+    float: right;
+    font-size: 10px;
+    color: #04bbbf;
+}
+
+.main-addresContainer{
+  width: 90%;
+  font-size: 13px; 
+  color: #808080;
+  padding:5px 20px;
+}
+.main-addresContainer div{
+    padding: 1px 0;
+  }
+.main-iconContainer{
+    color: #bdbdbd;
+    font-size: 20px;
+    width: 8%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.address_divider_{
+    padding-left: 20px;
+}
+.address_divider_ hr{
+    background-color: #bdbdbd;
+    width: 100%;
+}
+

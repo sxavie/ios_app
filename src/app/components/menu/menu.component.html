@@ -5,7 +5,7 @@
     <ion-item lines="none" class="menuAvatar" color="transparent">
       
       <ion-avatar slot="start">
-        <img [src]="imgAvatar">
+        <img [src]="imgAvatar || async">
       </ion-avatar>
 
       <ion-grid>

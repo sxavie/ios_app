@@ -3,7 +3,7 @@
       (click)="close()" ></ion-icon>
 </ion-item>
 
-<div id="cardContent">
+<div id="Content">
 
       
   <div class="title ion-text-center">
@@ -23,7 +23,7 @@
         class="iconBrand" 
         [ngClass]="{'Visa': card.brand === 'Visa', 'MasterCard': card.brand === 'MasterCard'}"> </span>
 
-      <div class="cardNumber"> <span> **** **** ****{{ card.last4}} </span> </div> 
+      <div class="cardNumber"> <span> **** **** **** {{ card.last4}} </span> </div> 
  
     </div>
 

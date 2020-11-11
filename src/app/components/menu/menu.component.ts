@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ViewWillEnter } from '@ionic/angular';
 import { Observable } from 'rxjs';
 
 import { Menu } from 'src/app/interfaces/interfaces';
@@ -15,19 +16,24 @@ import { UserserviceService } from 'src/app/services/userservice.service';
 })
  
 
-export class MenuComponent implements OnInit {
+export class MenuComponent implements OnInit, ViewWillEnter {
   
   @Input('menuHostId') menuHostId: string;
   @Input('menuNameId') menuNameId: string;
 
   public imgAvatar = localStorage.getItem('user-filename');
-  public userName = localStorage.getItem('user-name')
+  public userName = localStorage.getItem('user-name');
   
   menuOpts: Observable<Menu[]>;
 
   constructor(  private menuData: MenuDataService,
       private authservice: AuthService) { 
       }
+  ionViewWillEnter() {
+    console.log('getting username and userfilename')
+    this.imgAvatar = localStorage.getItem('user-filename');
+    this.userName = localStorage.getItem('user-name')
+  }
       
   ngOnInit() {
     this.menuOpts = this.menuData.getMenuOpts();

@@ -19,6 +19,8 @@ export class ConsultasPage implements OnInit {
 
   ngOnInit() {
 
+    localStorage.removeItem('pharmDefPay')
+
   }
 
   toggleMenu(){

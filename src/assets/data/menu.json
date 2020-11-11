@@ -27,4 +27,14 @@
     "icon": "camera-outline",
     "redirectTo": "/app/labs"
   }
+  ,{
+    "title": "Video Llamada",
+    "icon": "videocam-outline",
+    "redirectTo": "/app/farmacia/purchasechat"
+  }
+  ,{
+    "title": "Video Call",
+    "icon": "videocam-off-outline",
+    "redirectTo": "/app/farmacia/purchasetrack"
+  }
 ] 

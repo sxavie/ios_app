@@ -2,8 +2,9 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { catchError, map, tap } from 'rxjs/operators';
-import { Observable, throwError } from 'rxjs';
-import { Product } from '../models/product.model';
+import { throwError } from 'rxjs';
+import { AlertsService } from './alerts.service';
+import { Router } from '@angular/router';
 
 const apiUrl = environment.apiUrl
 
@@ -15,7 +16,9 @@ export class MedicineService {
   public token = localStorage.getItem('jwttoken')
   
 
-  constructor( private http: HttpClient ) { 
+  constructor( private http: HttpClient,
+    private alertsservice: AlertsService,
+    private router: Router ) { 
   }
 
   get authHeaders(){
@@ -56,6 +59,24 @@ export class MedicineService {
         return throwError( err )
       }))
 
+  }
+
+  newOrder( data ){
+
+    // https://api.cavimex.vasster.com/store/order
+    const url = `${apiUrl}/store/order`
+    const headers = this.authHeaders;
+
+    return this.http.post( url, data, { headers } ).
+      pipe(map( resp => {
+        localStorage.removeItem('myCarrito');
+        localStorage.setItem('pharm-order', JSON.stringify(resp) );
+
+        this.router.navigate(['/app/farmacia'])
+      })).pipe(catchError( err => {
+        this.alertsservice.nativeToast( err.error.error )
+        return throwError( err );
+      }))
   }
 
 }

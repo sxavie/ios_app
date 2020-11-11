@@ -46,15 +46,6 @@
        </span>        
       </div>
 
-      <ion-button  class="reqBtn" 
-          color="primaryTUx"
-          expand="block"
-          shape="round"
-          (click)="reqOrderNow(false)"
-          [disabled]="isIncomming"> 
-          <ion-text class="btnTxt"> Solicitar Ahora </ion-text> 
-      </ion-button>   
-
       <ion-item class="addres-selector">
         <ion-label>Dirección</ion-label>
         <ion-select ok-text="OK" cancel-text="Cancelar" [(ngModel)]="selAddress" (ionChange)="selectedAddress()">
@@ -97,6 +88,16 @@
           <span class="iconRight" slot="end" (click)="changeMethod()"> CAMBIAR </span>
 
       </ion-item>
+
+      <ion-button  class="reqBtn" 
+        color="primaryTUx"
+        expand="block"
+        shape="round"
+        (click)="reqOrderNow(false)"
+        [disabled]="isIncomming"> 
+        <ion-text class="btnTxt"> Solicitar Ahora </ion-text> 
+      </ion-button>   
+
       <!-- content -->
       
     </div>

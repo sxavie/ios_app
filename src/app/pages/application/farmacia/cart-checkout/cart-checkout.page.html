@@ -34,11 +34,78 @@
 
       <div class="title">
         <ion-text class="titulo"> Resumen de compra </ion-text>
-        <div class="underline"> <hr> </div>
       </div>
+
+      <ion-list style="margin-top: 15px;" class="main-addres-list" >
+        <ion-text class="listSubTitle"> DIRECCION DE ENVIO </ion-text>  
+
+
+        <div *ngIf="defaulAddres || async as address">
+
+          <div style="display: flex;" routerLink="/app/farmacia/addresses">
+
+            <div class="main-addresContainer">
+              <div style="font-weight: bold;"> {{ address.name }} </div>
+              <div> {{address.street}}, No. {{address.number}} </div>
+              <div> Col. {{address.neighborhood}}, </div>
+              <div> {{address.city}}, {{address.state}}, {{address.country}} </div>
+              <div> CP. {{address.zipcode}} </div>
+            </div>
+
+            <div class="main-iconContainer">
+                <ion-icon name="chevron-forward"></ion-icon>
+            </div>
+            
+          </div>
+      
+        </div>
+
+        <div *ngIf="!defaulAddres || async ">
+
+          <div style="display: flex;" routerLink="/app/farmacia/addresses">
+
+            <div class="main-addresContainer">
+              <div style="font-weight: bold; padding: 0px 15px; color: #04bbbf;"> Seleccionar direccion </div>
+            </div>
+            
+            <div class="main-iconContainer">
+              <ion-icon name="chevron-forward"></ion-icon>
+          </div>
+
+          </div>
+
+        </div>
+      
+        <div class="address_divider_"> <hr> </div>
+        
+      
+      </ion-list>
+
+
+      <ion-list>
+        <ion-text class="listSubTitle"> METODO DE PAGO </ion-text>  
+
+        <ion-item class="slotCard" *ngIf="defMethod || async "
+          [ngClass]="{'default' : defMethod.default_source }" (click)="changeMethod()">
+          
+          <span 
+            class="iconBrand" 
+            [ngClass]="{
+              'Visa': defMethod.brand === 'Visa', 
+              'MasterCard': defMethod.brand === 'MasterCard',
+              'cash': defMethod.brand === 'cash'
+            }"> </span>
+
+          <div class="cardNumber" *ngIf="defMethod.last4"> <span> **** **** **** {{ defMethod.last4}} </span> </div>
+          <div class="cardNumber" *ngIf="!defMethod.last4" > <span> Efectivo </span> </div>
+          
+      </ion-item>
+
+      </ion-list>
 
 
       <ion-list class="list" >
+        <ion-text class="listSubTitle"> ARTICULOS </ion-text>  
         <div *ngFor="let item of myCarrito || async " class="product-item" lines="none">
 
           <ion-thumbnail class="product-thumb" slot="start">
@@ -49,7 +116,6 @@
             <div class="product-desc">
               <div style="display: flex;">
                 <ion-label style="float: left;"> {{ item.name }} </ion-label> 
-                <ion-icon  (click)="itemContextual(item)" class="cart-icon" slot="icon-only" name="ellipsis-vertical-outline"></ion-icon>
               </div>
               <ion-label class="subBody"> {{ item.description }} </ion-label> <br>
             </div> 
@@ -79,7 +145,7 @@
         </div>
 
         <div style="font-size: 15px;">
-          <ion-text style="color: #00b3bc;"> Envio al C.P 20010, monterrey </ion-text>
+          <ion-text style="color: #00b3bc;"> Envio al defaulAddres.zipcode , defaulAddres.city </ion-text>
           <ion-text style="float:right"> ${{shiping}} </ion-text>
         </div>
 
@@ -91,7 +157,7 @@
 
         <div class="buttonAddCard">
           <div class="ux_button"
-            (click)="cardValidation()">
+            (click)="buttonCheckout()">
             <ion-text > Comprar </ion-text>
           </div>
         </div>
@@ -102,7 +168,7 @@
      
       
 
-  </div> <!-- main -->>
+  </div> <!-- main -->
 
 </ion-content> 
 

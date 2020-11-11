@@ -16,7 +16,7 @@
             text=""
             class="navIconBtn">
           </ion-back-button>
-        </ion-buttons>
+        </ion-buttons> 
         
         <div id="logo">
           <ion-img src="/assets/tidulogowhite_s.png"></ion-img>
@@ -40,8 +40,7 @@
       <h2> CONSULTAS </h2>
      
       <div class="title">
-        <ion-text class="titulo"> Selección de Usuario </ion-text>
-        <div class="underline"> <hr> </div>
+        <ion-text class="titulo"> Agendar </ion-text>
       </div>
 
       <!-- content -->
@@ -55,13 +54,22 @@
 
       <ion-list>
       <ion-item>
-          <!-- <ion-label>Users</ion-label> -->
+        
           <ion-select [(ngModel)]="time">
             <ion-select-option  *ngFor="let hour of hours; let i = index " [value]="i"> {{ i + 1 + ':00' }} </ion-select-option>
           </ion-select>
         </ion-item>
       </ion-list>
  
+
+      <!-- <ion-item>
+        <ion-label>Seleccione Horarios</ion-label>
+        <ion-datetime  
+          [(ngModel)]="timeSelected" 
+          displayFormat="hh:mm A" 
+          minuteValues="0"
+          done-text="Seleccionar"></ion-datetime>
+      </ion-item> -->
 
       <ion-button  (click)="schedule()" class="reqBtn" 
         color="secondaryTUx"

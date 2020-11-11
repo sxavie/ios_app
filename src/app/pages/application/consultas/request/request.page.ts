@@ -22,7 +22,6 @@ const { Geolocation } = Capacitor.Plugins;
 })
 export class RequestPage implements OnInit, AfterViewInit {
 
-  
   public consult:Consult =  JSON.parse(localStorage.getItem('orderDetail'));
   public AddrList: AddressList[];
   public defMethod;
@@ -32,8 +31,6 @@ export class RequestPage implements OnInit, AfterViewInit {
 
   public isIncomming = true;
   
-  // map varaibles
-  // @ViewChild('mapa') mapElement: ElementRef; 
   public map;
   public myLatLng = {lat:0,lng:0};
 
@@ -51,12 +48,10 @@ export class RequestPage implements OnInit, AfterViewInit {
 
   ngOnInit() {
 
-    if(localStorage.getItem('orderSummary'))
-    { this.isIncomming = true}else{ this.isIncomming = false}
-
-    this.getAddressList();
-
-  }
+    if(localStorage.getItem('orderSummary')){ 
+        this.isIncomming = true}else{ this.isIncomming = false}
+        this.getAddressList();
+      }
   
   async ngAfterViewInit() {
 
@@ -65,24 +60,28 @@ export class RequestPage implements OnInit, AfterViewInit {
   }
 
   getDefaultPayment(){
+    
+    let cash = { brand: 'cash', cardID: 'cash', default_source: 'cash', last4: '' }
 
-      if(this.consult.paymentMethod === 1){
+    if(this.consult.paymentMethod === 2){
 
-        let cash = { brand: 'cash', cardID: 'cash', default_source: 'cash', last4: '' }
-        this.defMethod = cash;
+      this.defMethod = cash;
 
-        console.log( this.defMethod, ' metodo ' )
+      // console.log( this.defMethod, ' metodo ' )
 
-      }else{
+    }else{
 
-        this.payservice.getPayMethods().subscribe( (resp:any) => {
-          this.defMethod = resp.cards[0];
-          console.log( this.defMethod )
-        });
+      this.payservice.getPayMethods().subscribe( (resp:any) => {
+        this.defMethod = resp.cards[0];
+        console.log( this.defMethod )
 
-      }
+        if(this.defMethod === undefined){
+          this.defMethod = cash;
+        }
 
+      });
 
+    }
 
   }
 
@@ -118,7 +117,7 @@ export class RequestPage implements OnInit, AfterViewInit {
   validatePayment(){
 
     if(!this.consult.paymentMethod){
-      this.consult.paymentMethod = 2 
+      this.consult.paymentMethod = 1 
     };
 
   }

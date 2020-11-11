@@ -1,31 +1,42 @@
 
  <!-- (onEventSelected)="onEventSelected($event)" -->
 <div class="calendar">
+
+    
  
     <ion-row>
 
         <ion-col size="2">
             <ion-button fill="clear" (click)="back()">
-                <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
+                <ion-icon style="font-size: 19px;" name="arrow-back" slot="icon-only"></ion-icon>
             </ion-button>
         </ion-col>
 
-        <ion-col size="8" class="ion-text-center">
+        <ion-col size="8" class="ion-text-center viewTitle">
             <h2>{{ viewTilte }}</h2>
         </ion-col>
 
         <ion-col size="2">
             <ion-button fill="clear" (click)="next()">
-                <ion-icon name="arrow-forward" slot="icon-only"></ion-icon>
+                <ion-icon style="font-size: 19px;" name="arrow-forward" slot="icon-only"></ion-icon>
             </ion-button>
         </ion-col>
 
     </ion-row>
-    <calendar [eventSource]="eventSource"
+    <!-- [eventSource]="eventSource" -->
+    <calendar 
+    [dayviewAllDayEventTemplate]="template"
     [calendarMode]="calendar.mode"
     [currentDate]="calendar.currentDate"
     (onTimeSelected)="onTimeSelected($event)"
     (onTitleChanged)="onViewTitleChanged($event)"
-    ></calendar>
+        ></calendar>
+
+
+
+        <ng-template #template let-displayEvent="displayEvent">
+            <div class="calendar-event-inner">{{displayEvent.event.title}}</div>
+        </ng-template>
+
 
 </div>

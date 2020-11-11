@@ -5,6 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { PerfilPageRoutingModule } from './perfil-routing.module';
 import { PerfilPage } from './perfil.page';
 import { ComponentsModule } from 'src/app/components/components.module';
+import { ImagePipe } from 'src/app/pipes/image.pipe';
 
 @NgModule({
   imports: [
@@ -14,6 +15,6 @@ import { ComponentsModule } from 'src/app/components/components.module';
     PerfilPageRoutingModule, 
     ComponentsModule,
   ],
-  declarations: [PerfilPage]
+  declarations: [PerfilPage, ImagePipe]
 })
 export class PerfilPageModule {}

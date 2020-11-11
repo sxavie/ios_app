@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
-
-import { CameraOptions, CameraResultType, Capacitor, Plugins } from '@capacitor/core'
-const { Camera } = Plugins;
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-labs',
@@ -11,28 +8,31 @@ const { Camera } = Plugins;
 })
 export class LabsPage implements OnInit {
 
-  constructor() { }
+  public serviceSelected;
+
+  constructor( private router: Router ) { }
 
   ngOnInit() {
 
-  this.takePic();    
 
   }
 
-  async takePic(){
+  serviceRequest(){
 
-    let CameraOpts: CameraOptions = {
-      quality: 100,
-      allowEditing: true,
-      resultType: CameraResultType.Uri
+
+
+    if (this.serviceSelected){
+      
+        localStorage.setItem('orderLab', this.serviceSelected);
+
+        this.router.navigate(['/app/labs/labschedule']);
+
+
+    }else{
+      console.log( ' No selecciono servicip' )
     }
-
-    const image = await Camera.getPhoto(CameraOpts)
-
-    var imageUrl = image.webPath;
-
-    console.log(  imageUrl )
-
   }
+
+
 
 }

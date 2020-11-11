@@ -10,29 +10,30 @@ export class CalendarComponent implements OnInit {
   
   @Output() timeSelected = new EventEmitter<string>();
 
-  eventSource = [
-    { 
-      title: 'Nutriologo',
-      startTime: new Date(Date.UTC(2020,9,28,17,30,0)),
-      endTime: new Date(Date.UTC(2020,9,28,18,30,0,0)),
-      allDay: false
-    },{ 
-      title: 'CrossFit',
-      startTime: new Date(Date.UTC(2020,9,24,6,30,0)),
-      endTime: new Date(Date.UTC(2020,9,24,7,30,0,0)),
-      allDay: false
-    },{ 
-      title: 'Boda Amix',
-      startTime: new Date(Date.UTC(2020,9,31,0,0,0)),
-      endTime: new Date(Date.UTC(2020,9,31,0,0,0,0)),
-      allDay: false
-    },{ 
-      title: 'Misa',
-      startTime: new Date(Date.UTC(2020,10,1,0,0,0)),
-      endTime: new Date(Date.UTC(2020,10,2,0,0,0,0)),
-      allDay: true
-    }
-];
+//   eventSource = [
+//     { 
+//       title: 'Nutriologo',
+//       startTime: new Date(Date.UTC(2020,9,28,17,30,0)),
+//       endTime: new Date(Date.UTC(2020,9,28,18,30,0,0)),
+//       allDay: false
+//     },{ 
+//       title: 'CrossFit',
+//       startTime: new Date(Date.UTC(2020,9,24,6,30,0)),
+//       endTime: new Date(Date.UTC(2020,9,24,7,30,0,0)),
+//       allDay: false
+//     },{ 
+//       title: 'Boda Amix',
+//       startTime: new Date(Date.UTC(2020,9,31,0,0,0)),
+//       endTime: new Date(Date.UTC(2020,9,31,0,0,0,0)),
+//       allDay: false
+//     },{ 
+//       title: 'Misa',
+//       startTime: new Date(Date.UTC(2020,10,1,0,0,0)),
+//       endTime: new Date(Date.UTC(2020,10,2,0,0,0,0)),
+//       allDay: true
+//     }
+// ];
+
   viewTilte: string;
 
   calendar = {

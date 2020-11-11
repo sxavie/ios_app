@@ -49,6 +49,9 @@ export class ProductsPage implements OnInit, ViewDidEnter, OnDestroy {
  
   }
   ngOnInit() {
+
+    localStorage.removeItem('orderDetail')
+
     this.getMedicine();
   }
   getMedicine(){

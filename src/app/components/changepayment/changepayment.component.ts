@@ -51,23 +51,31 @@ export class ChangepaymentComponent implements OnInit {
       });
 
     })
-  }
+  } 
 
   changeMethod( idCard ){
 
-    if(idCard === '0' ){
-      this.consult.paymentMethod = 1;
-        this.close();
-    }else{   
-      this.consult.paymentMethod = 2;
-      this.payservice.setPayMethod( idCard ).subscribe( resp => {
-        this.close();
-      })
+    if(this.consult){
+
+      if(idCard === '0' ){
+        this.consult.paymentMethod = 2;
+          this.close();
+      }else{   
+        this.consult.paymentMethod = 1;
+        this.payservice.setPayMethod( idCard ).subscribe( resp => {
+          this.close();
+        })
+      } 
+
+      localStorage.setItem('orderDetail', JSON.stringify(this.consult));
+    }else{
+
+      localStorage.setItem('pharmDefPay', idCard)
+      this.close();
+
     }
-
-    localStorage.setItem('orderDetail', JSON.stringify(this.consult));
-
   }
+  
 
   close(){
     this.modalCtrl.dismiss({

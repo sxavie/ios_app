@@ -1,0 +1,95 @@
+
+
+<ion-content id="container" no-scroll padding>
+
+  <div class="main">
+    <div class="navContainer">
+      <ion-item lines="none" 
+          color="transparent">
+        <ion-buttons slot="start">
+          <ion-back-button
+            defaultHref="/app/farmacia"
+            text=""
+            class="navIconBtn">
+          </ion-back-button>
+        </ion-buttons>
+        <div id="logo">
+          <ion-img src="/assets/tidulogowhite_s.png"></ion-img>
+        </div>
+        <ion-buttons slot="end">
+          <ion-button routerLink="/app">
+            <ion-icon 
+              class="navIconBtn"
+              slot="icon-only"
+              name="home-outline" ></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-item>
+    </div> <!-- navContainer -->
+
+    <div id="cardContent">
+
+      <div>
+        <h2> LABORATORIOS </h2>
+      </div>
+
+      <div class="title">
+        <ion-text class="titulo"> Agendar </ion-text>
+      </div>
+          
+      <app-calendar 
+        (timeSelected)="getSelectedTime($event)" >
+      </app-calendar>
+
+      <div class="title">
+        <ion-text class="subtitle"> Horarios Disponibles </ion-text>
+      </div>
+
+      <div class="time" style="padding: 10px 0;">
+
+        <ion-radio-group [(ngModel)]="timeSelected" value="">
+        
+        <ion-row>
+          <ion-col siez="4"> 
+            <ion-text>07:30</ion-text>  
+            <ion-radio mode="md" value="07:30"></ion-radio>
+          </ion-col>
+          
+          <ion-col siez="4"> <ion-text>09:30</ion-text> 
+            <ion-radio mode="md" value="09:30"></ion-radio>
+          </ion-col>
+          <ion-col siez="4"> <ion-text>10:30</ion-text> 
+            <ion-radio mode="md" value="10:30"></ion-radio>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col siez="4"> <ion-text> 13:30 </ion-text>
+          <ion-radio mode="md" value=" 13:30 "></ion-radio>  </ion-col>
+          <ion-col siez="4"> <ion-text> 14:30 </ion-text>
+          <ion-radio mode="md" value=" 14:30 "></ion-radio> </ion-col>
+          <ion-col siez="4"> <ion-text> 18:30 </ion-text>
+          <ion-radio mode="md" value=" 18:30 "></ion-radio> </ion-col>
+        </ion-row>
+
+        </ion-radio-group>
+
+      </div> 
+
+
+      <div class="buttonContainer">
+        <div class="ux_button"
+        (click)="labs_next()">
+          <ion-text > Soguiente </ion-text>
+        </div>
+      </div>
+
+    </div> <!-- cardContent -->
+  
+  </div> <!-- main -->
+
+</ion-content> 
+
+
+
+

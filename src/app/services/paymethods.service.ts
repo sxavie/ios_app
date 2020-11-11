@@ -51,11 +51,11 @@ export class PayMethodsService {
       'authorization': token
     })
 
-    console.log( headers )
+    // console.log( headers )
 
     return this.http.get( url, { headers }  )
     .pipe(tap( resp => {
-      console.log( 'PayMethodsService: getPayMethods() => HTTP GET Response ', resp )
+      // console.log( 'PayMethodsService: getPayMethods() => HTTP GET Response ', resp )
     }))
     .pipe(catchError ( err => {
       return throwError( err );

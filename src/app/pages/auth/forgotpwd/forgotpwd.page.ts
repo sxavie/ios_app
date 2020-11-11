@@ -25,7 +25,7 @@ export class ForgotpwdPage implements OnInit {
 
       this.authservice.passwordResetRequest( this.email )
         .subscribe( resp => {
-          
+          // console.log(resp)
         })
 
 

@@ -7,6 +7,22 @@ const routes: Routes = [
   {
     path: '',
     component: LabsPage
+  },
+  {
+    path: 'labschedule',
+    loadChildren: () => import('./labschedule/labschedule.module').then( m => m.LabschedulePageModule)
+  },
+  {
+    path: 'labscheckout',
+    loadChildren: () => import('./labscheckout/labscheckout.module').then( m => m.LabscheckoutPageModule)
+  },
+  {
+    path: 'labaddresses',
+    loadChildren: () => import('./labaddresses/labaddresses.module').then( m => m.LabaddressesPageModule)
+  },
+  {
+    path: 'labpaymethod',
+    loadChildren: () => import('./labpaymethod/labpaymethod.module').then( m => m.LabpaymethodPageModule)
   }
 ];
 
