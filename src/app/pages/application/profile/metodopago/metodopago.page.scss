@@ -1,17 +1,4 @@
-#container{
-    --background: url('/assets/appbackground.png') 0 0/100% 100% no-repeat ;
-}
-.main {
-    padding: 14px;
-    min-height: 80%;
-    height: 80%;
-}
-.navContainer{
-    padding-top: 1.5rem;
-}
-.navIconBtn{
-    color: white;
-}
+
 #logo{
     width: 50%;
     margin: auto;
@@ -30,7 +17,7 @@
     margin-top: 10px;
     z-index: 1;
 }
-ion-avatar{
+#avatar ion-avatar{
     border:3px solid #00b3bc;
     width: 100%;
     height: 100%;
@@ -38,27 +25,8 @@ ion-avatar{
 #cardContent{
     padding:100px 20px 20px 20px ;
     margin-bottom: 20px;
-    border:1px solid #c2c2c2;
-    background-color: #ffffff;
-    border-radius: 30px;
-    min-height: 95%;
-    height: auto;
     transform: translateY(-75px);
 }
-
-.titulo{ 
-    font-size: 25px;
-    color: #014c68;
-}
-.underline{
-    width: 150px;
-}
-.underline hr{
-    background-color: #00b3bc;
-    border: .5px solid #00b3bc;
-    width: 100%;
-}
-// titulo
 
 
 #cardContent .list{

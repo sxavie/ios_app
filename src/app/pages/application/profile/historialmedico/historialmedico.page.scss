@@ -23,33 +23,10 @@ ion-avatar{
     height: 100%;
 }
 #cardContent{
-    padding:100px 20px 10px 20px ;
+    padding:100px 20px 20px 20px ;
     margin-bottom: 20px;
-    border:1px solid #c2c2c2;
-    background-color: #ffffff;
-    border-radius: 30px;
-    min-height: 95%;
-    height: auto;
     transform: translateY(-75px);
 }
-
-//titulo
-.title{
-    margin-left: 20px;;
-}
-.titulo{ 
-    font-size: 25px;
-    color: #014c68;
-}
-.underline{
-    width: 150px;
-}
-.underline hr{
-    background-color: #00b3bc;
-    border: .5px solid #00b3bc;
-    width: 100%;
-}
-// titulo
 
 #cardContent .list{
     margin-top: 25px;
