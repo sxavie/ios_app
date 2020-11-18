@@ -36,7 +36,8 @@
 
     <div id="avatar">
       <ion-avatar>
-          <img [src]="imgAvatar">
+          <!-- <img [src]="imgAvatar"> -->
+          <img [src]="this.userservice.transformFamilyFilename(orderResp.filename)">
       </ion-avatar>
     </div>
 
@@ -46,22 +47,22 @@
     <div id="cardContent">
       
       <div class="title">
-        <ion-text class="titulo"> Dra. Norma Rodriguez  </ion-text>
-        <img class="rating" src="../../../../../assets/Rating.svg" >
+        <ion-text class="titulo"> {{orderResp.doctor}}  </ion-text>
       </div>
+      <img style="padding-left: 20px;" class="rating" src="../../../../../assets/Rating.svg" >
       
       <div class="order_details">
 
-        <div> # Cedula </div>
+        <div> {{orderResp.medicalLicense}} </div>
         <div> Médico General</div>
         <div>
           <ion-label> Total estimado </ion-label>
-          <ion-label style="float: right;"> $ 500</ion-label>   
+          <ion-label style="float: right;"> $ {{ orderResp.amount}}  </ion-label>   
         </div>
 
         <div class="arriving_time">
           <ion-label> Tu médico está en ruta </ion-label>
-          <ion-label style="float: right; padding-left: 5px;"> 8 min </ion-label>
+          <ion-label style="float: right; padding-left: 5px;"> {{ orderResp.time }} </ion-label>
           <ion-icon style="float: right; margin-top: 1px; color: #00b3bc;" slot="icon-only" name="time-outline"></ion-icon>
         </div>
         

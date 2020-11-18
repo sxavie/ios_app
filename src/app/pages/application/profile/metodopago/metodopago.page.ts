@@ -13,6 +13,7 @@ export class MetodopagoPage implements OnInit {
   public imgAvatar = localStorage.getItem('user-filename');
   // public cards: any[] = [];
   public cards: any;
+  public loading;
 
   constructor(private menuCtrl: MenuController,
     private router: Router,
@@ -21,16 +22,23 @@ export class MetodopagoPage implements OnInit {
 
   ngOnInit() {
 
+
+
     this.getPayCards();
     
   }
 
-  getPayCards(){
+  async getPayCards(){
+
+    this.loading = await this.loaderCtrl.create({
+      spinner: 'lines-small'
+    })
+
+    await this.loading.present();
 
     this.payservice.getPayMethods().toPromise().then( (data:any) => {
-      console.log( 'ToPromise Data ', data )
       this.cards = data.cards;
-      console.log( 'ToPromise Cards ', this.cards )
+      this.loading.dismiss();
     })
     
     // .subscribe( (resp:any) => {

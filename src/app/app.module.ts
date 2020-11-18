@@ -3,15 +3,19 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+
 import { ComponentsModule } from './components/components.module';
+
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-
 import { HttpRequestInterceptor } from './interceptors/http-loading.interceptor';
-
 import { defineCustomElements } from '@ionic/pwa-elements/loader';
+
+//SocketoIO
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+const config: SocketIoConfig = { url: 'https://api.cavimex.vasster.com/', options: {} };
+ 
 
 
 defineCustomElements(window);
@@ -24,7 +28,8 @@ defineCustomElements(window);
     IonicModule.forRoot(), 
     AppRoutingModule,
     ComponentsModule,
-    HttpClientModule    
+    HttpClientModule,
+    SocketIoModule.forRoot(config)    
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

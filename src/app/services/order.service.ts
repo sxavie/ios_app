@@ -40,14 +40,15 @@ export class OrderService {
     return this.http.post( url, orderData, {headers} )
       .pipe(tap( (resp:any) => {
 
-        // console.log( 'OrderService: genNewOrder => HTTP Response ', resp )
-
+        console.log( 'OrderService: genNewOrder => HTTP Response ', resp )
+        
+        console.log('orderDsts',  orderData )
         if(resp.meeting){
           this.alertsservice.nativeToast('Su orden ha sido agendada')
           this.router.navigate(['app/'])
         }else{
           localStorage.setItem('orderSummary', JSON.stringify(resp))
-          this.router.navigate(['app/consultas/incoming'])
+          // this.router.navigate(['app/consultas/incoming'])
         }
         
         localStorage.removeItem('orderDetail')
@@ -55,7 +56,7 @@ export class OrderService {
       }))
       .pipe(catchError( e => {
         this.alertsservice.nativeToast(e.error.message)
-        return throwError( e )
+        return throwError( e.error )
       }));
 
   }

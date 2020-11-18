@@ -41,81 +41,119 @@
 
     <ion-text id="editSpan" 
       color="primaryTUx"
-      (click)="edit()"> edit_save </ion-text>
+      (click)="edit()"> {{edit_save}} </ion-text>
 
     
-    <div id="cardContent">
+      <div id="cardContent">
       
-      <div class="title">
-        <ion-text class="titulo"> Datos Generales </ion-text>
+        <div class="title">
+          <ion-text class="titulo"> Datos Generales </ion-text>
+    
+        </div>
   
+        <!-- <ng-template [ngIf]="userData || async " ></ng-template> -->
+  
+        <ion-list class="list">
+
+          <ion-item lines="none">
+            
+            <ion-avatar slot="start">
+              <img [src]="imgSrc">
+            </ion-avatar>
+            <ion-label> 
+              <h3> {{ name }} </h3>  
+              <p> {{ relationship}}   </p>
+            </ion-label>
+          </ion-item>
+  
+          <!-- Edad -->
+          <ion-item>
+  
+            <ion-text> Edad </ion-text>
+  
+            <div slot="end" class="editDato">
+  
+              <div style="width: 100%;">
+                <ion-text class="disabledText" *ngIf="!isEdit" > {{ edad }} </ion-text>
+                <ion-datetime [(ngModel)]="newBirth" *ngIf="isEdit" displayFormat="YYYY MM DD" [value]="memberData.birthday"></ion-datetime>
+              </div>
+  
+              <div *ngIf="isEdit" class="iconEdit">
+                <ion-icon name="pencil-outline" slot="icon-only"> </ion-icon>
+              </div>
+  
+            </div>
+  
+          </ion-item>
+          
+  
+          <!-- Genero -->
+          <ion-item>
+  
+            <ion-text> Genero </ion-text>
+                 
+            <div slot="end" class="editDato">
+  
+              <div style="width: 100%;">
+                <ion-text *ngIf="isEdit" (click)="genderPick()"> {{ usergender }} </ion-text> 
+                <ion-text  class="disabledText" *ngIf="!isEdit"> {{ usergender }} </ion-text> 
+                <!-- <ion-input (click)="genederPicker()" [(ngModel)]="usergender" [disabled]="true">   </ion-input> -->
+              </div>
+  
+              <div class="iconEdit">
+                <ion-icon *ngIf="isEdit" name="pencil-outline" slot="icon-only"> </ion-icon>
+              </div>
+            </div>
+          </ion-item>
+  
+          <!-- Peso --> 
+          <ion-item >
+            
+            <ion-text> Peso </ion-text>
+            
+            <div slot="end" class="editDato">
+              <div>
+                <ion-input [(ngModel)]="userweight" [disabled]="!isEdit">   </ion-input>
+              </div>
+              <div class="iconEdit">
+                <ion-icon *ngIf="isEdit" name="pencil-outline" slot="icon-only"> </ion-icon>
+              </div>
+            </div>
+          </ion-item>
+  
+          <!-- Altura -->
+          <ion-item >
+           
+            <ion-text> Altura </ion-text>
+       
+            <div slot="end" class="editDato">
+              <div>
+                <ion-input [(ngModel)]="userheight" [disabled]="!isEdit">   </ion-input>
+              </div>
+              <div class="iconEdit">
+                <ion-icon *ngIf="isEdit" name="pencil-outline" slot="icon-only"> </ion-icon>
+              </div>
+            </div>
+          </ion-item>
+  
+          <!-- Tipo de sangre -->
+          <ion-item>
+           
+            <ion-text> Tipo de sangre </ion-text>
+        
+            <div slot="end" class="editDato">
+              <div style="width: 100%;">
+                <ion-text *ngIf="isEdit" (click)="bloodPick()"> {{ userblood }} </ion-text> 
+                <ion-text  class="disabledText" *ngIf="!isEdit"> {{ userblood }} </ion-text> 
+              </div>
+              <div class="iconEdit">
+                <ion-icon *ngIf="isEdit" name="pencil-outline" slot="icon-only"> </ion-icon>
+              </div>
+            </div>
+          </ion-item>
+  
+        </ion-list>
       </div>
-
-      <ion-list class="list">
-
-        <!-- Editar -->
-        <!-- <ion-item>
-          <div class="dataRow">
-
-            <div class="left">
-              <span> dato </span>
-            </div>
-
-            <div *ngIf="!isEdit" class="right">
-              <span> {{nombre}} </span>
-            </div>
-
-            <div *ngIf="isEdit" class="right inputs">
-              <input [(ngModel)]="nombre"> 
-            </div>
-
-          </div>
-        </ion-item> -->
-        <!-- Editar -->
-
-        <ion-item >
-          <div class="dataRow">
-            <span class="left"> Edad </span>
-            <!-- <span *ngIf="userData.birthday" class="right"> edad </span>
-            <span *ngIf="!userData.birthday" class="right"class="right"> --  </span>  -->
-          </div>
-        </ion-item>
-
-        <ion-item >
-          <div class="dataRow">
-            <span class="left"> Genero </span>
-            <span class="right"> userData.gender || '--'  </span>
-          </div>
-        </ion-item>
-
-        <ion-item >
-          <div class="dataRow">
-            <span class="left"> Peso </span>
-            <!-- <span *ngIf="userData.weight" class="right"> Kg &nbsp; </span> -->
-            <span class="right">  userData.weight  || '--'  </span>
-          </div>
-        </ion-item>
-
-        <ion-item >
-          <div class="dataRow">
-            <span class="left"> Altura </span>
-            <!-- <span *ngIf="userData.height" class="right"> m &nbsp; </span> -->
-            <span class="right"> userData.height || '--'  </span>
-          </div>
-        </ion-item>
-
-        <ion-item >
-          <div class="dataRow">
-            <span class="left"> Tipo de sangre </span>
-            <span class="right"> userData.bloodType || '--'   </span>
-          </div>
-        </ion-item>
-
-      </ion-list>
-
-     
-      
-    </div>
     
   </div>
 </ion-content> 

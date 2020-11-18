@@ -48,12 +48,12 @@
       
       <ion-list class="list">
 
-        
+
         <ng-template [ngIf]="familiar || async ">
           <ion-item lines="none">
             
             <ion-avatar slot="start">
-              <img [src]="familiar.filename">
+              <img [src]="imgSrc">
             </ion-avatar>
             <ion-label> 
               <h3> {{ familiar.name }} </h3>  
@@ -62,8 +62,6 @@
           </ion-item>
           
         </ng-template>
-
-        <ion-item lines="none"></ion-item>
 
         <ion-item routerLink="/app/familiares/famdata">
           <span class="iconDatos" >

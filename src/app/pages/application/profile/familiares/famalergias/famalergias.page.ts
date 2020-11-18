@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
+import { AlertsService } from 'src/app/services/alerts.service';
+import { UserserviceService } from 'src/app/services/userservice.service';
 
 @Component({
   selector: 'app-famalergias',
@@ -7,9 +11,141 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FamalergiasPage implements OnInit {
 
-  constructor() { }
+  //User-acc-filename
+  public imgAvatar = localStorage.getItem('user-filename');
+
+  //Member-data
+  public memberData =  JSON.parse(localStorage.getItem('member-view'));
+  public alergias:Array<any> = [];
+  
+  // variables edicion alergias
+  public nuevasAlergias: Array<any> = [];
+  public strAlergia: string = "";
+  public isAdding = false;
+
+  constructor( private alertsservice: AlertsService, 
+    private router: Router,
+    private alertCtrl: AlertController,
+    private userservice: UserserviceService) { }
 
   ngOnInit() {
+    this.alergias = this.memberData.allergies;
+    this.validarAlergias(this.alergias);
+  }
+
+  genAllergiesJSON(){
+
+    let templateUpdateAlergias = `{"allergies":"`
+      
+    if( this.nuevasAlergias.length > 0 ) {
+
+      let alergiasString =  JSON.stringify(this.alergias);
+      alergiasString = alergiasString.replace("[", "");
+      alergiasString = alergiasString.replace("]", "");
+      
+      const comma = '"';
+      const replace = ''
+
+      let result = alergiasString.split(comma).join(replace);
+      templateUpdateAlergias += `${result}"}`;
+      
+      let alergiasToJSON = JSON.parse(templateUpdateAlergias)
+      this.updateAllergies( alergiasToJSON );    
+      this.nuevasAlergias = [];
+      
+    }
+
+    this.adding();
+
+  }
+
+  validarAlergias(allergies){
+    if(allergies.length === 1) {
+      if( allergies[0] === "") this.alergias = [];
+    }
+  }
+
+  adding(){
+    this.isAdding = !this.isAdding 
+  }
+
+  addAllergies(){
+
+    if(this.strAlergia != "") {
+
+      let index = this.alergias.indexOf(this.strAlergia);
+      if (index === -1){
+        this.alergias.push(this.strAlergia);
+        this.nuevasAlergias.push(this.strAlergia);
+      }
+    }
+
+    this.strAlergia = '';
+  }
+
+  removeAllergies(alergia){
+    let index = this.alergias.indexOf(alergia);
+    this.alergias.splice(index, 1);
+    this.nuevasAlergias.push(alergia);
+  }
+
+  backProfile(){
+    if( this.nuevasAlergias.length || this.strAlergia != '' ) {
+      let title = 'Datos sin guardar';
+      let msg = 'Existen datos sin guardar, ¿desea continuar?';
+      this.showAlert( msg, title )
+    } else {
+      this.isAdding = false;
+      this.router.navigate([`/app/familiares/familiar/${this.memberData._id}`])
+    }
+  }
+
+  async showAlert( header, message) {
+    const alert = await this.alertCtrl.create({
+      cssClass: 'custom_alertCss',
+      header,
+      message,
+      buttons: [
+        {
+          text: 'Permanecer',
+          role: 'cancel',
+          cssClass: 'secondary'
+        }, {
+          text: 'Continuar',
+          handler: () => {
+            this.router.navigate([`/app/familiares/familiar/${this.memberData._id}`])
+            this.isAdding = false;
+            this.nuevasAlergias = [];
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  updateAllergies( JSONData ){
+
+    let id = this.memberData._id;
+    console.log('Update alergias', JSONData)
+
+    this.userservice.updateUserDataAllergies( id, JSONData ).subscribe( () => {
+      
+      this.userservice.getUserData().subscribe( () => {
+
+        let familiarList = JSON.parse(localStorage.getItem('UserData'))
+
+        familiarList.family.forEach(member => {
+    
+        if( this.memberData._id === member._id ){
+            this.memberData = member;
+            localStorage.setItem('member-view', JSON.stringify(member))
+          }
+        });
+
+      })
+
+    })
+
   }
 
 }

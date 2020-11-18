@@ -140,6 +140,12 @@ export class AlergiasPage implements OnInit {
     this.strAlergia = '';
   }
 
+  adding(){
+
+    this.isAdding = !this.isAdding 
+
+  }
+
   removeAllergies(alergia){
 
     console.log(this.alergias)
@@ -151,13 +157,11 @@ export class AlergiasPage implements OnInit {
 
   }
 
-  adding(){
-    this.isAdding = !this.isAdding
-  }
-
   updateAllergies( JSONData ){
 
-    this.userservice.updateUserDataAllergies( JSONData ).subscribe( (resp:any) => {
+    let id = this.userData._id;
+
+    this.userservice.updateUserDataAllergies( id, JSONData ).subscribe( (resp:any) => {
       console.log( 'ConsultasPage: updateAllergies() => Susbcribe al PUT del servicio actualizar alergias', resp )
     })
 

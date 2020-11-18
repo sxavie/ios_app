@@ -1,6 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { LoadingController } from '@ionic/angular';
+
+import { Socket } from 'ngx-socket-io';
 import { Consult } from 'src/app/models/consult.model';
 import { AlertsService } from 'src/app/services/alerts.service';
 import { OrderService } from 'src/app/services/order.service';
@@ -18,20 +21,29 @@ export class SelectuserPage implements OnInit {
   public userSelectedID;
 
   public txtType;
+  public loader;
 
   constructor( private alsertsservice: AlertsService,
     private orderservice: OrderService,
+    private socket: Socket,
+    private loadingCtrl: LoadingController,
+    private router: Router
     ) { }
 
   ngOnInit() {
 
-    if(this.consult.meeting) this.txtType = 'Agendar'
-    else this.txtType = 'Solicitar'
+    this.txtType = this.consult.meeting ? 'Agendar' : 'Solicitar'
 
   } 
 
 
-  request(){
+ async request(){
+
+  this.loader = await this.loadingCtrl.create({
+    spinner: 'lines-small'
+  })
+
+  await this.loader.present();
 
     if( !this.userSelectedID ) {
       this.alsertsservice.showAelrt('Debe seleccionar un usuario', 'Usuario')
@@ -45,11 +57,30 @@ export class SelectuserPage implements OnInit {
         this.consult.guest = false
       }
 
+
       localStorage.setItem('orderDetail', JSON.stringify(this.consult))
-      this.orderservice.genNewOrder( this.consult ).subscribe( resp => {
+      this.orderservice.genNewOrder( this.consult ).subscribe( () => {
+        console.log('Escuchar Socket')
+        this.socketListen()
       })
       
     }
+
+  }
+
+  socketListen(){
+
+    this.socket.connect();
+
+    console.log( this.userSelectedID );
+    console.log(  'socket listening')
+
+    this.socket.fromEvent( this.userSelectedID).subscribe( response => {
+      console.log('Doc Response', response);
+      localStorage.setItem('orderSocketResp', JSON.stringify(response))
+      this.router.navigate(['app/consultas/incoming'])
+      this.loader.dismiss();
+    });
 
   }
 

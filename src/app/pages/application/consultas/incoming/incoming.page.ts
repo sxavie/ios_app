@@ -5,6 +5,7 @@ import { ConsultSumm } from 'src/app/models/consultsumm.model';
 
 
 import { Capacitor, Plugins } from '@capacitor/core'
+import { UserserviceService } from 'src/app/services/userservice.service';
 const { Geolocation } = Capacitor.Plugins;
 
 
@@ -16,7 +17,7 @@ const { Geolocation } = Capacitor.Plugins;
 export class IncomingPage implements OnInit, AfterViewInit {
 
   
-  ordSummary: ConsultSumm;
+  orderResp: ConsultSumm;
 
   // uber/map params.
   public map;
@@ -29,13 +30,15 @@ export class IncomingPage implements OnInit, AfterViewInit {
 
   constructor( private router: Router,
     private loadCtrl: LoadingController,
-    private menuCtrl: MenuController ) { }
+    private menuCtrl: MenuController,
+    private userservice: UserserviceService ) { }
+
+    
 
   ngOnInit() {
     
-    this.ordSummary = JSON.parse(localStorage.getItem('orderSummary'))
-    this.destination = { lat: Number(this.ordSummary.address.latitude), lng: Number(this.ordSummary.address.longitude) };
-
+    this.orderResp = JSON.parse(localStorage.getItem('orderSocketResp'))
+    this.destination = { lat: Number(this.orderResp.address.latitude), lng: Number(this.orderResp.address.longitude) };
   }
 
   ngAfterViewInit(){

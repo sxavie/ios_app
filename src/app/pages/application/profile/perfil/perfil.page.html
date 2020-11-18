@@ -98,9 +98,10 @@
       <!-- Testing Area -->
       
     </div>
-
-
-  
-    
   </div>
+
+  <form [formGroup] = "uploadForm" hidden>  
+    <input type="file" name="photo" (change)="onPhotoUploaded($event)"  #fileInput />
+  </form>
+  
 </ion-content> 

@@ -19,18 +19,15 @@ export class LabsPage implements OnInit {
 
   serviceRequest(){
 
-
-
     if (this.serviceSelected){
       
         localStorage.setItem('orderLab', this.serviceSelected);
 
         this.router.navigate(['/app/labs/labschedule']);
-
-
-    }else{
-      console.log( ' No selecciono servicip' )
     }
+    // else{
+    //   console.log( ' No selecciono servicip' )
+    // }
   }
 
 
