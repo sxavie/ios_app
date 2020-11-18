@@ -4,12 +4,12 @@ import { Routes, RouterModule } from '@angular/router';
 import { FarmaciaPage } from './farmacia.page';
 
 const routes: Routes = [
-  // {
-  //   path: '',
-  //   component: FarmaciaPage,
-  // },
   {
     path: '',
+    component: FarmaciaPage,
+  },
+  {
+    path: 'products',
     loadChildren: () => import('./products/products.module').then( m => m.ProductsPageModule)
   },{
     path: 'cart',

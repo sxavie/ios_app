@@ -30,6 +30,7 @@ export class RequestPage implements OnInit, AfterViewInit {
   public isVirtual = false 
 
   public isIncomming = true;
+  public showSwitch = true;
   
   public map;
   public myLatLng = {lat:0,lng:0};
@@ -48,10 +49,22 @@ export class RequestPage implements OnInit, AfterViewInit {
 
   ngOnInit() {
 
+    //Validar isOrder null
     if(localStorage.getItem('orderSummary')){ 
-        this.isIncomming = true}else{ this.isIncomming = false}
-        this.getAddressList();
-      }
+      this.isIncomming = true
+    } else { 
+      this.isIncomming = false
+    }
+
+    if(this.consult.consultReason != 1){
+
+      this.showSwitch = false;
+      this.consult.consultType = 2
+    }
+
+        
+      this.getAddressList();
+  }
   
   async ngAfterViewInit() {
 

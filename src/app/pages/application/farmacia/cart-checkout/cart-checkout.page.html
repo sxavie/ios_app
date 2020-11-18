@@ -42,7 +42,7 @@
 
         <div *ngIf="defaulAddres || async as address">
 
-          <div style="display: flex;" routerLink="/app/farmacia/addresses">
+          <div style="display: flex;">
 
             <div class="main-addresContainer">
               <div style="font-weight: bold;"> {{ address.name }} </div>
@@ -53,14 +53,14 @@
             </div>
 
             <div class="main-iconContainer">
-                <ion-icon name="chevron-forward"></ion-icon>
+                <!-- <ion-icon name="chevron-forward"></ion-icon> -->
             </div>
             
           </div>
       
         </div>
 
-        <div *ngIf="!defaulAddres || async ">
+        <!-- <div *ngIf="!defaulAddres || async ">
 
           <div style="display: flex;" routerLink="/app/farmacia/addresses">
 
@@ -74,7 +74,7 @@
 
           </div>
 
-        </div>
+        </div> -->
       
         <div class="address_divider_"> <hr> </div>
         

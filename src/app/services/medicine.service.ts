@@ -5,6 +5,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { AlertsService } from './alerts.service';
 import { Router } from '@angular/router';
+import { LoadingController } from '@ionic/angular';
 
 const apiUrl = environment.apiUrl
 
@@ -18,7 +19,8 @@ export class MedicineService {
 
   constructor( private http: HttpClient,
     private alertsservice: AlertsService,
-    private router: Router ) { 
+    private router: Router,
+    private loadingCtrl: LoadingController ) { 
   }
 
   get authHeaders(){
@@ -63,20 +65,49 @@ export class MedicineService {
 
   newOrder( data ){
 
+    console.log('data orden',data);
+
+    // const loader = await this.loadingCtrl.create({
+    //   spinner: 'lines-small'
+    // });
+    // loader.present();
+
     // https://api.cavimex.vasster.com/store/order
     const url = `${apiUrl}/store/order`
     const headers = this.authHeaders;
 
     return this.http.post( url, data, { headers } ).
       pipe(map( resp => {
+
+        console.log( resp );
+
         localStorage.removeItem('myCarrito');
         localStorage.setItem('pharm-order', JSON.stringify(resp) );
 
+        // loader.dismiss();
+
         this.router.navigate(['/app/farmacia'])
       })).pipe(catchError( err => {
-        this.alertsservice.nativeToast( err.error.error )
+        // this.alertsservice.nativeToast( err.error.error )
+        // loader.dismiss();
         return throwError( err );
       }))
+  }
+
+  frmAvaliable( lat, lon){
+    
+    // https://api.cavimex.vasster.com/store/available
+    let url = `${apiUrl}/store/available`;
+
+    let body = {
+      params : {
+       'lat' : lat,
+       'lon' : lon
+      } 
+   }
+
+   return this.http.get(url, {params: body.params})
+
   }
 
 }

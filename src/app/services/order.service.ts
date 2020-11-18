@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { tap, map, catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { AlertsService } from './alerts.service';
+import { LoadingController } from '@ionic/angular';
 
 
 const apiUrl = environment.apiUrl;
@@ -15,12 +16,15 @@ const apiUrl = environment.apiUrl;
 })
 export class OrderService {
 
+  public loader;
+
   public token = localStorage.getItem('jwttoken');
   public userid = localStorage.getItem('user-id')
 
   constructor( private http: HttpClient,
     private router: Router,
-    private alertsservice: AlertsService) { }
+    private alertsservice: AlertsService,
+    private loadingCtrl: LoadingController) { }
 
   get authHeaders(){
 
@@ -33,8 +37,9 @@ export class OrderService {
 
   genNewOrder( orderData ){
 
-    let url = `${apiUrl}/order`
+    this.loadPresnte('Generando la orden')
 
+    let url = `${apiUrl}/order`
     let headers = this.authHeaders;
 
     return this.http.post( url, orderData, {headers} )
@@ -50,14 +55,27 @@ export class OrderService {
           localStorage.setItem('orderSummary', JSON.stringify(resp))
           // this.router.navigate(['app/consultas/incoming'])
         }
-        
+        this.loader.dismiss()
         localStorage.removeItem('orderDetail')
 
       }))
       .pipe(catchError( e => {
         this.alertsservice.nativeToast(e.error.message)
+        this.loader.dismiss();
         return throwError( e.error )
       }));
+
+  }
+
+
+  async loadPresnte( msg ){
+
+    this.loader = await this.loadingCtrl.create({
+      spinner: 'lines-small',
+      message: msg
+    })
+  
+    await this.loader.present();
 
   }
 

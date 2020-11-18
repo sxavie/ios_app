@@ -151,7 +151,8 @@ export class CartCheckoutPage implements OnInit, ViewWillEnter {
   }
 
 
-  async buttonCheckout(){
+  buttonCheckout(){
+
     interface OrderItems{
       medicine: string,
       quantity: string,
@@ -164,7 +165,7 @@ export class CartCheckoutPage implements OnInit, ViewWillEnter {
       paymentMethod: string,
     }
 
-    if(!this.defaulAddres){
+    if(this.defaulAddres === null){
       this.alertsservie.nativeToast('No se selecciono una direccion de domicilio')
       return; 
     }
@@ -196,17 +197,14 @@ export class CartCheckoutPage implements OnInit, ViewWillEnter {
 
   
 
-    this.medicineservice.newOrder( newOrden ).subscribe( () => {
+
+    this.medicineservice.newOrder(newOrden).subscribe( () => {
       
       this.shiping = 65;
       this.itemsTotal = 0;
       this.itemsQty = 0;
       this.ordTotal = 0;
     })
-
-
-
-
 
   }
 

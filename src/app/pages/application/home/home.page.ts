@@ -61,6 +61,11 @@ export class HomePage implements OnInit {
           localStorage.setItem('UserData', JSON.stringify(resp) )
           this.userData = resp;
           this.userservice.transformFilename( resp.filename );
+
+          if( resp.isOrder != null ){
+            this.router.navigate(['/app/consultas/incoming'])
+          }
+
           console.log( 'Home: Constructor() => UserData obtenido del userservice.getUserData().subscribe()' )
         })   
       

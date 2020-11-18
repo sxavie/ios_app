@@ -8,6 +8,9 @@ import { Consult } from 'src/app/models/consult.model';
 import { AlertsService } from 'src/app/services/alerts.service';
 import { OrderService } from 'src/app/services/order.service';
 
+import { Plugins } from '@capacitor/core';
+const { Toast } = Plugins;
+
 @Component({
   selector: 'app-selectuser',
   templateUrl: './selectuser.page.html',
@@ -39,11 +42,6 @@ export class SelectuserPage implements OnInit {
 
  async request(){
 
-  this.loader = await this.loadingCtrl.create({
-    spinner: 'lines-small'
-  })
-
-  await this.loader.present();
 
     if( !this.userSelectedID ) {
       this.alsertsservice.showAelrt('Debe seleccionar un usuario', 'Usuario')
@@ -58,11 +56,13 @@ export class SelectuserPage implements OnInit {
       }
 
 
-      localStorage.setItem('orderDetail', JSON.stringify(this.consult))
+      await localStorage.setItem('orderDetail', JSON.stringify(this.consult))
       this.orderservice.genNewOrder( this.consult ).subscribe( () => {
         console.log('Escuchar Socket')
         this.socketListen()
       })
+
+
       
     }
 
@@ -72,15 +72,33 @@ export class SelectuserPage implements OnInit {
 
     this.socket.connect();
 
-    console.log( this.userSelectedID );
-    console.log(  'socket listening')
+    this.loadPresnte('Buscando a tu doctor')
 
     this.socket.fromEvent( this.userSelectedID).subscribe( response => {
       console.log('Doc Response', response);
+      this.loader.dismiss();
       localStorage.setItem('orderSocketResp', JSON.stringify(response))
       this.router.navigate(['app/consultas/incoming'])
-      this.loader.dismiss();
     });
+
+  }
+
+  async tostador(){
+
+    await Toast.show({
+      text: 'T&ostador Plugins'
+    });
+
+  }
+
+  async loadPresnte( msg ){
+
+    this.loader = await this.loadingCtrl.create({
+      spinner: 'lines-small',
+      message: msg
+    })
+  
+    await this.loader.present();
 
   }
 

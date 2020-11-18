@@ -36,7 +36,9 @@ export class AddressService {
     const headers = this.authHeaders;
 
 
-    return this.http.get( url , { headers } ).pipe(catchError( err => { return throwError( err )}));
+    return this.http.get( url , { headers } )
+    .pipe(tap( resp => { resp} ))
+    .pipe(catchError( err => { return throwError( err )}));
 
   }
 

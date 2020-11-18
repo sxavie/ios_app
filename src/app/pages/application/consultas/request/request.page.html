@@ -38,7 +38,7 @@
       <h2> CONSULTAS </h2>
      
       <!-- content -->
-      <div class="switch">
+      <div *ngIf="showSwitch" class="switch">
 
         <span class="switcher switcher-1">
           <input type="checkbox" id="switcher-1" [(ngModel)]="isVirtual"> 

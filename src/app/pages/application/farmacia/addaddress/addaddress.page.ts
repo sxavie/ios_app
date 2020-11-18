@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NavController } from '@ionic/angular';
+import { LoadingController, NavController } from '@ionic/angular';
 import { AddressService } from 'src/app/services/address.service';
 
 @Component({
@@ -11,6 +11,7 @@ import { AddressService } from 'src/app/services/address.service';
 })
 export class AddaddressPage implements OnInit {
 
+  public from = localStorage.getItem('addaddss');
   public formAddressData = this.fb.group({
       name: '' ,
       street: '',
@@ -28,11 +29,13 @@ export class AddaddressPage implements OnInit {
 
   public home;
   public autocomplete;
+  public loader;
 
   constructor( private fb: FormBuilder,
     private addressservice: AddressService,
     private router: Router,
-    private navCtrl: NavController) { }
+    private navCtrl: NavController,
+    private loadingCtrl: LoadingController) { }
 
   ngOnInit() {
 
@@ -127,32 +130,51 @@ export class AddaddressPage implements OnInit {
   }
 
   onAddAddress( ){
+
+    this.loaderPresent();
     
     let id = localStorage.getItem('user-id')
     this.formAddressData.patchValue({clientId : id});
    
-    // this.addressservice.addAddress(  this.formAddressData.value )
-    //   .subscribe( () =>{
+    this.addressservice.addAddress(  this.formAddressData.value )
+      .subscribe( (newAddress:any) =>{
 
-    //     this.formAddressData.value.name='';
-    //     this.formAddressData.value.street='';
-    //     this.formAddressData.value.number='';
-    //     this.formAddressData.value.neighborhood='';
-    //     this.formAddressData.value.state='';
-    //     this.formAddressData.value.city='';
-    //     this.formAddressData.value.country='';
-    //     this.formAddressData.value.zipcode='';
-    //     this.formAddressData.value.references='';
-    //     this.formAddressData.value.latitude='';
-    //     this.formAddressData.value.longitude='';
-    //     this.formAddressData.value.clientId='';
+        this.formAddressData.patchValue({name:''})
+        this.formAddressData.patchValue({street:''})
+        this.formAddressData.patchValue({number:''})
+        this.formAddressData.patchValue({neighborhood:''})
+        this.formAddressData.patchValue({state:''})
+        this.formAddressData.patchValue({city:''})
+        this.formAddressData.patchValue({country:''})
+        this.formAddressData.patchValue({zipcode:''})
+        this.formAddressData.patchValue({references:''})
+        this.formAddressData.patchValue({latitude:''})
+        this.formAddressData.patchValue({longitude:''})
+        this.formAddressData.patchValue({clientId:''})
+        localStorage.setItem('def-address', newAddress._id)
 
-        this.navCtrl.back();             
+
+        setTimeout(() => {
+          
+          this.router.navigate([this.from]);
+          localStorage.removeItem('addaddss');
+
+          this.loader.dismiss();
+            
+        }, 3000);
         
-    //   })
-  
+      })
+  }
 
+  async loaderPresent(){
+
+    this.loader = await this.loadingCtrl.create({
+      spinner: 'lines-small',
+      message: 'Espere un momento'
+    })
+    await this.loader.present();
 
   }
+
 
 }
