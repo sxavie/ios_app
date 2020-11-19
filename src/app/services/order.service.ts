@@ -68,6 +68,18 @@ export class OrderService {
   }
 
 
+  scheduled( id ){
+    // https://api.cavimex.vasster.com/order/5f85d2c85be5532208edbc58/meeting
+
+    let url = `${apiUrl}/order/${id}/meeting`
+    let headers = this.authHeaders
+
+    return this.http.get(url, {headers})
+      .pipe(catchError( err => 
+        {return throwError( err )}
+      ))
+  }
+
   async loadPresnte( msg ){
 
     this.loader = await this.loadingCtrl.create({

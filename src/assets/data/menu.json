@@ -12,29 +12,4 @@
     "icon": "settings-outline",
     "redirectTo": "/app/resacas"
   }
-  ,{
-    "title": "Google Maps Native",
-    "icon": "map-outline",
-    "redirectTo": "/view-test"
-  }
-  ,{
-    "title": "MapBox",
-    "icon": "navigate-outline",
-    "redirectTo": "/mapbox"
-  }
-  ,{
-    "title": "Camara",
-    "icon": "camera-outline",
-    "redirectTo": "/app/labs"
-  }
-  ,{
-    "title": "Video Llamada",
-    "icon": "videocam-outline",
-    "redirectTo": "/app/farmacia/purchasechat"
-  }
-  ,{
-    "title": "Video Call",
-    "icon": "videocam-off-outline",
-    "redirectTo": "/app/farmacia/purchasetrack"
-  }
 ] 

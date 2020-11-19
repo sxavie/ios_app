@@ -31,6 +31,14 @@ const routes: Routes = [
   {
     path: 'summary',
     loadChildren: () => import('./summary/summary.module').then( m => m.SummaryPageModule)
+  },
+  {
+    path: 'agenda',
+    loadChildren: () => import('./agenda/agenda.module').then( m => m.AgendaPageModule)
+  },
+  {
+    path: 'agenda-modal',
+    loadChildren: () => import('./agenda-modal/agenda-modal.module').then( m => m.AgendaModalPageModule)
   }
 ];
 

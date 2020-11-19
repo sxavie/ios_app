@@ -77,9 +77,18 @@
     padding: 25px
 }
 .changePay-modal{
-    --height: 80%;
-    --border-radius: 10px;
-    padding: 25px
+    --height: 60%;
+    --border-radius: 35px;
+    padding: 10px 45px 0px;
+}
+.agendaModal-modal{
+    --height: 60%;
+    --border-radius: 35px;
+    padding: 10px 34px;
+}
+
+.agendaModal-modal .modal-wrapper{
+    --background: rgba($color: rgb(0, 0, 0), $alpha: 0.4) !important;
 }
 
 //Action Sheets

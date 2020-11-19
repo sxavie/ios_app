@@ -29,9 +29,15 @@ export class ConsultasPage implements OnInit {
 
 
   reqNewOrder(  reason ){
-    let consult:Consult = new Consult(parseInt(reason))
-    localStorage.setItem('orderDetail', JSON.stringify(consult))
-    this.router.navigate(['/app/consultas/request'])
+
+    console.log(reason)
+    if( reason === '6'){
+      this.router.navigate(['/app/consultas/agenda'])
+    }else{
+      let consult:Consult = new Consult(parseInt(reason))
+      localStorage.setItem('orderDetail', JSON.stringify(consult))
+      this.router.navigate(['/app/consultas/request'])
+    }
   }
 
   async alertOrderInPorgress() {

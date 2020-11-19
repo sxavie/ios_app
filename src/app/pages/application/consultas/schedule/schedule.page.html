@@ -50,26 +50,27 @@
         (timeSelected)="getSelectedTime($event)" >
       </app-calendar>
 
-      <ion-text class="title_2"> Horarios Disponibles </ion-text>
+      <ion-item class="timePick">
+        <ion-label class="title_2">Horarios</ion-label>
+        <ion-datetime
+          [placeholder]="timeNow"  
+          [(ngModel)]="timeSelected" 
+          displayFormat="HH:mm A" 
+          done-text="Seleccionar"></ion-datetime>
+      </ion-item>
+
+      <!-- <ion-text > Horarios Disponibles </ion-text>
 
       <ion-list>
-      <ion-item>
-        
+        <ion-item>
           <ion-select [(ngModel)]="time">
             <ion-select-option  *ngFor="let hour of hours; let i = index " [value]="i"> {{ i + 1 + ':00' }} </ion-select-option>
           </ion-select>
         </ion-item>
-      </ion-list>
+      </ion-list> -->
  
 
-      <!-- <ion-item>
-        <ion-label>Seleccione Horarios</ion-label>
-        <ion-datetime  
-          [(ngModel)]="timeSelected" 
-          displayFormat="hh:mm A" 
-          minuteValues="0"
-          done-text="Seleccionar"></ion-datetime>
-      </ion-item> -->
+      
 
       <ion-button  (click)="schedule()" class="reqBtn" 
         color="secondaryTUx"
