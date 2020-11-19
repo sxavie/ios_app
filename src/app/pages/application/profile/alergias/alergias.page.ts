@@ -148,11 +148,8 @@ export class AlergiasPage implements OnInit {
 
   removeAllergies(alergia){
 
-    console.log(this.alergias)
-    console.log(alergia,' ====> ', this.alergias.indexOf(alergia));
     let index = this.alergias.indexOf(alergia);
     this.alergias.splice(index, 1);
-    console.log( 'index: ', index, ' removed: ',this.alergias )
     this.nuevasAlergias.push(alergia);
 
   }

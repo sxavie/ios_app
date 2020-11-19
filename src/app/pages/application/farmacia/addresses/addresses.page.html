@@ -5,13 +5,14 @@
       <ion-item lines="none" 
           color="transparent">
         <ion-buttons slot="start">
-          <ion-button
-          routerLink="/app/farmacia/cart-checkout">
-            <ion-icon 
+          <ion-back-button
+          defaultHref="/app/"
+          text=""
               class="navIconBtn"
-              slot="icon-only"
-              name="chevron-back-outline" ></ion-icon>
-          </ion-button>
+   
+            >
+          </ion-back-button>
+
         </ion-buttons>
         <div id="logo">
           <ion-img src="/assets/tidulogowhite_s.png"></ion-img>
@@ -29,9 +30,10 @@
 
     <div id="cardContent">
 
-      <div>
+      <!-- <div>
         <h2> ENVIO </h2>
-      </div>
+      </div> -->
+      <h4>  </h4>
 
       <div class="title">
         <ion-text class="titulo"> Mis domicilios </ion-text>
@@ -41,25 +43,58 @@
         <ion-text class="listSubTitle"> DIRECCION DE ENVIO </ion-text> 
         
         <ion-radio-group [(ngModel)]="selectedIDAddress" (ionChange)="changeAddress()"> 
+          <div *ngFor="let address of myAddresses || async ">
+            <ion-item-sliding (ionDrag)="dragingRemove($event, address)" >
 
-          <ion-item *ngFor="let address of myAddresses || async ">
-          <ion-radio mode="md" [value]="address._id"> </ion-radio>
-          <div style="display: flex;">
+                <ion-item>
 
-            <div class="main-addresContainer">
-              <div> {{address.street}}. No {{address.number}} </div>
-              <div> Col. {{address.neighborhood}}, </div>
-              <div> {{address.city}}, {{address.state}}, {{address.country}} </div>
-              <div> CP. {{address.zipcode}} </div>
-            </div>
-
-            <div class="main-iconContainer">
-                <ion-icon name="pencil-outline"> </ion-icon>
-                <ion-text> Editar </ion-text>
-            </div>
-
+                  <ion-radio slot="start" mode="md" [value]="address._id"></ion-radio>  
+                  
+                  <div class="main-addresContainer">
+                    <div> {{ address.street }}. No {{ address.number }} </div>
+                    <div> Col. {{ address.neighborhood}}, </div>
+                    <div> {{ address.City }}, {{address.state }}, {{address.country}} </div>
+                    <div> CP. {{address.zipcode }} </div>
+                  </div>
+                  
+                </ion-item>
+        
+              <ion-item-options side="end">
+                <ion-item-option color="danger" expandable (ionSwipe)="slidingDraging(address)">
+                  <ion-icon slot="icon-only" name="trash" (click)="deleteAddress(address)"></ion-icon>
+                </ion-item-option>
+              </ion-item-options>
+              
+            </ion-item-sliding>
           </div>
-        </ion-item>
+
+          <!-- <ion-item *ngFor="let address of myAddresses || async "> -->
+
+          <!-- <ion-item-sliding>
+            <ion-radio mode="md" [value]="address._id"> </ion-radio>
+
+            <div style="display: flex;">
+
+              <div class="main-addresContainer">
+                <div> {{address.street}}. No {{address.number}} </div>
+                <div> Col. {{address.neighborhood}}, </div>
+                <div> {{address.city}}, {{address.state}}, {{address.country}} </div>
+                <div> CP. {{address.zipcode}} </div>
+              </div>
+            </div>
+
+            <ion-item-options side="end">
+              <ion-item-option (click)="unread(item)">Unread</ion-item-option>
+            </ion-item-options>
+
+          </ion-item-sliding> -->
+
+          <!-- <div class="main-iconContainer">
+            <ion-icon name="trash-outline"> </ion-icon>
+            <ion-text (click)="deleteAddress(address)"> Eliminar </ion-text>
+        </div> -->
+
+        <!-- </ion-item> -->
 
       </ion-radio-group>
 
@@ -68,7 +103,7 @@
       <hr class="containerDivider">
 
       <ion-icon class="addAddress-ico" name="add"></ion-icon>
-      <ion-text class="addAddress-txt" routerLink="/app/farmacia/addaddress"> Agregar domicilio </ion-text>
+      <ion-text class="addAddress-txt" (click)="addAddress()"> Agregar domicilio </ion-text>
 
     </div> <!-- cardContent -->
      

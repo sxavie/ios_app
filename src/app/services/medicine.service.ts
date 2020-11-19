@@ -79,16 +79,15 @@ export class MedicineService {
     return this.http.post( url, data, { headers } ).
       pipe(map( resp => {
 
-        console.log( resp );
 
         localStorage.removeItem('myCarrito');
         localStorage.setItem('pharm-order', JSON.stringify(resp) );
 
-        // loader.dismiss();
-
-        this.router.navigate(['/app/farmacia'])
+        this.alertsservice.nativeToast( 'Se genero el pedido de farmacia exitosamente' )
+        
+        this.router.navigate(['/app/farmacia/products'])
       })).pipe(catchError( err => {
-        // this.alertsservice.nativeToast( err.error.error )
+        this.alertsservice.nativeToast( err.error.error )
         // loader.dismiss();
         return throwError( err );
       }))

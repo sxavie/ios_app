@@ -136,8 +136,11 @@ export class AddaddressPage implements OnInit {
     let id = localStorage.getItem('user-id')
     this.formAddressData.patchValue({clientId : id});
    
+
     this.addressservice.addAddress(  this.formAddressData.value )
       .subscribe( (newAddress:any) =>{
+
+        
 
         this.formAddressData.patchValue({name:''})
         this.formAddressData.patchValue({street:''})
@@ -151,17 +154,19 @@ export class AddaddressPage implements OnInit {
         this.formAddressData.patchValue({latitude:''})
         this.formAddressData.patchValue({longitude:''})
         this.formAddressData.patchValue({clientId:''})
-        localStorage.setItem('def-address', newAddress._id)
+
+        localStorage.setItem('def-address', newAddress.data._id)
+
+        var input:any = document.getElementById('autoCompleteField');
+        input.value = '';
 
 
         setTimeout(() => {
-          
-          this.router.navigate([this.from]);
           localStorage.removeItem('addaddss');
-
+          this.router.navigate([this.from]);
           this.loader.dismiss();
             
-        }, 3000);
+        }, 1500);
         
       })
   }

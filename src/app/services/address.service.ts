@@ -55,6 +55,16 @@ export class AddressService {
 
   }
 
+  removeAddress( address ){
+
+    // https://api.cavimex.vasster.com/address/5fb5cc37c70a992d4643b378
+    let url = `${apiUrl}/address/${address._id}`
+    let headers = this.authHeaders;
+
+    return this.http.delete( url, {headers }).pipe(catchError( err => {return throwError( err )}));
+
+  }
+
 
 
 }

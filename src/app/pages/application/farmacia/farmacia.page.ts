@@ -18,7 +18,7 @@ export class FarmaciaPage implements OnInit {
   public addresess:any = [];
   public addresValidation;
   public noAddresses = false;
-  public defid_ ='';
+  public defid_;
 
   constructor( private loadingCtrl: LoadingController,
     private medicineservice: MedicineService,
@@ -29,34 +29,28 @@ export class FarmaciaPage implements OnInit {
 
   async ngOnInit() {
     
+
     this.addresess =  await this.addressservice.getAddress().toPromise()
-    // redirecciona a direcciones
+
+    this.getColumns(this.addresess)
 
     if( this.addresess.length === 0) {
       this.noAddresses = true;
       this.showSkeleton = false;
-      // this.router.navigate(['/app'])
       return;
     }
 
+    this.addresValidation = this.addresess[0];
     this.defid_ = localStorage.getItem('def-address')
-    if( this.defid_ != '' ){
-      
-      console.log(' yes def address')
+
+    if( this.defid_ != null || this.defid_ === undefined ){
       this.addresess.forEach(x => {
-        
         if(x._id === this.defid_){
           this.addresValidation = x;
-          console.log( 'this is te def', this.addresValidation)
         }
       });
-    }else{
-      console.log(' no def address ')
-      this.addresValidation = this.addresess[0];
     }
-
-    this.getColumns(this.addresess)
-
+      
     await this.avaliableService(this.addresValidation);
   
   }
@@ -99,8 +93,6 @@ export class FarmaciaPage implements OnInit {
                 this.avaliableService(addr)
               }
             });
-            
-
             }
           }
         }
@@ -116,8 +108,7 @@ export class FarmaciaPage implements OnInit {
 
   addAddress(){
     localStorage.setItem('addaddss', '/app/farmacia');
-    // this.router.navigate(['/app/farmacia/addaddress'])
-    this.navCtrl.navigateBack(['/app/farmacia/addaddress'])
+    this.router.navigate(['/app/farmacia/addaddress'])
   }
 
  getColumns(columnOptions) {
