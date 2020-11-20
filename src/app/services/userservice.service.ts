@@ -231,13 +231,13 @@ export class UserserviceService {
         }))
     }
 
-    updateUserPhoto( id, photo ){
+    updateUserPhoto( id, form ){
 
       // https://api.cavimex.vasster.com/user/photo/5f91caa9ed5b402c0370f227
       let url = `${apiUrl}/user/photo/${id}`;
       let headers = this.authHeaders;
 
-      return this.http.put( url, photo, {headers} )
+      return this.http.put( url, form, {headers} )
         .pipe(catchError( err  => { return throwError(err)}));
 
     }

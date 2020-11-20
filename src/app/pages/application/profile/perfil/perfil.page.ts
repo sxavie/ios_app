@@ -1,11 +1,11 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { ActionSheetController, MenuController } from '@ionic/angular';
+import { ActionSheetController, LoadingController, MenuController } from '@ionic/angular';
 import { Usuario } from 'src/app/models/usuario.model';
 import { UserserviceService } from 'src/app/services/userservice.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
-import { Capacitor, CameraResultType, CameraSource, FilesystemDirectory } from '@capacitor/core'
+import { Capacitor, CameraResultType, CameraSource } from '@capacitor/core'
 const { Camera, Filesystem } = Capacitor.Plugins;
 
 
@@ -17,24 +17,19 @@ const { Camera, Filesystem } = Capacitor.Plugins;
 })
 export class PerfilPage implements OnInit {
   
-  @ViewChild('fileInput') fileInput:ElementRef;
-  
-  public uploadForm: FormGroup;  
-  public photo;
-
-  //Menu app propieties
-  hostMenuId = 'hostMenuProfile'
-  nameMenuId = 'profileHome'
 
   public userID = localStorage.getItem('user-id');
   public imgAvatar = localStorage.getItem('user-filename');
   public userData : Usuario[] = JSON.parse(localStorage.getItem('UserData')) || '';
 
+  public loading;
+
   constructor( private menuCtrl: MenuController,
     private router: Router,
     private userservice: UserserviceService,
     private actionSheetController: ActionSheetController,
-    private formBuilder: FormBuilder) {
+    private formBuilder: FormBuilder,
+    private loadingCtrl: LoadingController) {
 
       if( localStorage.getItem('UserData') ) {
         this.userData =  JSON.parse( localStorage.getItem('UserData') )
@@ -51,32 +46,17 @@ export class PerfilPage implements OnInit {
 
     }
 
-    ngOnInit() {
-      this.uploadForm = this.formBuilder.group({
-        image: ['']
-      });
+    async ngOnInit() {
+      
+      this.loading = await this.loadingCtrl.create({
+        spinner: 'lines-small',
+        message: 'Actualizando'
+      })
+
     }
-
-
-
-
-
-  photoEdit(){
-    console.log( 'editign photo' )
-  }
-
-    toggleMenu(){
-      this.menuCtrl.toggle('tdxMenu');
-    }
-
-    goHome(){
-      this.router.navigate(['/app/home'])
-    }
-
 
     async presentActionSheet() {
       const actionSheet = await this.actionSheetController.create({
-        // header: 'Albums',
         cssClass: 'actionSheet-custom',
         buttons: [{
           text: 'Camara',
@@ -88,7 +68,7 @@ export class PerfilPage implements OnInit {
           text: 'Galeria',
           icon: 'image-outline',
           handler: () => {
-            this.getPhoto( CameraSource.Photos );
+            this.getPhoto( 'gallery' );
           }
         }, {
           text: 'Cancelar',
@@ -101,42 +81,61 @@ export class PerfilPage implements OnInit {
 
     }
 
-    
     async getPhoto( source ){
 
       let photo = await Camera.getPhoto({
         quality:100,
-        resultType: CameraResultType.Uri,
+        resultType: CameraResultType.DataUrl,
         saveToGallery: true,
-        source: source,
+        source: source
       })
+
       var file = await photo;
 
-      await this.onPhotoUploaded(file);
-
-      // if(source === 'gallery'){
-
-      //   let event = new MouseEvent('click', {bubbles: false})
-      //   this.fileInput.nativeElement.dispatchEvent(event);
-      // }
+      this.updatePhoto(file)
     }
 
-    async onPhotoUploaded(file){
+    async updatePhoto(file){
 
-      
-      this.uploadForm.get('image').setValue(file)
+      await this.loading.present();
 
-      const frmData = new FormData();
-      frmData.append('file', this.uploadForm.get('image').value)
+      const blob = this.b64toBlob(file, 'image/jpg');
 
-      console.log( frmData );
+      let frmData = new FormData();
+      frmData.append('image', blob)
 
-      this.userservice.updateUserPhoto( this.userID, frmData).subscribe( resp => {
-        console.log( resp )
+      this.userservice.updateUserPhoto( this.userID, frmData).subscribe( () => {
+        this.userservice.getUserData().subscribe( resp => {
+          this.imgAvatar = this.userservice.transformFilename( resp.filename );
+          this.loading.dismiss()
+        })
       })
-
     }
 
+    private b64toArrayBff( file ){
+      const bytesString = atob(file.dataUrl.split(',')[1]);
+      const ab = new ArrayBuffer(bytesString.length);
+      const ia = new Uint8Array(ab);
 
+      for ( let i = 0; i < bytesString.length; i++ ) {
+        ia[i] = bytesString.charCodeAt(i);
+      }
+      
+      return ia;
+    }
+
+    private b64toBlob( file, mimetype ){
+      return new Blob([this.b64toArrayBff(file)], {
+        type: mimetype
+      })
+    }
+
+    toggleMenu(){
+      this.menuCtrl.toggle('tdxMenu');
+    }
+
+    goHome(){
+      this.router.navigate(['/app/home'])
+    }
 
 } 
