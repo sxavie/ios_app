@@ -49,12 +49,12 @@ export class RequestPage implements OnInit, AfterViewInit {
 
   ngOnInit() {
 
-    //Validar isOrder null
-    if(localStorage.getItem('orderSummary')){ 
-      this.isIncomming = true
-    } else { 
-      this.isIncomming = false
-    }
+    // //Validar isOrder null
+    // if(localStorage.getItem('orderSummary')){ 
+    //   this.isIncomming = true
+    // } else { 
+    //   this.isIncomming = false
+    // }
 
     if(this.consult.consultReason != 1){
 
@@ -77,11 +77,7 @@ export class RequestPage implements OnInit, AfterViewInit {
     let cash = { brand: 'cash', cardID: 'cash', default_source: 'cash', last4: '' }
 
     if(this.consult.paymentMethod === 2){
-
       this.defMethod = cash;
-
-      // console.log( this.defMethod, ' metodo ' )
-
     }else{
 
       this.payservice.getPayMethods().subscribe( (resp:any) => {

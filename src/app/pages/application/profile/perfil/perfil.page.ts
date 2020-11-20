@@ -53,7 +53,7 @@ export class PerfilPage implements OnInit {
 
     ngOnInit() {
       this.uploadForm = this.formBuilder.group({
-        photo: ['']
+        image: ['']
       });
     }
 
@@ -88,7 +88,7 @@ export class PerfilPage implements OnInit {
           text: 'Galeria',
           icon: 'image-outline',
           handler: () => {
-            this.getPhoto( 'gallery' );
+            this.getPhoto( CameraSource.Photos );
           }
         }, {
           text: 'Cancelar',
@@ -103,37 +103,33 @@ export class PerfilPage implements OnInit {
 
     
     async getPhoto( source ){
-      // let photo = await Camera.getPhoto({
-      //   quality:100,
-      //   resultType: CameraResultType.DataUrl,
-      //   saveToGallery: true,
-      //   source: CameraSource.Camera,
-      // })
-      // var base = photo.base64String;
-      // Can be set to the src of an image now
-      // console.log( 'image ',imageUrl )
 
+      let photo = await Camera.getPhoto({
+        quality:100,
+        resultType: CameraResultType.Uri,
+        saveToGallery: true,
+        source: source,
+      })
+      var file = await photo;
 
+      await this.onPhotoUploaded(file);
 
-      if(source === 'gallery'){
+      // if(source === 'gallery'){
 
-        let event = new MouseEvent('click', {bubbles: false})
-        this.fileInput.nativeElement.dispatchEvent(event);
-
-        
-
-      }
+      //   let event = new MouseEvent('click', {bubbles: false})
+      //   this.fileInput.nativeElement.dispatchEvent(event);
+      // }
     }
 
-    async onPhotoUploaded(v){
-      // this.photo = v.target.files
-      console.log( v.target.files[0] )
+    async onPhotoUploaded(file){
 
-      let file = v.target.files[0] 
-      this.uploadForm.get('photo').setValue(file)
+      
+      this.uploadForm.get('image').setValue(file)
 
       const frmData = new FormData();
-      frmData.append('file', this.uploadForm.get('photo').value)
+      frmData.append('file', this.uploadForm.get('image').value)
+
+      console.log( frmData );
 
       this.userservice.updateUserPhoto( this.userID, frmData).subscribe( resp => {
         console.log( resp )
