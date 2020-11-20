@@ -68,7 +68,7 @@ export class PerfilPage implements OnInit {
           text: 'Galeria',
           icon: 'image-outline',
           handler: () => {
-            this.getPhoto( 'gallery' );
+            this.getPhoto( CameraSource.Photos );
           }
         }, {
           text: 'Cancelar',

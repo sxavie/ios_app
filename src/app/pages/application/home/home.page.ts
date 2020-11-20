@@ -25,6 +25,10 @@ export class HomePage implements OnInit {
   public coordinates$: Observable<GeolocationPosition>;
   public defaulPosition: { latitude: 25.681473, longitude: 100.355192 };
 
+  public map;
+  public myLatLng;
+  public loading;
+
   userData: any;
   public imgAvatar;
 
@@ -41,21 +45,23 @@ export class HomePage implements OnInit {
       
   ngOnInit(){
 
-    this.displayLoader().then((loader: any) => {
-        // get the position
-        return this.getCurrentPosition().then(position => {
-            //close the loader = return the position
-            loader.dismiss();
-            // console.log( position.coords.latitude )
-            return position;
-        })
-          // if error
-          .catch( err => {
-            // close lader + return Null
-            loader.dismiss();
-            return null
-          });
-      });
+    this.displayLoader()
+
+    this.initMap()
+
+    // this.displayLoader().then((loader: any) => {
+    //     // get the position
+    //     return this.getCurrentPosition().then(position => {
+    //         //close the loader = return the position
+    //         loader.dismiss();
+    //         // console.log( position.coords.latitude )
+    //         return position;
+    //     })
+    //       .catch( err => {
+    //         loader.dismiss();
+    //         return null
+    //       });
+    //   });
 
         this.userservice.getUserData().subscribe( async(resp:any) => {
           localStorage.setItem('UserData', JSON.stringify(resp) )
@@ -107,12 +113,14 @@ export class HomePage implements OnInit {
 
 
   async displayLoader(){
-    const loading = await this.loadingCtrl.create({
-      spinner: 'lines',
+
+    this.loading = await this.loadingCtrl.create({
+      spinner: 'lines-small',
       translucent: true
     });
-    await loading.present();
-    return this.loadingCtrl;
+
+    await this.loading.present();
+    // return this.loadingCtrl;
   }
 
   private async presentAlert( message: string): Promise<HTMLIonAlertElement>{
@@ -127,32 +135,69 @@ export class HomePage implements OnInit {
     return alert;
   }
   
-  private async getCurrentPosition(): Promise<any> {
-    const isAvaliable: boolean = Capacitor.isPluginAvailable('Geolocation');
+  // private async getCurrentPosition(): Promise<any> {
+  //   const isAvaliable: boolean = Capacitor.isPluginAvailable('Geolocation');
 
-    if(!isAvaliable){
-      console.log( 'Err: plugin is no avaliable' );
-      return of( new Error('Err, Plugin not avaliable') )
-    }
+  //   if(!isAvaliable){
+  //     console.log( 'Err: plugin is no avaliable' );
+  //     return of( new Error('Err, Plugin not avaliable') )
+  //   }
 
-    const POSITION = Plugins.Geolocation.getCurrentPosition()
-    //hanlde capacitor
-    .catch(err =>{
-      console.log('Err:', err);
-      return new Error(err.message || 'customized meeesage');
-    });
+  //   const POSITION = Plugins.Geolocation.getCurrentPosition()
+  //   //hanlde capacitor
+  //   .catch(err =>{
+  //     console.log('Err:', err);
+  //     return new Error(err.message || 'customized meeesage');
+  //   });
 
-    this.coordinates$ = fromPromise(POSITION).pipe(
-      switchMap((data: any) => of(data.coords)),
-      tap(data => console.log(data))
-    );
+  //   this.coordinates$ = fromPromise(POSITION).pipe(
+  //     switchMap((data: any) => of(data.coords)),
+  //     tap(data => console.log(data))
+  //   );
 
-    return POSITION;
+  //   return POSITION; 
     
-  }
+  // }
 
   ngOnDestroy(){
     localStorage.removeItem('User-Data')
+  }
+
+  async initMap(){
+
+    let pos = await this.getPosition() 
+
+    const mapHtml = document.getElementById('mapa');
+
+    let mapOpts = {
+      zoom:16, 
+      center:pos,
+      mapTypeControl: false,
+      scaleControl: true,
+      streetViewControl: false,
+      fullscreenControl: false,
+      zoomControl: false
+    };
+
+    this.map = new google.maps.Map( mapHtml, mapOpts )
+
+    this.loading.dismiss();
+  }
+
+  async getPosition() {
+
+      try {
+        const position = await Plugins.Geolocation.getCurrentPosition();
+        return this.myLatLng = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        }
+      } catch (err) {
+        console.log( 'getCurrentPosition() => ', err )
+        // if(err.code === 1){ this.alertsservice.nativeToast('Usuario denego ubicación')};
+        // if(err.code === 2){ this.alertsservice.nativeToast('Ubocación no disponible')};
+      }
+
   }
   
 }

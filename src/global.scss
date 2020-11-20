@@ -27,10 +27,13 @@
 
 
 // Base
-#container{
-    --background: url('/assets/appbackground.png') 0 0/100% 100% no-repeat ;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;}
-.main {
+#container {
+    --background: rgba(222,243,245,1) linear-gradient(180deg, var(--ion-color-secondary) 35%, rgba(222,243,245,1) 35%, rgba(222,243,245,1) 100%);
+    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana,
+        sans-serif;
+}
+
+    .main {
     padding: 14px;
     min-height: 80%;
     height: 80%;}
@@ -77,9 +80,9 @@
     padding: 25px
 }
 .changePay-modal{
-    --height: 60%;
+    --height: 85%;
     --border-radius: 35px;
-    padding: 10px 45px 0px;
+    padding: 10px 35px 0px;
 }
 .agendaModal-modal{
     --height: 60%;
