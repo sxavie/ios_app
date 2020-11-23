@@ -24,19 +24,23 @@ export class VerifyaccountPage implements OnInit {
 
     let email = localStorage.getItem('email-verify')
     console.log( 'VerifyaccountPage: verifyAccount() => Susbcribe al servicio de verifycar cuenta' )
-    
+    console.log(email)
     this.authservice.verifyAcccount(email, this.pin).subscribe( (resp:any) => {
+
+      console.log( resp )
+
       if (resp.message === 'Usuario no encontrado.'){
         this.alertsservice.nativeToast( resp.message );
       }else {
         this.alertsservice.nativeToast( resp.message );
         this.router.navigate(['/login'])
       }
+
     })
   
   }
 
-  pinValidation( ) {
+  pinValidation() {
 
     if( this.pin.length < 4 ) {
       this.pinIsValid = false
@@ -48,6 +52,11 @@ export class VerifyaccountPage implements OnInit {
 
   codeResend(){
     console.log( 'VerifyaccountPage: codeResend() => click reenvio de codigo' )
+
+    let email = localStorage.getItem('email-verify')
+    console.log(email)
+
+    this.authservice.verifyResendCode( email).subscribe( resp => console.log(resp))
   }
 
 

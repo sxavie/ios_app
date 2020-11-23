@@ -6,10 +6,11 @@ import { LoadingController, ModalController } from '@ionic/angular';
 
 import { PayMethodsService } from 'src/app/services/paymethods.service';
 import { UserserviceService } from 'src/app/services/userservice.service';
-import { AddressList } from 'src/app/interfaces/interfaces';
+import { AddressList, PayMethod } from 'src/app/interfaces/interfaces';
 import { Consult } from 'src/app/models/consult.model';
 import { ChangepaymentComponent } from 'src/app/components/changepayment/changepayment.component';
 import { AlertsService } from 'src/app/services/alerts.service';
+import { Usuario } from 'src/app/models/usuario.model';
 
 declare var google;
 
@@ -24,7 +25,6 @@ export class RequestPage implements OnInit, AfterViewInit {
 
   public consult:Consult =  JSON.parse(localStorage.getItem('orderDetail'));
   public AddrList: AddressList[];
-  public defMethod;
   
   public selAddress;
   public isVirtual = false 
@@ -77,16 +77,13 @@ export class RequestPage implements OnInit, AfterViewInit {
     let cash = { brand: 'cash', cardID: 'cash', default_source: 'cash', last4: '' }
 
     if(this.consult.paymentMethod === 2){
-      this.defMethod = cash;
+      this.userservice.defaultMethod = cash;
     }else{
 
-      this.payservice.getPayMethods().subscribe( (resp:any) => {
-        this.defMethod = resp.cards[0];
-        console.log( this.defMethod )
-
-        if(this.defMethod === undefined){
-          this.defMethod = cash;
-        }
+      this.payservice.getPayMethods().subscribe( (pay:any) => {
+        
+        this.userservice.defaultMethod = (pay.cards[0]) ? pay.cards[0] :cash 
+        console.log( this.userservice.defaultMethod )
 
       });
 

@@ -13,7 +13,7 @@ import { AgregarfamiliarPage } from '../agregarfamiliar/agregarfamiliar.page';
 export class FamiliaresPage implements OnInit {
 
   public imgAvatar = localStorage.getItem('user-filename');
-  public userData : Usuario[] = [];
+  public userData : Usuario;
 
   constructor(
     private router: Router,
@@ -22,9 +22,11 @@ export class FamiliaresPage implements OnInit {
     private popoverCtrl: PopoverController) { }
 
   ngOnInit() {
-
-    this.getData();
+    this.userData = this.userservice.usuario
   }
+
+
+
 
   async addMemberModal(ev: any){    
     console.log('FamiliaresPage addMemberModal() ==> Ejecutando el modal ')
@@ -37,42 +39,20 @@ export class FamiliaresPage implements OnInit {
     }); 
     
     modal.onWillDismiss().then(() => {
-      this.getData();
+      this.userData = this.userservice.usuario
     });
 
     return await modal.present();
 
+  }
 
-    // const popover = await this.popoverCtrl.create({
-    //   component: AgregarfamiliarPage,
-    //   cssClass: 'popover_class',
-    //   event: ev,
-    //   translucent: true,
-    //   animated: true
-    // });
-    // return await popover.present();
-
+  goFamiliar( id ){
+    this.router.navigate([`/app/familiares/familiar/${id}`]);
   }
 
   goHome(){
     this.router.navigate(['/app/home'])
   }
 
-  getData(){
-    if( localStorage.getItem('UserData') ) {
-      this.userData =  JSON.parse( localStorage.getItem('UserData') )
-      console.log( 'Perfil: Constructor() => UserData obtenido del localStorage JSON.parse()' )
-    }else{ 
-      this.userservice.getUserData().subscribe( async(resp:any) => {
-        localStorage.setItem('UserData', JSON.stringify(resp) )
-        this.userData = resp;
-        console.log( 'Perfil: Constructor() => UserData obtenido del userservice.getUserData().subscribe()' )
-      })   
-    }
-  }
-
-  goFamiliar( id ){
-    this.router.navigate([`/app/familiares/familiar/${id}`]);
-  }
 
 }

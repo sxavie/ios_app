@@ -24,7 +24,7 @@ export class Usuario {
         public verificationCode?: boolean, 
         public active?: boolean,
         public firebaseToken?: string, 
-        public isOrder?: boolean,
+        public isOrder?: string,
         public skills?: [],
         public allergies?: [], 
         public diseases?: [], 

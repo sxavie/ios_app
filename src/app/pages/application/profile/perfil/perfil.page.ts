@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { ActionSheetController, LoadingController, MenuController } from '@ionic/angular';
 import { Usuario } from 'src/app/models/usuario.model';
 import { UserserviceService } from 'src/app/services/userservice.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { Capacitor, CameraResultType, CameraSource } from '@capacitor/core'
 const { Camera, Filesystem } = Capacitor.Plugins;
@@ -19,8 +18,8 @@ export class PerfilPage implements OnInit {
   
 
   public userID = localStorage.getItem('user-id');
-  public imgAvatar = localStorage.getItem('user-filename');
-  public userData : Usuario[] = JSON.parse(localStorage.getItem('UserData')) || '';
+  public imgAvatar:string;
+  public userData: Usuario;
 
   public loading;
 
@@ -28,21 +27,10 @@ export class PerfilPage implements OnInit {
     private router: Router,
     private userservice: UserserviceService,
     private actionSheetController: ActionSheetController,
-    private formBuilder: FormBuilder,
     private loadingCtrl: LoadingController) {
 
-      if( localStorage.getItem('UserData') ) {
-        this.userData =  JSON.parse( localStorage.getItem('UserData') )
-        console.log( 'Perfil: Constructor() => UserData obtenido del localStorage JSON.parse()' )
-      }else{
-        this.userservice.getUserData().subscribe( async(resp:any) => {
-          localStorage.setItem('UserData', JSON.stringify(resp) )
-          this.userData = resp;
-          console.log( 'Perfil: Constructor() => UserData obtenido del userservice.getUserData().subscribe()' )
-        })
-      }
-
-    this.imgAvatar = localStorage.getItem('user-filename');
+      this.userData = this.userservice.usuario;
+      this.imgAvatar = this.userData.imageUrl;
 
     }
 
@@ -52,32 +40,6 @@ export class PerfilPage implements OnInit {
         spinner: 'lines-small',
         message: 'Actualizando'
       })
-
-    }
-
-    async presentActionSheet() {
-      const actionSheet = await this.actionSheetController.create({
-        cssClass: 'actionSheet-custom',
-        buttons: [{
-          text: 'Camara',
-          icon: 'camera-outline',
-          handler: () => {
-            this.getPhoto( CameraSource.Camera );
-          }
-        },{
-          text: 'Galeria',
-          icon: 'image-outline',
-          handler: () => {
-            this.getPhoto( CameraSource.Photos );
-          }
-        }, {
-          text: 'Cancelar',
-          icon: 'close',
-          role: 'cancel'
-        }]
-      });
-
-      await actionSheet.present();
 
     }
 
@@ -107,6 +69,7 @@ export class PerfilPage implements OnInit {
       this.userservice.updateUserPhoto( this.userID, frmData).subscribe( () => {
         this.userservice.getUserData().subscribe( resp => {
           this.imgAvatar = this.userservice.transformFilename( resp.filename );
+          this.userservice.imgUpdated.emit(this.imgAvatar)
           this.loading.dismiss()
         })
       })
@@ -128,6 +91,32 @@ export class PerfilPage implements OnInit {
       return new Blob([this.b64toArrayBff(file)], {
         type: mimetype
       })
+    }
+
+    async presentActionSheet() {
+      const actionSheet = await this.actionSheetController.create({
+        cssClass: 'actionSheet-custom',
+        buttons: [{
+          text: 'Camara',
+          icon: 'camera-outline',
+          handler: () => {
+            this.getPhoto( CameraSource.Camera );
+          }
+        },{
+          text: 'Galeria',
+          icon: 'image-outline',
+          handler: () => {
+            this.getPhoto( CameraSource.Photos );
+          }
+        }, {
+          text: 'Cancelar',
+          icon: 'close',
+          role: 'cancel'
+        }]
+      });
+
+      await actionSheet.present();
+
     }
 
     toggleMenu(){

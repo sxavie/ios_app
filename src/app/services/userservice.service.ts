@@ -1,30 +1,36 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 
 import { tap, map, catchError } from 'rxjs/operators'
 import { JwtHelperService } from '@auth0/angular-jwt'
 
-import { Diseases, LoginForm, RegisterForm, UpdateForm } from '../interfaces/interfaces';
+import { Diseases, LoginForm, PayMethod, RegisterForm, UpdateForm } from '../interfaces/interfaces';
 import { Usuario } from '../models/usuario.model';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, of, Subject, throwError } from 'rxjs';
 import { AlertsService } from './alerts.service';
 
 // variables
 const apiUrl = environment.apiUrl;
 const helper = new JwtHelperService;
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class UserserviceService {
   
+
   public token = localStorage.getItem('jwttoken');
   public userid = localStorage.getItem('user-id')
   
-  // No guardamos nada en el modelo usuario
+  public userFoto = '../../assets/userNoImg.png';
   public usuario: Usuario;
+
+  //variables variables
+  public imgUpdated : EventEmitter<string> = new EventEmitter<string>();
+  public defaultMethod: PayMethod = { brand: 'cash', cardID: 'cash', default_source: 'cash', last4: '' }
   
   constructor(
     private http: HttpClient,
@@ -47,9 +53,11 @@ export class UserserviceService {
       localStorage.removeItem('user-filename')
       if( u === null || u === undefined ){
         imgPath = 'https://cdns.iconmonstr.com/wp-content/assets/preview/2018/240/iconmonstr-user-circle-thin.png';
+        this.userFoto = imgPath
       }else{
         let splitImgFormat = u.split('.');
         imgPath = `${apiUrl}/images/users/${splitImgFormat[0]}`
+        this.userFoto = imgPath
       }
       localStorage.setItem('user-filename', imgPath)
 
@@ -70,7 +78,6 @@ export class UserserviceService {
     decodeToken( token ) {
 
       const u = helper.decodeToken( token )
-      // console.log( 'UserserviceService: decodeToken() => token en decodificado, u.id: ', u.id )
 
       this.transformFilename(u.filename)
 
@@ -78,9 +85,8 @@ export class UserserviceService {
       localStorage.setItem('user-email', u.email)
       localStorage.setItem('user-id', u.id)
 
-      // console.log( 'UserserviceService: decodeToken() => data de Usuario guardado en el LocalStorage' )
       this.router.navigate(['/app'])
-      // console.log( 'UserserviceService: decodeToken() => RouterLink /app' )
+      
     }
 
     getUserData(): Observable<Usuario>{
@@ -103,8 +109,8 @@ export class UserserviceService {
       return this.http.get<Usuario>(  url ,{ headers } )
         .pipe(tap( (x:any) => {
 
-          localStorage.removeItem('UserData');
-          localStorage.setItem('UserData', JSON.stringify(x));
+          // localStorage.removeItem('UserData');
+          // localStorage.setItem('UserData', JSON.stringify(x));
  
 
           this.transformFilename(x.filename)
@@ -123,6 +129,9 @@ export class UserserviceService {
             height, weight, paymentID, terms, verified, verificationCode, active, firebaseToken,
             isOrder, skills, allergies, diseases, family);
 
+
+            console.log( 'user Model ' ,this.usuario)
+
           // console.log( 'UserserviceService: getUserData() => Data capturada en el modelo de Usuario ' )     
           // console.log( 'UserserviceService: getUserData() => usuario: ', this.usuario )
 
@@ -132,19 +141,14 @@ export class UserserviceService {
          }));
 
     }
-    //pendiente
     updateUserData( id, body ){
 
       let url = `${ apiUrl }/users/${ id }`
-
       let headers = this.authHeaders;
 
-
       return this.http.put( url , body, { headers })
-        .pipe(tap( (resp:any) => {
-          // console.log( 'UserserviceService: updateUserData() => Subscription to update (HTTP PUT) request', resp  )
-          // console.log('obteniendo la user Data;')
-          // Funcion para guardar en el LOCAL la data actualizada
+        .pipe(tap( () => {
+
         }))
           .pipe(catchError ( err => {
             return throwError( err )
@@ -209,8 +213,9 @@ export class UserserviceService {
 
       return this.http.post( url, data, {headers} )
         .pipe(map(resp => {
-          // console.log( 'UserService: addMember() => HTTP POST Response ', resp )
-          localStorage.removeItem('UserData');
+          
+          this.getUserData();
+
         }))
         .pipe(catchError( err => {
           return throwError( err );

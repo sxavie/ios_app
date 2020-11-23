@@ -36,7 +36,7 @@
 
     <div id="avatar">
       <ion-avatar>
-          <img [src]="imgAvatar">
+          <img [src]="userservice.usuario.imageUrl">
       </ion-avatar>
 
       <div class="edit" (click)="presentActionSheet()">
@@ -44,8 +44,7 @@
       </div>
 
     </div>
-
-    
+   
     <div id="cardContent">
       
       <div class="title">

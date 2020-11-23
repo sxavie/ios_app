@@ -21,22 +21,26 @@ export class MenuComponent implements OnInit, ViewWillEnter {
   @Input('menuHostId') menuHostId: string;
   @Input('menuNameId') menuNameId: string;
 
-  public imgAvatar = localStorage.getItem('user-filename');
+  public imgAvatar = localStorage.getItem('user-filename');;
   public userName = localStorage.getItem('user-name');
   
   menuOpts: Observable<Menu[]>;
 
   constructor(  private menuData: MenuDataService,
-      private authservice: AuthService) { 
+      private authservice: AuthService,
+      public userservice: UserserviceService) { 
       }
   ionViewWillEnter() {
-    console.log('getting username and userfilename')
-    this.imgAvatar = localStorage.getItem('user-filename');
-    this.userName = localStorage.getItem('user-name')
+
+    
   }
-      
+  
   ngOnInit() {
     this.menuOpts = this.menuData.getMenuOpts();
+    this.userservice.imgUpdated.subscribe( img => {
+      console.log(img);
+      this.imgAvatar = img;
+    })
   }
 
   logOut(){

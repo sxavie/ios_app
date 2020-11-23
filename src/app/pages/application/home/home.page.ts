@@ -10,6 +10,7 @@ import { Observable, of, from as fromPromise } from 'rxjs';
 import { tap, map, switchMap } from 'rxjs/operators';
 import { Consult } from 'src/app/models/consult.model';
 import { AlertsService } from 'src/app/services/alerts.service';
+import { Usuario } from 'src/app/models/usuario.model';
 
 const { Geolocation } = Capacitor.Plugins;
 
@@ -29,8 +30,8 @@ export class HomePage implements OnInit {
   public myLatLng;
   public loading;
 
-  userData: any;
-  public imgAvatar;
+  public userData: Usuario;
+
 
   constructor(  private menuCtrl: MenuController,
     public router: Router,
@@ -40,40 +41,24 @@ export class HomePage implements OnInit {
     public alertCtrl: AlertController,
     public alertsservice: AlertsService
     ) { 
-      localStorage.removeItem('UserData')
+
     }
       
   ngOnInit(){
 
-    this.displayLoader()
+    console.log( 'user en home ',this.userservice.usuario )
+    
+      this.userservice.getUserData().subscribe( async(resp:any) => {
 
-    this.initMap()
+        this.userData = resp;
+        this.userservice.transformFilename( resp.filename );
 
-    // this.displayLoader().then((loader: any) => {
-    //     // get the position
-    //     return this.getCurrentPosition().then(position => {
-    //         //close the loader = return the position
-    //         loader.dismiss();
-    //         // console.log( position.coords.latitude )
-    //         return position;
-    //     })
-    //       .catch( err => {
-    //         loader.dismiss();
-    //         return null
-    //       });
-    //   });
+        if( resp.isOrder != null ){
+          this.router.navigate(['/app/consultas/incoming'])
+        }
 
-        this.userservice.getUserData().subscribe( async(resp:any) => {
-          localStorage.setItem('UserData', JSON.stringify(resp) )
-          this.userData = resp;
-          this.userservice.transformFilename( resp.filename );
-
-          if( resp.isOrder != null ){
-            this.router.navigate(['/app/consultas/incoming'])
-          }
-
-          console.log( 'Home: Constructor() => UserData obtenido del userservice.getUserData().subscribe()' )
-        })   
+        console.log( 'Home: Constructor() => UserData obtenido del userservice.getUserData().subscribe()' )
+      })   
       
   }
 

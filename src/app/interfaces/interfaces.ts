@@ -82,3 +82,10 @@ export interface ItemCart {
     fileName: string
   }
 
+export interface PayMethod {
+    brand: string, 
+    cardID: string, 
+    default_source: string, 
+    last4: string
+}
+

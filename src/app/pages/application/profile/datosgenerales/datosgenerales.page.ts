@@ -13,16 +13,15 @@ import { UserserviceService } from 'src/app/services/userservice.service';
 })
 export class DatosgeneralesPage implements OnInit {
 
-
-  public imgAvatar:string;
-  public userData : Usuario = JSON.parse(localStorage.getItem('UserData')) || '';
+  public imgAvatar: string;
+  public userData : Usuario ;
   
-  public username:string;
-  public usergender:string;
-  public userheight:string;
-  public userweight:string;
-  public userAge:number;
-  public userblood:string;
+  public username: string;
+  public usergender: string;
+  public userheight: string;
+  public userweight: string;
+  public userAge: number;
+  public userblood: string;
 
   public edad:any;
 
@@ -40,42 +39,71 @@ export class DatosgeneralesPage implements OnInit {
 
   ngOnInit( ) {
 
-    this.imgAvatar = localStorage.getItem('user-filename');
-  
-    if( localStorage.getItem('UserData') ) {
-      console.log( 'LolcaStorage Data' )
-      this.userData =  JSON.parse( localStorage.getItem('UserData') )
-      this.username = this.userData.name;
-      this.usergender = this.userData.gender;
-      this.userblood = this.userData.bloodType;
-      this.userweight = this.transformweight(this.userData.weight)
-      this.userheight = this.transformheight(this.userData.height)
+    this.setVariables();
 
-      if(this.userData.birthday === null ){
-        this.edad = '0 años';
-      }else{
-        this.userAge = this.calcularEdad(this.userData.birthday)
-        this.edad = this.userAge+' años';
-      }
-    }else{ 
-      console.log( 'UserService Data' );
-      this.userservice.getUserData().subscribe( (resp:any) => {
-        localStorage.setItem('UserData', JSON.stringify(resp) )
-        this.userData = resp;
-        this.username  = this.userData.name;
-        this.usergender = this.userData.gender;
-        this.userblood = this.userData.bloodType;
-        this.userweight = this.transformweight(this.userData.weight)
-        this.userheight = this.transformheight(this.userData.height)
-        console.log( this.userData.birthday )
-        if( this.userData.birthday === null ){
-          this.edad = '0 años';
-        }else{
-          this.userAge = this.calcularEdad(this.userData.birthday)
-          this.edad = this.userAge+' años';
-        }
-      })   
+  }
+
+  setVariables(){
+
+    this.userData = this.userservice.usuario;
+    this.imgAvatar = this.userData.imageUrl;
+
+    this.username = this.userData.name;
+    this.usergender =  (!this.userData.gender) ? 'Seleccionar' : this.userData.gender;
+    this.userblood = (!this.userData.bloodType) ? 'Seleccionar': this.userData.bloodType;
+    this.userweight = this.transformweight(this.userData.weight)
+    this.userheight = this.transformheight(this.userData.height)
+
+    if(this.userData.birthday === null ){
+      this.edad = '0 años';
+    }else{
+      this.userAge = this.calcularEdad(this.userData.birthday)
+      this.edad = this.userAge+' años';
     }
+
+  }
+
+  async edit(){ 
+
+    if( !this.isEdit ){
+      this.edit_save = 'Guardar'
+
+      this.userheight = this.userData.height
+      this.userweight = this.userData.weight
+      this.newBirth = this.userData.birthday === null ? new Date : this.userData.birthday
+
+    }else{
+
+      let loader = await this.loadingCtrl.create({
+        spinner: 'lines-small',
+        message: 'Actualizando la informacion'
+      });
+
+      await loader.present();
+
+      let body = { 
+        birthday: this.newBirth,
+        gender: this.usergender,
+        height: this.userheight,
+        weight: this.userweight,
+        bloodType: this.userblood,
+       }
+
+       this.userservice.updateUserData( this.userData._id, body ).subscribe( resp => { 
+
+        // Subsrive getUserData() para actualizar variable userservice.usuario;
+          this.userservice.getUserData().subscribe( () => {
+            loader.dismiss();
+            this.alertsservice.nativeToast('Se actualizo la informacion del usuario')
+            this.setVariables();
+          })
+
+        })
+        
+      this.edit_save = "Editar"
+    }
+
+    this.isEdit = !this.isEdit
   }
 
   calcularEdad(fecha = this.userData.birthday ) {
@@ -148,52 +176,6 @@ export class DatosgeneralesPage implements OnInit {
     });
 
     await bloodPick.present();
-  }
-
-  async edit(){ 
-
-    if( !this.isEdit ){
-      this.edit_save = 'Guardar'
-
-      this.userheight = this.userData.height
-      this.userweight = this.userData.weight
-      this.newBirth = this.userData.birthday === null ? new Date : this.userData.birthday
-
-    }else{
-
-  
-      let loader = await this.loadingCtrl.create({
-        spinner: 'lines-small'
-      });
-
-      await loader.present();
-
-
-      let body = { 
-        birthday: this.newBirth,
-        gender: this.usergender,
-        height: this.userheight,
-        weight: this.userweight,
-        bloodType: this.userblood,
-       }
-
-       this.userservice.updateUserData( this.userData._id, body ).subscribe( resp => { 
-
-          this.edad = this.calcularEdad(this.newBirth)
-          this.edad = this.edad + ' años'
-          this.userheight = this.transformheight(this.userheight)
-          this.userweight = this.transformweight(this.userweight)
-
-          loader.dismiss();
-
-          this.alertsservice.nativeToast('Se actualizo la informacion del usuario')
-
-        })
-        
-      this.edit_save = "Editar"
-    }
-
-    this.isEdit = !this.isEdit
   }
 
   goHome(){

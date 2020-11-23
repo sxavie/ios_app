@@ -47,13 +47,26 @@ export class AuthService {
     console.log( 'UserService: verifyAcccount() => HTTP Post para verificar cuenta'  ) 
     const body = {  }   
     return this.http.post(`${ apiUrl }/users/verifyAccount`, { email,pin } )
-      .pipe(map( (resp: any) =>{
+      .pipe(tap( (resp: any) =>{
         console.log( 'UserService: verifyAcccount() => HTTP Post Cuenta Vrificada ', resp  )
       }))
       .pipe(catchError(err => {
         return throwError(err);
       }))
   
+  }
+
+  verifyResendCode( email ){
+
+    // https://api.cavimex.vasster.com/users/resendcode?verify=true
+
+    let url = `${apiUrl}/users/resendcode?verify=true`;
+    
+
+    return this.http.post( url, {email})
+      .pipe(map( (res) => console.log( res )));
+
+
   }
 
   login( formData: LoginForm ) {
@@ -126,6 +139,8 @@ export class AuthService {
 
   logout() {
     localStorage.clear()
+
+    this.userservice.usuario = null;
     this.router.navigate(['/'])
     console.log( 'UserserviceService: logout() => LocalStorage clean' )
   }

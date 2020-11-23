@@ -71,19 +71,19 @@
         <ion-text> Agendar </ion-text>
       </ion-item>
 
-        <ion-item class="slotCard" *ngIf="defMethod || async "
-          [ngClass]="{'default' : defMethod.default_source }">
+        <ion-item class="slotCard" 
+          [ngClass]="{'default' : userservice.defaultMethod.default_source }">
           
           <span 
             class="iconBrand" 
             [ngClass]="{
-              'Visa': defMethod.brand === 'Visa', 
-              'MasterCard': defMethod.brand === 'MasterCard',
-              'cash': defMethod.brand === 'cash'
+              'Visa': userservice.defaultMethod.brand === 'Visa', 
+              'MasterCard': userservice.defaultMethod.brand === 'MasterCard',
+              'cash': userservice.defaultMethod.brand === 'cash'
             }"> </span>
 
-          <div class="cardNumber" *ngIf="defMethod.last4"> <span> **** **** **** {{ defMethod.last4}} </span> </div>
-          <div class="cardNumber" *ngIf="!defMethod.last4" > <span> Efectivo </span> </div>
+          <div class="cardNumber" *ngIf="userservice.defaultMethod.last4"> <span> **** **** **** {{ userservice.defaultMethod.last4}} </span> </div>
+          <div class="cardNumber" *ngIf="!userservice.defaultMethod.last4" > <span> Efectivo </span> </div>
           
           <span class="iconRight" slot="end" (click)="changeMethod()"> CAMBIAR </span>
 

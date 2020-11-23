@@ -13,8 +13,7 @@ import { ImagePipe } from 'src/app/pipes/image.pipe';
     FormsModule,
     IonicModule,
     PerfilPageRoutingModule, 
-    ComponentsModule,
-    ReactiveFormsModule
+    ComponentsModule
   ],
   declarations: [PerfilPage, ImagePipe]
 })
