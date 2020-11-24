@@ -21,7 +21,7 @@ export class PerfilPage implements OnInit {
   public imgAvatar:string;
   public userData: Usuario;
 
-  public loading;
+  public loading; 
 
   constructor( private menuCtrl: MenuController,
     private router: Router,

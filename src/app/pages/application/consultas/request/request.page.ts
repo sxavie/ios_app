@@ -11,6 +11,7 @@ import { Consult } from 'src/app/models/consult.model';
 import { ChangepaymentComponent } from 'src/app/components/changepayment/changepayment.component';
 import { AlertsService } from 'src/app/services/alerts.service';
 import { Usuario } from 'src/app/models/usuario.model';
+import { OrderService } from 'src/app/services/order.service';
 
 declare var google;
 
@@ -21,9 +22,8 @@ const { Geolocation } = Capacitor.Plugins;
   templateUrl: './request.page.html',
   styleUrls: ['./request.page.scss'],
 })
-export class RequestPage implements OnInit, AfterViewInit {
+export class RequestPage implements OnInit {
 
-  public consult:Consult =  JSON.parse(localStorage.getItem('orderDetail'));
   public AddrList: AddressList[];
   
   public selAddress;
@@ -37,64 +37,34 @@ export class RequestPage implements OnInit, AfterViewInit {
 
   constructor( private loadingCtrl: LoadingController,
     private router: Router,
-    private payservice: PayMethodsService,
+    private orderservice: OrderService,
     private userservice: UserserviceService,
     private alertsservice: AlertsService,
     private modalCtrl: ModalController,
     private loadCtrl:LoadingController ) {
-
-      this.getDefaultPayment();
       
   }
 
+ 
+
   ngOnInit() {
 
-    // //Validar isOrder null
-    // if(localStorage.getItem('orderSummary')){ 
-    //   this.isIncomming = true
-    // } else { 
-    //   this.isIncomming = false
-    // }
+    // consultType = Vierual/Presecial
+    // 2 Presencial
+    // 1 Virtual
 
-    if(this.consult.consultReason != 1){
-
+    if(this.orderservice.newConsultData.consultReason != 1){
       this.showSwitch = false;
-      this.consult.consultType = 2
+      this.orderservice.newConsultData.consultType = 2
     }
-
-        
-      this.getAddressList();
-  }
-  
-  async ngAfterViewInit() {
-
-    this.initMap(this.myLatLng, 1, 'current');
-  
-  }
-
-  getDefaultPayment(){
     
-    let cash = { brand: 'cash', cardID: 'cash', default_source: 'cash', last4: '' }
-
-    if(this.consult.paymentMethod === 2){
-      this.userservice.defaultMethod = cash;
-    }else{
-
-      this.payservice.getPayMethods().subscribe( (pay:any) => {
-        
-        this.userservice.defaultMethod = (pay.cards[0]) ? pay.cards[0] :cash 
-        console.log( this.userservice.defaultMethod )
-
-      });
-
-    }
-
+    this.getAddressList();
   }
 
   getAddressList(){
-
     this.userservice.getAddressList().subscribe( (resp:any) => {
       this.AddrList = resp;
+      this.initMap(this.myLatLng, 1, 'current');
     });
 
   }
@@ -120,35 +90,19 @@ export class RequestPage implements OnInit, AfterViewInit {
 
   }
 
-  validatePayment(){
-
-    if(!this.consult.paymentMethod){
-      this.consult.paymentMethod = 1 
-    };
-
-  }
-
   reqOrderNow( meeting : boolean){
 
-    this.consult.meeting = meeting
+    this.orderservice.newConsultData.paymentMethod = (this.userservice.defaultMethod.cardID === 'cash') ? 2 : 1
+    this.orderservice.newConsultData.consultType = (this.isVirtual) ? 1 : 2
+    this.orderservice.newConsultData.meeting = meeting
+    this.orderservice.newConsultData.lat = this.myLatLng.lat
+    this.orderservice.newConsultData.lon = this.myLatLng.lng
+    let navigation = (meeting) ? 'app/consultas/schedule' : 'app/consultas/motivos'
 
-    if( this.isVirtual ) { this.consult.consultType = 1
-    }else{ this.consult.consultType = 2} 
-
-    this.consult.lat = this.myLatLng.lat
-    this.consult.lon = this.myLatLng.lng
-
-    this.validatePayment()
-
-    localStorage.setItem('orderDetail',  JSON.stringify(this.consult));
-
-    if(meeting){
-      this.router.navigate(['app/consultas/schedule'])
-    }else{
-      this.router.navigate(['app/consultas/motivos'])
-    };
-
+    this.router.navigate([navigation])
+    
   }
+
 
   async changeMethod(){
 
@@ -158,8 +112,8 @@ export class RequestPage implements OnInit, AfterViewInit {
       backdropDismiss: false
     });
     modal.onWillDismiss().then(() => {
-      this.consult = JSON.parse(localStorage.getItem('orderDetail'))
-      this.getDefaultPayment();
+      this.orderservice.newConsultData.paymentMethod = (this.userservice.defaultMethod.cardID === 'cash') ? 2 : 1
+
     });
     return await modal.present();
 

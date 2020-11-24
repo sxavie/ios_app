@@ -38,7 +38,6 @@ export class MenuComponent implements OnInit, ViewWillEnter {
   ngOnInit() {
     this.menuOpts = this.menuData.getMenuOpts();
     this.userservice.imgUpdated.subscribe( img => {
-      console.log(img);
       this.imgAvatar = img;
     })
   }

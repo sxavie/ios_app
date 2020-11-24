@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
+import { Usuario } from 'src/app/models/usuario.model';
 import { UserserviceService } from 'src/app/services/userservice.service';
 
 
@@ -11,21 +12,25 @@ import { UserserviceService } from 'src/app/services/userservice.service';
 })
 export class FamiliarPage implements OnInit {
 
-  public imgAvatar = localStorage.getItem('user-filename');
+  public imgAvatar;
+  public userData:Usuario;
+  public familiarList:any[];
+  public memberImgSrc;
 
-  public imgSrc;
-  public userData:any = [];
-  public familiarList:any;
-  public familiarId:any;
-  public familiar:any;
+  public familiarId:string;
+  public familiar:Usuario;
   public filename:any;
 
   constructor( private activatedroute: ActivatedRoute,
     private loadingCtrl: LoadingController,
-    private userservice: UserserviceService ) { }
+    private userservice: UserserviceService ) {
+      this.userData =  this.userservice.usuario;
+      this.familiarList = this.userData.family;
+    }
 
   async ngOnInit() {
 
+    this.imgAvatar = this.userservice.usuario.imageUrl;
 
     let spinner = await this.loadingCtrl.create({
       spinner: 'lines-small'
@@ -37,20 +42,20 @@ export class FamiliarPage implements OnInit {
       this.familiarId = param.id;
     });
 
-    this.userData =  JSON.parse(localStorage.getItem('UserData'));
-    this.familiarList = this.userData.family;
-
-    this.familiarList.forEach(member => {
+    this.familiarList.forEach((member:Usuario) => {
       
       if( this.familiarId === member._id ){
-        this.familiar = member;
-        localStorage.setItem('member-view', JSON.stringify(member))
-        this.filename = member.filename;
-        if(this.filename === null || this.filename === undefined){ 
-          this.imgSrc  =  'https://cdns.iconmonstr.com/wp-content/assets/preview/2018/240/iconmonstr-user-circle-thin.png' 
-        } else {
-          this.imgSrc = this.userservice.transformFamilyFilename( this.filename )
-        } 
+
+        const { _id, name, email, password, dateCreated, userType, birthday, gender, filename, mobile, bloodType, height, weight,
+          paymentID, terms, verified, verificationCode, active, firebaseToken, isOrder, skills, allergies
+          , diseases, family  } = member
+
+        this.userservice.userView = new Usuario( _id, name, email, password, dateCreated, userType, birthday, gender, filename, mobile, bloodType, height, weight,
+          paymentID, terms, verified, verificationCode, active, firebaseToken, isOrder, skills, allergies
+          , diseases, family)
+
+          this.memberImgSrc = this.userservice.userView.imageUrl
+
         this.loadingCtrl.dismiss();
         return;
       }

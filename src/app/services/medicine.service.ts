@@ -68,8 +68,10 @@ export class MedicineService {
     console.log('data orden',data);
 
     // const loader = await this.loadingCtrl.create({
-    //   spinner: 'lines-small'
+    //   spinner: 'lines-small',
+    //   message: 'Se esta generando la orden'
     // });
+
     // loader.present();
 
     // https://api.cavimex.vasster.com/store/order
@@ -84,6 +86,8 @@ export class MedicineService {
         localStorage.setItem('pharm-order', JSON.stringify(resp) );
 
         this.alertsservice.nativeToast( 'Se genero el pedido de farmacia exitosamente' )
+
+        // loader.dismiss();
         
         this.router.navigate(['/app/farmacia/products'])
       })).pipe(catchError( err => {

@@ -12,7 +12,7 @@
             <ion-back-button
               defaultHref="/app/familiares"
               text=""
-              class="navIconBtn">
+              class="navIconBtn"> 
             </ion-back-button>
           </ion-buttons>
           
@@ -53,11 +53,11 @@
           <ion-item lines="none">
             
             <ion-avatar slot="start">
-              <img [src]="imgSrc">
+              <img [src]="memberImgSrc">
             </ion-avatar>
             <ion-label> 
-              <h3> {{ familiar.name }} </h3>  
-              <p> {{familiar.relationship}}   </p>
+              <h3> {{ userservice.userView.name }} </h3>  
+              <p> {{userservice.userView.relationship}}   </p>
             </ion-label>
           </ion-item>
           

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { LoadingController, ViewWillEnter } from '@ionic/angular';
 import { AddressService } from 'src/app/services/address.service';
 import { AlertsService } from 'src/app/services/alerts.service';
+import { UserserviceService } from 'src/app/services/userservice.service';
 
 @Component({
   selector: 'app-addresses',
@@ -19,13 +20,14 @@ export class AddressesPage implements OnInit, ViewWillEnter {
   constructor( private addressservice: AddressService,
     private router: Router,
     private alertsservice: AlertsService,
-    private loadingCtrl: LoadingController ) { }
+    private loadingCtrl: LoadingController,
+    public userservice: UserserviceService ) { }
 
   ionViewWillEnter() {
-    if( localStorage.getItem('def-address')) this.selectedIDAddress = localStorage.getItem('def-address')
+
+    this.selectedIDAddress = this.userservice.defaultAddressID;
 
     this.addressservice.getAddress().subscribe( (addresses:any) => {
-      console.log( addresses )
       this.myAddresses = addresses;
     })
   }
@@ -34,8 +36,7 @@ export class AddressesPage implements OnInit, ViewWillEnter {
   }
 
   changeAddress(){
-    localStorage.setItem('def-address', this.selectedIDAddress);
-    // this.router.navigate(['/app/farmacia/cart-checkout'])
+    this.userservice.defaultAddressID = this.selectedIDAddress
   }
 
   addAddress(){
@@ -47,7 +48,6 @@ export class AddressesPage implements OnInit, ViewWillEnter {
     
     this.loadingPresent();
 
-    
       this.addressservice.removeAddress( address ).subscribe( () => {
 
         let index = this.myAddresses.indexOf(address);
@@ -56,10 +56,7 @@ export class AddressesPage implements OnInit, ViewWillEnter {
         this.loading.dismiss();
         this.alertsservice.nativeToast(` Se ha eliminado la direccion ${ address.name }`)
 
-
       })
-
-
 
   }
 

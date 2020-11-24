@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
+import { Usuario } from 'src/app/models/usuario.model';
 import { AlertsService } from 'src/app/services/alerts.service';
 import { UserserviceService } from 'src/app/services/userservice.service';
 
@@ -15,7 +16,7 @@ export class FamalergiasPage implements OnInit {
   public imgAvatar = localStorage.getItem('user-filename');
 
   //Member-data
-  public memberData =  JSON.parse(localStorage.getItem('member-view'));
+  public memberData:Usuario;
   public alergias:Array<any> = [];
   
   // variables edicion alergias
@@ -29,6 +30,7 @@ export class FamalergiasPage implements OnInit {
     private userservice: UserserviceService) { }
 
   ngOnInit() {
+    this.memberData = this.userservice.userView
     this.alergias = this.memberData.allergies;
     this.validarAlergias(this.alergias);
   }
@@ -132,13 +134,12 @@ export class FamalergiasPage implements OnInit {
       
       this.userservice.getUserData().subscribe( () => {
 
-        let familiarList = JSON.parse(localStorage.getItem('UserData'))
+        let familiarList = this.userservice.usuario
 
-        familiarList.family.forEach(member => {
+        familiarList.family.forEach((member:any) => {
     
         if( this.memberData._id === member._id ){
             this.memberData = member;
-            localStorage.setItem('member-view', JSON.stringify(member))
           }
         });
 

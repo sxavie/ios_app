@@ -38,18 +38,19 @@ export class FamdataPage implements OnInit {
 
   ngOnInit() {
 
-    this.memberData =  JSON.parse(localStorage.getItem('member-view'))
+    this.memberData =  this.userservice.userView;
     this.hrefBack = `app/familaires/familiar/${this.memberData._id}`
     this.relationship =  this.memberData.relationship
     this.name =  this.memberData.name
     
     this.imgSrc = this.memberData.filename === null ? this.noImg : this.userservice.transformFamilyFilename(this.memberData.filename)
-    this.userweight = this.memberData.weight === null ? '0 Kg': this.memberData.weight;
-    this.userheight = this.memberData.height === null ? '0.00 Mts': this.memberData.height;
+    this.userweight = this.memberData.weight === null ? '0 Kg':  this.transformweight(this.memberData.weight);
+    this.userheight = this.memberData.height === null ? '0.00 Mts': this.transformheight(this.memberData.height)
     this.usergender = this.memberData.gender === null ? 'Seleccionar':this.memberData.gender;
     this.userblood = this.memberData.bloodType === null || this.memberData.bloodType === undefined ? 'Seleccionar' : this.memberData.bloodType
     this.edad = this.memberData.birthday === null ? '0 años' : `${this.calcularEdad(this.newBirth)} años`
   }
+  
 
   async edit(){ 
 
@@ -57,6 +58,8 @@ export class FamdataPage implements OnInit {
 
       this.userheight = this.memberData.height === null || this.memberData.height === undefined ? '0' : this.memberData.height;
       this.userweight = this.memberData.weight === null || this.memberData.weight === undefined ? '0' : this.memberData.weight
+      this.newBirth = this.memberData.birthday === null ? new Date : this.memberData.birthday
+
 
       this.edit_save = 'Guardar';
     } else {
@@ -87,13 +90,12 @@ export class FamdataPage implements OnInit {
 
         this.userservice.getUserData().subscribe( () => {
 
-          let familiarList = JSON.parse(localStorage.getItem('UserData'))
+          let familiarList = this.userservice.usuario;
 
-          familiarList.family.forEach(member => {
+          familiarList.family.forEach((member:any) => {
       
           if( this.memberData._id === member._id ){
               this.memberData = member;
-              localStorage.setItem('member-view', JSON.stringify(member))
             }
           });
         })

@@ -17,7 +17,7 @@
     <div *ngFor="let card of cards || async" 
       class="slotCard"
       [ngClass]="{'default' : card.default_source }"
-      (click)="changeMethod(card.cardID)">
+      (click)="changeMethod(card)">
       
       <span 
         class="iconBrand" 

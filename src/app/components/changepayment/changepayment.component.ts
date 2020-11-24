@@ -3,6 +3,7 @@ import { LoadingController, ModalController } from '@ionic/angular';
 import { Consult } from 'src/app/models/consult.model';
 import { AlertsService } from 'src/app/services/alerts.service';
 import { PayMethodsService } from 'src/app/services/paymethods.service';
+import { UserserviceService } from 'src/app/services/userservice.service';
 
 
 @Component({
@@ -17,13 +18,13 @@ export class ChangepaymentComponent implements OnInit {
 
   constructor( private payservice: PayMethodsService,
     private modalCtrl: ModalController,
-    private alertsservice: AlertsService,
+    private userservice: UserserviceService,
     private loadingCtrl: LoadingController ) { }
 
   ngOnInit() {
+
     this.getPayCards()
 
-    
   }
 
   getPayCards(){
@@ -53,27 +54,18 @@ export class ChangepaymentComponent implements OnInit {
     })
   } 
 
-  changeMethod( idCard ){
+  changeMethod( card ){
 
-    if(this.consult){
-
-      if(idCard === '0' ){
-        this.consult.paymentMethod = 2;
-          this.close();
-      }else{   
-        this.consult.paymentMethod = 1;
-        this.payservice.setPayMethod( idCard ).subscribe( resp => {
-          this.close();
-        })
-      } 
-
-      localStorage.setItem('orderDetail', JSON.stringify(this.consult));
-    }else{
-
-      localStorage.setItem('pharmDefPay', idCard)
-      this.close();
-
+    if(card === '0' ){
+      this.userservice.defaultMethod = { brand: 'cash', cardID: 'cash', default_source: 'cash', last4: '' }
+    } else {
+      this.payservice.setPayMethod( card.cardID ).subscribe( resp => {
+        this.userservice.defaultMethod = card;
+      }) 
     }
+
+    this.close();
+
   }
   
 

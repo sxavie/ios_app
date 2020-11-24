@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { LoadingController, ModalController, ViewWillEnter } from '@ionic/angular';
 import { ItemCart } from 'src/app/interfaces/interfaces';
 import { from, Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { AddressService } from 'src/app/services/address.service';
 import { PayMethodsService } from 'src/app/services/paymethods.service';
 import { MedicineService } from 'src/app/services/medicine.service';
 import { ChangepaymentComponent } from 'src/app/components/changepayment/changepayment.component';
 import { AlertsService } from 'src/app/services/alerts.service';
+import { UserserviceService } from 'src/app/services/userservice.service';
 
 @Component({
   selector: 'app-cart-checkout',
@@ -16,7 +17,6 @@ import { AlertsService } from 'src/app/services/alerts.service';
 })
 export class CartCheckoutPage implements OnInit, ViewWillEnter {
 
-  
   public myCarrito:ItemCart[] = JSON.parse(localStorage.getItem('myCarrito'));
   public myAddresses:any[] = [];
   public defMethod;
@@ -26,29 +26,28 @@ export class CartCheckoutPage implements OnInit, ViewWillEnter {
   public itemsQty = 0;
   public ordTotal = 0;
 
-  public defaultPayid;
   public defaulAddresid;
   public defaulAddres;
 
-  
   constructor( private loadCtrl: LoadingController,
     private addressservice: AddressService,
     private payservice: PayMethodsService,
     private medicineservice: MedicineService,
     private modalCtrl: ModalController,
-    private alertsservie: AlertsService) { 
+    private alertsservie: AlertsService,
+    public userservice: UserserviceService) { 
 
-    this.getDefaultPayment() 
   
   }
 
   ngOnInit() {
+
   }
 
   async ionViewWillEnter() {
 
 
-    this.defaulAddresid = localStorage.getItem('def-address')
+    this.defaulAddresid = this.userservice.defaultAddressID;
 
     let loader = await this.loadCtrl.create({
       spinner: 'lines-small'
@@ -75,6 +74,20 @@ export class CartCheckoutPage implements OnInit, ViewWillEnter {
     loader.dismiss();
   }
 
+  async changeMethod(){
+
+    const modal = await this.modalCtrl.create({
+      component: ChangepaymentComponent,
+      cssClass: 'changePay-modal',
+      backdropDismiss: false
+    });
+    modal.onWillDismiss().then(() => {
+ 
+    });
+    return await modal.present();
+
+  }
+
   totalCalculator(){
     
     let itemsPrice$:Observable<any> = from(this.myCarrito);
@@ -92,65 +105,6 @@ export class CartCheckoutPage implements OnInit, ViewWillEnter {
 
   }
 
-  getDefaultPayment(){
-
-    let cash = { brand: 'cash', cardID: 'cash', default_source: 'cash', last4: '' }
-
-    if( localStorage.getItem('pharmDefPay') ){
-      let defaultPey = localStorage.getItem('pharmDefPay')
-
-      if( defaultPey === '0'){
-          this.defMethod = cash;
-          this.defaultPayid = '2'
-      }else{
-
-        this.payservice.getPayMethods().subscribe( (resp:any) => {
-          this.defMethod = resp.cards[0];
-  
-          this.defaultPayid = '1'
-  
-          if(this.defMethod === undefined){
-            this.defMethod = cash;
-            this.defaultPayid = '2' 
-          }
-
-        });
-
-      }
-    }else{
-
-      this.payservice.getPayMethods().subscribe( (resp:any) => {
-        this.defMethod = resp.cards[0];
-
-        this.defaultPayid = '1'
-
-        if(this.defMethod === undefined){
-          this.defMethod = cash;
-          this.defaultPayid = '2' 
-        }
-
-      });
-      
-    }
-
-}
-
-
-  async changeMethod(){
-
-    const modal = await this.modalCtrl.create({
-      component: ChangepaymentComponent,
-      cssClass: 'changePay-modal',
-      backdropDismiss: false
-    });
-    modal.onWillDismiss().then(() => {
-      this.getDefaultPayment();
-    });
-    return await modal.present();
-
-  }
-
-
   buttonCheckout(){
 
     interface OrderItems{
@@ -165,14 +119,9 @@ export class CartCheckoutPage implements OnInit, ViewWillEnter {
       paymentMethod: string,
     }
 
-    if(this.defaulAddres === null){
+    if(!this.defaulAddres){
       this.alertsservie.nativeToast('No se selecciono una direccion de domicilio')
       return; 
-    }
-
-    if(!this.defaultPayid){
-      this.alertsservie.nativeToast('No se selecciono un metodo de pago')
-      return
     }
 
     var carrito = JSON.parse(localStorage.getItem('myCarrito'));
@@ -185,18 +134,16 @@ export class CartCheckoutPage implements OnInit, ViewWillEnter {
       pushing.quantity = element.quantity.toString();
       orditems.push(pushing)
 
-    });
+    }); 
 
+    let defaultPayid = ( this.userservice.defaultMethod.cardID === 'cash' ) ? '2' : '1';
 
     var newOrden:PharmOrder = ({
       user: localStorage.getItem('user-id'),
       items: orditems,
       addressId: this.defaulAddresid,
-      paymentMethod: this.defaultPayid
+      paymentMethod: defaultPayid
     })
-
-  
-
 
     this.medicineservice.newOrder(newOrden).subscribe( () => {
       

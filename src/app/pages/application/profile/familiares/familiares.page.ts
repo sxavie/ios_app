@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController, PopoverController } from '@ionic/angular';
+import { Subscription } from 'rxjs';
 import { Usuario } from 'src/app/models/usuario.model';
 import { UserserviceService } from 'src/app/services/userservice.service';
 import { AgregarfamiliarPage } from '../agregarfamiliar/agregarfamiliar.page';
@@ -17,16 +18,16 @@ export class FamiliaresPage implements OnInit {
 
   constructor(
     private router: Router,
-    private userservice: UserserviceService,
+    public userservice: UserserviceService,
     private modalCtrl: ModalController, 
     private popoverCtrl: PopoverController) { }
 
+
   ngOnInit() {
     this.userData = this.userservice.usuario
+
+
   }
-
-
-
 
   async addMemberModal(ev: any){    
     console.log('FamiliaresPage addMemberModal() ==> Ejecutando el modal ')
@@ -39,12 +40,24 @@ export class FamiliaresPage implements OnInit {
     }); 
     
     modal.onWillDismiss().then(() => {
-      this.userData = this.userservice.usuario
+
+      setTimeout(() => {
+
+        this.userservice.getUserData().subscribe( () => {
+            this.userData = this.userservice.usuario
+            console.log('generadno data')
+          }
+        );
+  
+      }, 150);
+
     });
 
     return await modal.present();
 
   }
+
+
 
   goFamiliar( id ){
     this.router.navigate([`/app/familiares/familiar/${id}`]);
@@ -53,6 +66,8 @@ export class FamiliaresPage implements OnInit {
   goHome(){
     this.router.navigate(['/app/home'])
   }
+
+  ngOn
 
 
 }

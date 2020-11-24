@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
@@ -9,6 +8,8 @@ import { AlertsService } from 'src/app/services/alerts.service';
 import { OrderService } from 'src/app/services/order.service';
 
 import { Plugins } from '@capacitor/core';
+import { Usuario } from 'src/app/models/usuario.model';
+import { UserserviceService } from 'src/app/services/userservice.service';
 const { Toast } = Plugins;
 
 @Component({
@@ -18,15 +19,15 @@ const { Toast } = Plugins;
 })
 export class SelectuserPage implements OnInit {
 
-  public imgAvatar = localStorage.getItem('user-filename');
-  public userData = JSON.parse( localStorage.getItem('UserData') )
-  public consult:Consult =  JSON.parse(localStorage.getItem('orderDetail'))
+  public imgAvatar: string;
+  public userData: Usuario
   public userSelectedID;
 
   public txtType;
   public loader;
 
   constructor( private alsertsservice: AlertsService,
+    public userservice: UserserviceService,
     private orderservice: OrderService,
     private socket: Socket,
     private loadingCtrl: LoadingController,
@@ -34,36 +35,31 @@ export class SelectuserPage implements OnInit {
     ) { }
 
   ngOnInit() {
-
-    this.txtType = this.consult.meeting ? 'Agendar' : 'Solicitar'
-
+    this.userData = this.userservice.usuario;
+    this.imgAvatar = this.userData.imageUrl;
+    this.txtType = this.orderservice.newConsultData.meeting ? 'Agendar' : 'Solicitar'
   } 
 
 
  async request(){
-
 
     if( !this.userSelectedID ) {
       this.alsertsservice.showAelrt('Debe seleccionar un usuario', 'Usuario')
     }else {
 
       if( this.userSelectedID === 'isGuest') {
-        this.consult.patient = localStorage.getItem('user-id')
-        this.consult.guest = true
+        this.orderservice.newConsultData.patient = this.userData._id
+        this.orderservice.newConsultData.guest = true
       }else{
-        this.consult.patient = this.userSelectedID
-        this.consult.guest = false
+        this.orderservice.newConsultData.patient = this.userSelectedID
+        this.orderservice.newConsultData.guest = false
       }
 
-
-      await localStorage.setItem('orderDetail', JSON.stringify(this.consult))
-      this.orderservice.genNewOrder( this.consult ).subscribe( () => {
+      this.orderservice.genNewOrder().subscribe( () => {
         console.log('Escuchar Socket')
         this.socketListen()
       })
 
-
-      
     }
 
   }
@@ -79,14 +75,6 @@ export class SelectuserPage implements OnInit {
       this.loader.dismiss();
       localStorage.setItem('orderSocketResp', JSON.stringify(response))
       this.router.navigate(['app/consultas/incoming'])
-    });
-
-  }
-
-  async tostador(){
-
-    await Toast.show({
-      text: 'T&ostador Plugins'
     });
 
   }

@@ -19,7 +19,7 @@ const helper = new JwtHelperService;
 @Injectable({
   providedIn: 'root'
 })
-export class UserserviceService {
+export class UserserviceService { 
   
 
   public token = localStorage.getItem('jwttoken');
@@ -27,10 +27,12 @@ export class UserserviceService {
   
   public userFoto = '../../assets/userNoImg.png';
   public usuario: Usuario;
+  public userView: Usuario;
 
   //variables variables
   public imgUpdated : EventEmitter<string> = new EventEmitter<string>();
   public defaultMethod: PayMethod = { brand: 'cash', cardID: 'cash', default_source: 'cash', last4: '' }
+  public defaultAddressID: string;
   
   constructor(
     private http: HttpClient,
@@ -90,9 +92,6 @@ export class UserserviceService {
     }
 
     getUserData(): Observable<Usuario>{
-    // getUserData(){
-
-      // console.log('UserserviceService: getUserData() => Call getUserData();')
 
       let token = localStorage.getItem('jwttoken');
       let uid = localStorage.getItem('user-id')
@@ -102,38 +101,23 @@ export class UserserviceService {
         'authorization': token 
       })
 
-      // console.log( 'UserserviceService: getUserData() => Token y userid Obtenidos de localStorage para el HHTP request' )
-      // console.log( 'token:', token)
-      // console.log( 'userid:', uid)
 
       return this.http.get<Usuario>(  url ,{ headers } )
         .pipe(tap( (x:any) => {
 
-          // localStorage.removeItem('UserData');
-          // localStorage.setItem('UserData', JSON.stringify(x));
- 
-
           this.transformFilename(x.filename)
-
-          // console.log( 'UserserviceService: getUserData() => http.get https://api.cavimex.vasster.com/users/:userid ' )
-          
           const{ _id, name, email, password, 
             dateCreated, userType, birthday, gender, filename, mobile, bloodType,
             height, weight, paymentID, terms, verified, verificationCode, active, firebaseToken,
             isOrder, skills, allergies, diseases, family } = x
 
-          // this.usuario = new Usuario( x._id, x.name, x.email, x.password, x.dateCreated, x.userType, x.birthday, x.gender, x.filename, x.mobile, x.bloodType, x.height, x.weight, x.paymentID, x.terms, x.verified, x.verificationCode, x.active, x.firebaseToken, x.isOrder, x.skills, x.allergies, x.diseases, x.family);
-          
           this.usuario = new Usuario( _id, name, email, password, 
             dateCreated, userType, birthday, gender, filename, mobile, bloodType,
             height, weight, paymentID, terms, verified, verificationCode, active, firebaseToken,
             isOrder, skills, allergies, diseases, family);
 
 
-            console.log( 'user Model ' ,this.usuario)
-
-          // console.log( 'UserserviceService: getUserData() => Data capturada en el modelo de Usuario ' )     
-          // console.log( 'UserserviceService: getUserData() => usuario: ', this.usuario )
+            console.log( 'new user Model ' ,this.usuario)
 
          }))
          .pipe(catchError( err => {
@@ -212,10 +196,10 @@ export class UserserviceService {
       });
 
       return this.http.post( url, data, {headers} )
-        .pipe(map(resp => {
-          
-          this.getUserData();
-
+        .pipe(tap( ()=> {
+          setTimeout(() => {
+            this.getUserData();
+          }, 150);
         }))
         .pipe(catchError( err => {
           return throwError( err );

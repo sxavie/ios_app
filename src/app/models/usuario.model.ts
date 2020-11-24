@@ -32,7 +32,7 @@ export class Usuario {
     ) {}
 
     imprimirUsuario(){
-        console.log( this.name );
+
     }
 
     get imageUrl(){
@@ -40,8 +40,9 @@ export class Usuario {
             let splitFormat = this.filename.split('.');
             return `${ apiUrl }/images/users/${ splitFormat[0] }`
         } else {
-            return 'https://cdns.iconmonstr.com/wp-content/assets/preview/2018/240/iconmonstr-user-circle-thin.png'
+            return '../../assets/userNoImg.png'
         }
-    }   
+    }
+    
 }
 

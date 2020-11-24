@@ -44,7 +44,9 @@
         
         <ion-radio-group [(ngModel)]="selectedIDAddress" (ionChange)="changeAddress()"> 
           <div *ngFor="let address of myAddresses || async ">
-            <ion-item-sliding (ionDrag)="dragingRemove($event, address)" >
+            
+            <!-- (ionDrag)="dragingRemove($event, address)" > -->
+            <ion-item-sliding  >
 
                 <ion-item>
 

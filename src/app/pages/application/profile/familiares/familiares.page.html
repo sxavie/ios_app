@@ -52,7 +52,7 @@
       
     <ion-list class="list">
 
-      <ion-item *ngFor=" let member of userData.family" detail (click)="goFamiliar( member._id )" >
+      <ion-item *ngFor=" let member of userData.family || async " detail (click)="goFamiliar( member._id )" >
 
         <ion-avatar slot="start">
           <img [src]="member.filename | image:'user'">

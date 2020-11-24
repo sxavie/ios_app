@@ -22,7 +22,7 @@ export class AgregarfamiliarPage implements OnInit {
 
   ngOnInit() {
   }
-
+ 
   addFamiliar(){  
 
     console.log(   this.FormFamiliar.value )

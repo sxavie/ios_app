@@ -3,10 +3,11 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 
-import { tap, map, catchError } from 'rxjs/operators';
+import { tap, catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { AlertsService } from './alerts.service';
 import { LoadingController } from '@ionic/angular';
+import { Consult } from '../models/consult.model';
 
 
 const apiUrl = environment.apiUrl;
@@ -15,11 +16,16 @@ const apiUrl = environment.apiUrl;
   providedIn: 'root'
 })
 export class OrderService {
-
-  public loader;
-
+  
   public token = localStorage.getItem('jwttoken');
   public userid = localStorage.getItem('user-id')
+
+  // Order Variables
+  public newConsultData: Consult;
+  public consultResponse 
+  
+  
+  public loader;
 
   constructor( private http: HttpClient,
     private router: Router,
@@ -35,28 +41,28 @@ export class OrderService {
     return h;
   }
 
-  genNewOrder( orderData ){
+  genNewOrder(){
 
     this.loadPresnte('Generando la orden')
 
     let url = `${apiUrl}/order`
     let headers = this.authHeaders;
 
-    return this.http.post( url, orderData, {headers} )
-      .pipe(tap( (resp:any) => {
+    console.log( 'la data de la cosnulta ', this.newConsultData );
 
-        console.log( 'OrderService: genNewOrder => HTTP Response ', resp )
-        
-        console.log('orderDsts',  orderData )
-        if(resp.meeting){
+    return this.http.post( url, this.newConsultData, {headers} )
+      .pipe(tap( (order:any) => {
+
+        console.log( ' respueste de solicitud',order )
+
+        if(order.meeting){
           this.alertsservice.nativeToast('Su orden ha sido agendada')
           this.router.navigate(['app/'])
         }else{
-          localStorage.setItem('orderSummary', JSON.stringify(resp))
+          this.consultResponse = order
           // this.router.navigate(['app/consultas/incoming'])
         }
         this.loader.dismiss()
-        localStorage.removeItem('orderDetail')
 
       }))
       .pipe(catchError( e => {

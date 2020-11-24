@@ -6,11 +6,10 @@ import { UserserviceService } from 'src/app/services/userservice.service';
 import {} from 'googlemaps';
 
 import { Capacitor, Plugins, GeolocationPosition } from '@capacitor/core';
-import { Observable, of, from as fromPromise } from 'rxjs';
-import { tap, map, switchMap } from 'rxjs/operators';
 import { Consult } from 'src/app/models/consult.model';
 import { AlertsService } from 'src/app/services/alerts.service';
 import { Usuario } from 'src/app/models/usuario.model';
+import { OrderService } from 'src/app/services/order.service';
 
 const { Geolocation } = Capacitor.Plugins;
 
@@ -23,15 +22,11 @@ const { Geolocation } = Capacitor.Plugins;
 }) 
 export class HomePage implements OnInit {
 
-  public coordinates$: Observable<GeolocationPosition>;
-  public defaulPosition: { latitude: 25.681473, longitude: 100.355192 };
-
   public map;
   public myLatLng;
   public loading;
 
   public userData: Usuario;
-
 
   constructor(  private menuCtrl: MenuController,
     public router: Router,
@@ -39,47 +34,41 @@ export class HomePage implements OnInit {
     public userservice: UserserviceService, 
     public loadingCtrl: LoadingController,
     public alertCtrl: AlertController,
-    public alertsservice: AlertsService
+    public alertsservice: AlertsService,
+    public orderService: OrderService
     ) { 
 
     }
       
   ngOnInit(){
 
-    console.log( 'user en home ',this.userservice.usuario )
-    
-      this.userservice.getUserData().subscribe( async(resp:any) => {
+    this.userservice.getUserData().subscribe( async(resp:any) => {
 
-        this.userData = resp;
-        this.userservice.transformFilename( resp.filename );
+      this.userData = resp;
 
-        if( resp.isOrder != null ){
-          this.router.navigate(['/app/consultas/incoming'])
-        }
 
-        console.log( 'Home: Constructor() => UserData obtenido del userservice.getUserData().subscribe()' )
-      })   
+      if( !this.userData.isOrder === null ){
+      
+        this.alertsservice.showAelrt('Orden en curso', 'Orden')
+        // this.router.navigate(['/app/consultas/incoming'])
+      }
+
+      this.initMap();
+
+    })   
       
   }
 
 
-  toggleMenu(){
-    // this.menuCtrl.toggle(this.nameMenuId);
-    this.menuCtrl.toggle('tdxMenu');
-  }
   
   irA(pagex: string) {
-    
-    // console.log(pagex);
-    
     switch( pagex ){
       case 'Consultas': {
         this.router.navigate(['app/consultas']);
         break;
       }
       case 'Resacas': {
-        let consult:Consult = new Consult(5)
-        localStorage.setItem('orderDetail', JSON.stringify(consult))
+        this.orderService.newConsultData = new Consult(6)
         this.router.navigate(['app/consultas/request'])
         break
       }
@@ -95,64 +84,11 @@ export class HomePage implements OnInit {
 
   }
 
-
-
-  async displayLoader(){
-
-    this.loading = await this.loadingCtrl.create({
-      spinner: 'lines-small',
-      translucent: true
-    });
-
-    await this.loading.present();
-    // return this.loadingCtrl;
-  }
-
-  private async presentAlert( message: string): Promise<HTMLIonAlertElement>{
-
-    const alert = await this.alertCtrl.create({
-      header: 'Alert',
-      subHeader: 'We are ofline',
-      message: message,
-      buttons: ['OK']
-    });
-    await alert.present();
-    return alert;
-  }
-  
-  // private async getCurrentPosition(): Promise<any> {
-  //   const isAvaliable: boolean = Capacitor.isPluginAvailable('Geolocation');
-
-  //   if(!isAvaliable){
-  //     console.log( 'Err: plugin is no avaliable' );
-  //     return of( new Error('Err, Plugin not avaliable') )
-  //   }
-
-  //   const POSITION = Plugins.Geolocation.getCurrentPosition()
-  //   //hanlde capacitor
-  //   .catch(err =>{
-  //     console.log('Err:', err);
-  //     return new Error(err.message || 'customized meeesage');
-  //   });
-
-  //   this.coordinates$ = fromPromise(POSITION).pipe(
-  //     switchMap((data: any) => of(data.coords)),
-  //     tap(data => console.log(data))
-  //   );
-
-  //   return POSITION; 
-    
-  // }
-
-  ngOnDestroy(){
-    localStorage.removeItem('User-Data')
-  }
-
   async initMap(){
 
     let pos = await this.getPosition() 
-
-    const mapHtml = document.getElementById('mapa');
+ 
+    const mapHtml = document.getElementById('homemapa');
 
     let mapOpts = {
       zoom:16, 
@@ -166,7 +102,7 @@ export class HomePage implements OnInit {
 
     this.map = new google.maps.Map( mapHtml, mapOpts )
 
-    this.loading.dismiss();
+   
   }
 
   async getPosition() {
@@ -183,6 +119,25 @@ export class HomePage implements OnInit {
         // if(err.code === 2){ this.alertsservice.nativeToast('Ubocación no disponible')};
       }
 
+  }
+
+  async displayLoader(){
+
+    this.loading = await this.loadingCtrl.create({
+      spinner: 'lines-small',
+      translucent: true
+    });
+
+    await this.loading.present();
+    // return this.loadingCtrl;
+  }
+
+  toggleMenu(){ 
+    this.menuCtrl.toggle('tdxMenu') 
+  }
+
+  ngOnDestroy(){
+    localStorage.removeItem('User-Data')
   }
   
 }

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { LoadingController, NavController, PickerController } from '@ionic/angular';
 import { AddressService } from 'src/app/services/address.service';
 import { MedicineService } from 'src/app/services/medicine.service';
+import { UserserviceService } from 'src/app/services/userservice.service';
 
 @Component({
   selector: 'app-farmacia',
@@ -18,18 +19,16 @@ export class FarmaciaPage implements OnInit {
   public addresess:any = [];
   public addresValidation;
   public noAddresses = false;
-  public defid_;
 
   constructor( private loadingCtrl: LoadingController,
     private medicineservice: MedicineService,
     private addressservice: AddressService,
     private router: Router,
     private pickerCtrl: PickerController,
-    private navCtrl: NavController,) { }
+    private userservice: UserserviceService,) { }
 
   async ngOnInit() {
     
-
     this.addresess =  await this.addressservice.getAddress().toPromise()
 
     this.getColumns(this.addresess)
@@ -41,13 +40,15 @@ export class FarmaciaPage implements OnInit {
     }
 
     this.addresValidation = this.addresess[0];
-    this.defid_ = localStorage.getItem('def-address')
 
-    if( this.defid_ != null || this.defid_ === undefined ){
+    if( this.userservice.defaultAddressID ){
+
       this.addresess.forEach(x => {
-        if(x._id === this.defid_){
+
+        if(x._id === this.userservice.defaultAddressID){
           this.addresValidation = x;
         }
+
       });
     }
       
@@ -62,13 +63,18 @@ export class FarmaciaPage implements OnInit {
       address.longitude
     ).toPromise();
 
-    if(this.avaliableData.service){
+    if(this.avaliableData.service) {
+      this.userservice.defaultAddressID = address._id;
       this.router.navigate(['/app/farmacia/products'])
-      localStorage.setItem('def-address', address._id)
-    };
+    }
 
     this.showSkeleton = false;
 
+  }
+
+  addAddress(){
+    localStorage.setItem('addaddss', '/app/farmacia');
+    this.router.navigate(['/app/farmacia/addaddress'])
   }
 
   async addressPicker(){
@@ -104,11 +110,6 @@ export class FarmaciaPage implements OnInit {
 
     });
     await genPicker.present();
-  }
-
-  addAddress(){
-    localStorage.setItem('addaddss', '/app/farmacia');
-    this.router.navigate(['/app/farmacia/addaddress'])
   }
 
  getColumns(columnOptions) {

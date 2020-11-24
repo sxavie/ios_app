@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Consult } from 'src/app/models/consult.model';
+import { OrderService } from 'src/app/services/order.service';
 
 @Component({
   selector: 'app-motivos',
@@ -9,10 +10,10 @@ import { Consult } from 'src/app/models/consult.model';
 })
 export class MotivosPage implements OnInit {
 
-  public consult:Consult = JSON.parse( localStorage.getItem('orderDetail') );
   public motivos:any[] = [];
 
-  constructor( private router: Router ) { }
+  constructor( private router: Router,
+    private orderservice: OrderService ) { }
 
   ngOnInit() {
 
@@ -25,8 +26,11 @@ export class MotivosPage implements OnInit {
   }
   reqNewOrder(){
 
-    this.consult.symptoms = this.motivos;
-    localStorage.setItem('orderDetail', JSON.stringify(this.consult) );
+
+    this.orderservice.newConsultData.symptoms = this.motivos
+
+    console.log( 'orderMotivos ', this.orderservice.newConsultData )
+
     this.router.navigate(['app/consultas/selectuser'])
 
   }

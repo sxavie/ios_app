@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { throwIfEmpty } from 'rxjs/operators';
 import { Consult } from 'src/app/models/consult.model';
+import { Usuario } from 'src/app/models/usuario.model';
 import { AlertsService } from 'src/app/services/alerts.service';
 import { OrderService } from 'src/app/services/order.service';
+import { UserserviceService } from 'src/app/services/userservice.service';
 
 @Component({
   selector: 'app-schedule',
@@ -12,8 +14,7 @@ import { OrderService } from 'src/app/services/order.service';
 })
 export class SchedulePage implements OnInit {
 
-  public userData = JSON.parse(localStorage.getItem('UserData'))
-  public consult:Consult =  JSON.parse(localStorage.getItem('orderDetail'));
+  public userData:Usuario
 
   dateSelected;
   timeSelected;
@@ -29,9 +30,13 @@ export class SchedulePage implements OnInit {
 
   constructor( private router: Router,
     private alertsservice: AlertsService,
-    private orderservice: OrderService ) { }
+    private orderservice: OrderService,
+    private userservice: UserserviceService ) { }
 
   ngOnInit() {
+
+    this.userData = this.userservice.usuario
+
     let h = this.now.getHours()
     let m = this.now.getMinutes()
     this.timeNow = `${h}:${m}`;
@@ -94,8 +99,8 @@ export class SchedulePage implements OnInit {
     if( Number(this.day) < 10) this.day = `0${this.day}`
 
 
-    this.consult.patient = this.userData._id;
-    this.consult.guest = false;
+    this.orderservice.newConsultData.patient = this.userData._id;
+    this.orderservice.newConsultData.guest = false;
 
     // transformar tiempo
     let times = new Date(this.timeSelected)
@@ -103,16 +108,14 @@ export class SchedulePage implements OnInit {
     ? `0${times.getHours().toString()}:${times.getMinutes().toString()}` 
     : `${times.getHours().toString()}:${times.getMinutes().toString()}`
     
-    this.consult.month = this.month.toString();
-    this.consult.day = this.day.toString();
-    this.consult.year = this.year.toString();
-    this.consult.hour = this.time
+    this.orderservice.newConsultData.month = this.month.toString();
+    this.orderservice.newConsultData.day = this.day.toString();
+    this.orderservice.newConsultData.year = this.year.toString();
+    this.orderservice.newConsultData.hour = this.time
 
-    this.consult.meeting = true;
+    this.orderservice.newConsultData.meeting = true;
 
-    localStorage.setItem('orderDetail', JSON.stringify(this.consult))
-
-    this.orderservice.genNewOrder(this.consult).subscribe( resp => {console.log( resp )})
+    this.orderservice.genNewOrder().subscribe( resp => {console.log( resp )})
     // this.router.navigate(['app/consultas/motivos'])
 
   }
