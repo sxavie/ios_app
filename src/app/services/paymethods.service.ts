@@ -17,7 +17,6 @@ export class PayMethodsService {
   constructor( private http: HttpClient,
     private router: Router ) { }
 
-  
   addPayMethod( cardData: Card ){
 
     let token = localStorage.getItem('jwttoken')
@@ -83,6 +82,28 @@ export class PayMethodsService {
         return throwError( err );
       }))
 
+
+  }
+
+  deletePayMethod( userId: string, cardId: string){
+    // https://api.cavimex.vasster.com/payment/card
+    let url = `${apiUrl}/payment/card`
+    let token = localStorage.getItem('jwttoken');
+
+    let Options = {
+      headers: new HttpHeaders({
+        'authorization': token
+      }),
+      body: {
+        user: userId,
+        card: cardId
+      },
+    }
+
+    return this.http.delete( url, Options)
+      .pipe(catchError( err => {
+        return throwError(err)
+      }))
 
   }
 

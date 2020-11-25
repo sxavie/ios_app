@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { LoadingController } from '@ionic/angular';
 import { AlertsService } from 'src/app/services/alerts.service';
 import { PayMethodsService } from 'src/app/services/paymethods.service';
 import { UserserviceService } from 'src/app/services/userservice.service';
@@ -26,14 +27,14 @@ export class AgregarpagoPage implements OnInit {
   constructor( private fb: FormBuilder,
     private payservice: PayMethodsService,
     private userservice: UserserviceService,
-    private alertsservice: AlertsService ) { }
+    private alertsservice: AlertsService,
+    private loadingCtrl: LoadingController ) { }
 
   ngOnInit( ) { }
 
 
   cardValidation(){
 
-    
     let frmOK = this.fieldsValidation();
 
     if( frmOK != 'OK'){
@@ -78,12 +79,23 @@ export class AgregarpagoPage implements OnInit {
     return 'OK'
   }
 
-  addPaymentMethod( data ){
+  async addPaymentMethod( data ){
 
-    console.log(data)
 
-    this.payservice.addPayMethod(data).subscribe( () =>{}, err =>{ console.log( err )})
+    let loading = await this.loadingCtrl.create({
+      spinner: 'lines-small',
+      message: 'Espere un momento'
+    })
+
+    await loading.present()
+
+    await this.payservice.addPayMethod(data).subscribe( ( resp => {
+      console.log( resp )
+
+    }), err =>{ 
+      console.log( err )});
     
+    await loading.dismiss();
   }
 
   mask(event){
@@ -109,9 +121,5 @@ export class AgregarpagoPage implements OnInit {
     v = v.replace(/^(\d{2})(\d)/, '$1/$2'); //Insert a dot between the second and third digits
     this.cardDetail = v
   }
-
-
-
-
 
 }

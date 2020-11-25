@@ -52,43 +52,15 @@
         <div *ngFor="let card of cards" 
           class="slotCard"
           [ngClass]="{'default' : card.default_source } || async"
-          (click)="changeMethod(card.cardID)">
+          (click)="presentActionSheet(card)">
           
           <span 
             class="iconBrand" 
             [ngClass]="{'Visa': card.brand === 'Visa', 'MasterCard': card.brand === 'MasterCard'} || async"> </span>
 
           <div class="cardNumber"> <span> **** **** **** {{card.last4}} </span> </div>
-          
-          <!-- Eliminar method -->
-          <!-- <ion-icon class="iconRight" name="trash" slot="end" ></ion-icon> -->
-        </div>
-
-        <!-- <div  class="slotCard default">
-          <span class="iconBrand Visa" > </span>
-          <div class="cardNumber"> <span> ************7655 </span> </div>
-         </div>
-        <div  class="slotCard">
-          <span class="iconBrand MasterCard" > </span>
-          <div class="cardNumber"> <span> ************2312 </span> </div>
-         </div>
-        <div  class="slotCard">
-          <span class="iconBrand Visa" > </span>
-          <div class="cardNumber"> <span> ************9998 </span> </div>
-         </div>
-        <div  class="slotCard">
-          <span class="iconBrand Visa" > </span>
-          <div class="cardNumber"> <span> ************7126 </span> </div>
-         </div>
-        <div  class="slotCard">
-          <span class="iconBrand MasterCard" > </span>
-          <div class="cardNumber"> <span> ************9908 </span> </div>
-          </div>
-        <div  class="slotCard">
-          <span class="iconBrand MasterCard" > </span>
-          <div class="cardNumber"> <span> ************6675 </span> </div>
-         </div> -->
         
+        </div>
 
         <ion-text class="subTitle"> Agregar métodos de pago </ion-text>
 

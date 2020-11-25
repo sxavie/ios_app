@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoadingController, MenuController } from '@ionic/angular';
+import { ActionSheetController, LoadingController, MenuController } from '@ionic/angular';
+import { AlertsService } from 'src/app/services/alerts.service';
 import { PayMethodsService } from 'src/app/services/paymethods.service';
+import { UserserviceService } from 'src/app/services/userservice.service';
 
 @Component({
   selector: 'app-metodopago',
   templateUrl: './metodopago.page.html',
   styleUrls: ['./metodopago.page.scss'],
 })
-export class MetodopagoPage implements OnInit {
+export class MetodopagoPage implements OnInit { 
 
   public imgAvatar = localStorage.getItem('user-filename');
   // public cards: any[] = [];
@@ -18,11 +20,12 @@ export class MetodopagoPage implements OnInit {
   constructor(private menuCtrl: MenuController,
     private router: Router,
     private payservice: PayMethodsService,
-    private loaderCtrl: LoadingController) { }
+    private loaderCtrl: LoadingController,
+    private actionsheetCtrl: ActionSheetController,
+    private userservice: UserserviceService,
+    private alertsservice: AlertsService) { }
 
   ngOnInit() {
-
-
 
     this.getPayCards();
     
@@ -40,11 +43,6 @@ export class MetodopagoPage implements OnInit {
       this.cards = data.cards;
       this.loading.dismiss();
     })
-    
-    // .subscribe( (resp:any) => {
-    //   this.cards = resp;
-    //   console.log( 'MetodopagoPage: ngOnInit() => Susbcription Response ', this.cards )
-    // })
 
   }
 
@@ -60,6 +58,42 @@ export class MetodopagoPage implements OnInit {
       this.getPayCards()
       loader.dismiss();
     })
+
+  }
+
+  deleteMethod( idCard ){
+
+    this.payservice.deletePayMethod( this.userservice.usuario._id, idCard )
+      .subscribe( (card:any) => {
+        this.getPayCards();
+        this.alertsservice.nativeToast( card.message )
+      })
+  }
+
+  async presentActionSheet( card ) {
+    const actionSheet = await this.actionsheetCtrl.create({
+      cssClass: 'actionSheet-custom',
+      buttons: [{
+        text: 'Seleccionar',
+        icon: 'card-outline',
+        handler: () => {
+          this.changeMethod( card.cardID );
+        }
+      },{
+        text: 'Eliminar',
+        icon: 'trash-outline',
+        role: 'delete',
+        handler: () => {
+          this.deleteMethod( card.cardID );
+        }
+      }, {
+        text: 'Cancelar',
+        icon: 'close',
+        role: 'cancel'
+      }]
+    });
+
+    await actionSheet.present();
 
   }
 
