@@ -29,6 +29,7 @@ export class Usuario {
         public allergies?: [], 
         public diseases?: [], 
         public family?: [], 
+        public relationship?: string,
     ) {}
 
     imprimirUsuario(){

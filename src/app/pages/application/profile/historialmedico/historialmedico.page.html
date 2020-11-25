@@ -35,7 +35,7 @@
 
     <div id="avatar">
       <ion-avatar>
-          <img [src]="imgAvatar">
+          <img [src]="userservice.usuario.imageUrl">
       </ion-avatar>
     </div>
 
@@ -54,7 +54,7 @@
           <ion-item>
             <ion-text> Diabetes </ion-text>  
             <ion-checkbox name="diabetes"
-              (ionChange)="hMedicalSave()"
+              (click)="hMedicalSave()"
               formControlName="diabetes" 
               slot="end"></ion-checkbox> 
           </ion-item>
@@ -62,7 +62,7 @@
           <ion-item>
             <ion-text> Hipertención arterial </ion-text>  
             <ion-checkbox name="hypertension"
-            (ionChange)="hMedicalSave()"
+            (click)="hMedicalSave()"
               formControlName="hypertension"
               slot="end"></ion-checkbox>
           </ion-item>
@@ -70,7 +70,7 @@
           <ion-item>
             <ion-text> Enfermedades cardiacas </ion-text>  
             <ion-checkbox name="heartDisease"
-            (ionChange)="hMedicalSave()"
+            (click)="hMedicalSave()"
               formControlName="heartDisease"
               slot="end"></ion-checkbox>
           </ion-item>
@@ -78,7 +78,7 @@
           <ion-item>
             <ion-text> Epilepsia </ion-text>  
             <ion-checkbox name="epilepsy"
-            (ionChange)="hMedicalSave()"
+            (click)="hMedicalSave()"
               formControlName="epilepsy" 
               slot="end"></ion-checkbox>
           </ion-item>
@@ -86,7 +86,7 @@
           <ion-item>
             <ion-text> Cirugías previas </ion-text>  
             <ion-checkbox name="prevSurgeries"
-            (ionChange)="hMedicalSave()"
+            (click)="hMedicalSave()"
               formControlName="prevSurgeries"
               slot="end"></ion-checkbox>
           </ion-item>
@@ -94,7 +94,7 @@
           <!-- <ion-item>
             <ion-text> Otros </ion-text>  
             <ion-checkbox name="others"
-              (ionChange)="hMedicalSave()"
+              (click)="hMedicalSave()"
               formControlName="others"
               slot="end"></ion-checkbox>
           </ion-item> -->

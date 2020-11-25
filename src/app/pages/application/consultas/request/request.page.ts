@@ -4,13 +4,10 @@ import { Router } from '@angular/router';
 import { Capacitor, Plugins } from '@capacitor/core'
 import { LoadingController, ModalController } from '@ionic/angular';
 
-import { PayMethodsService } from 'src/app/services/paymethods.service';
 import { UserserviceService } from 'src/app/services/userservice.service';
-import { AddressList, PayMethod } from 'src/app/interfaces/interfaces';
-import { Consult } from 'src/app/models/consult.model';
+
 import { ChangepaymentComponent } from 'src/app/components/changepayment/changepayment.component';
 import { AlertsService } from 'src/app/services/alerts.service';
-import { Usuario } from 'src/app/models/usuario.model';
 import { OrderService } from 'src/app/services/order.service';
 
 declare var google;
@@ -24,7 +21,7 @@ const { Geolocation } = Capacitor.Plugins;
 })
 export class RequestPage implements OnInit {
 
-  public AddrList: AddressList[];
+  public AddrList: any;
   
   public selAddress;
   public isVirtual = false 
@@ -53,19 +50,24 @@ export class RequestPage implements OnInit {
     // 2 Presencial
     // 1 Virtual
 
+    console.log(this.orderservice.newConsultData )
+
     if(this.orderservice.newConsultData.consultReason != 1){
       this.showSwitch = false;
       this.orderservice.newConsultData.consultType = 2
     }
     
     this.getAddressList();
+
   }
 
-  getAddressList(){
-    this.userservice.getAddressList().subscribe( (resp:any) => {
-      this.AddrList = resp;
-      this.initMap(this.myLatLng, 1, 'current');
-    });
+  async getAddressList(){
+
+    
+    await this.initMap(this.myLatLng, 1, 'current');
+    
+    this.AddrList = await this.userservice.getAddressList().toPromise();
+    
 
   }
 
@@ -132,7 +134,7 @@ export class RequestPage implements OnInit {
       zoom = 18;
     };
 
-    const mapHtml = document.getElementById('mapa');
+    const mapHtml = await document.getElementById('mapa');
 
     let mapOpts = {
       zoom:zoom, 

@@ -38,9 +38,11 @@ export class UserserviceService {
     private http: HttpClient,
     private router: Router,
     private alertsservice: AlertsService
-    ) { }
+    ) {    }
     
     get authHeaders() {
+
+      this.token = localStorage.getItem('jwttoken');
 
       let x = new HttpHeaders({
         'authorization': this.token
@@ -109,12 +111,12 @@ export class UserserviceService {
           const{ _id, name, email, password, 
             dateCreated, userType, birthday, gender, filename, mobile, bloodType,
             height, weight, paymentID, terms, verified, verificationCode, active, firebaseToken,
-            isOrder, skills, allergies, diseases, family } = x
+            isOrder, skills, allergies, diseases, family, relationship } = x
 
           this.usuario = new Usuario( _id, name, email, password, 
             dateCreated, userType, birthday, gender, filename, mobile, bloodType,
             height, weight, paymentID, terms, verified, verificationCode, active, firebaseToken,
-            isOrder, skills, allergies, diseases, family);
+            isOrder, skills, allergies, diseases, family, relationship);
 
 
             console.log( 'new user Model ' ,this.usuario)
@@ -125,6 +127,36 @@ export class UserserviceService {
          }));
 
     }
+
+    getMemberData( memberid:string ) {
+
+      let token = localStorage.getItem('jwttoken');
+      let url = `${ apiUrl }/users/${ memberid }`
+
+      let headers = new HttpHeaders({
+        'authorization': token 
+      })
+
+      return this.http.get<Usuario>(  url ,{ headers } )
+      .pipe(tap( (x:any) => {
+
+        const{ _id, name, email, password, 
+          dateCreated, userType, birthday, gender, filename, mobile, bloodType,
+          height, weight, paymentID, terms, verified, verificationCode, active, firebaseToken,
+          isOrder, skills, allergies, diseases, family, relationship } = x
+
+        this.userView = new Usuario( _id, name, email, password, 
+          dateCreated, userType, birthday, gender, filename, mobile, bloodType,
+          height, weight, paymentID, terms, verified, verificationCode, active, firebaseToken,
+          isOrder, skills, allergies, diseases, family, relationship);
+
+       }))
+       .pipe(catchError( err => {
+         return throwError(err)
+       }));
+
+    }
+
     updateUserData( id, body ){
 
       let url = `${ apiUrl }/users/${ id }`
@@ -153,13 +185,13 @@ export class UserserviceService {
         }))
     }
 
-    updateUserDataDiseases( data: Diseases ){
+    updateUserDataDiseases( id, data: Diseases ){
 
       // console.log('UserService: updateUserDataDiseases() => Start')
       
       let token = localStorage.getItem('jwttoken');
-      let uid = localStorage.getItem('user-id');
-      let url = `${ apiUrl }/user/medicalhistory/${ uid }`
+
+      let url = `${ apiUrl }/user/medicalhistory/${ id }`
 
       let headers = new HttpHeaders().set('Content-Type','application/x-www-form-urlencoded');
       headers = headers.set('authorization', token)
@@ -177,7 +209,7 @@ export class UserserviceService {
 
       // console.log( 'Data to susbcribre: ' , httpParamsData )
       return this.http.post(url, httpParamsData, {headers})
-        .pipe(map( () => {
+        .pipe(tap( () => {
           // console.log( 'UserService: HTTP request response: ', resp )
         }))
         .pipe(catchError( err => {
@@ -208,12 +240,11 @@ export class UserserviceService {
     }
 
     getAddressList(){
-      let url = `${ apiUrl }/addresses/${this.userid}/list`
+      let url = `${ apiUrl }/addresses/${this.usuario._id}/list`
       let headers = this.authHeaders;
 
       return this.http.get( url, { headers })
         .pipe(tap( addressList => {
-          // console.log('UserService: getAddressList => HTTP GET Response: ', addressList)
         }))
         .pipe(catchError( err => {
           return throwError( err );

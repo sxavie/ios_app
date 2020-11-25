@@ -28,6 +28,7 @@ export class AppComponent {
     } catch( err ) {
       console.log('This is normal in a browser platform', err)
     }
+
   }
 
 }

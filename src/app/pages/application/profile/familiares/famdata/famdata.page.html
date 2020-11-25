@@ -35,7 +35,7 @@
 
     <div id="avatar">
       <ion-avatar>
-          <img [src]="imgAvatar">
+          <img [src]="userservice.usuario.imageUrl">
       </ion-avatar>
     </div>
 
@@ -57,7 +57,7 @@
 
           <ion-item lines="none">
             
-            <ion-avatar slot="start">
+            <ion-avatar slot="start" (click)="presentActionSheet()">
               <img [src]="imgSrc">
             </ion-avatar>
             <ion-label> 

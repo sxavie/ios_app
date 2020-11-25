@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ɵConsole } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuController, NavController, LoadingController, AlertController } from '@ionic/angular';
 import { MenuDataService } from 'src/app/services/menu-data.service';
 import { UserserviceService } from 'src/app/services/userservice.service';
 import {} from 'googlemaps';
+import { Socket } from 'ngx-socket-io';
 
 import { Capacitor, Plugins, GeolocationPosition } from '@capacitor/core';
 import { Consult } from 'src/app/models/consult.model';
@@ -13,7 +14,12 @@ import { OrderService } from 'src/app/services/order.service';
 
 const { Geolocation } = Capacitor.Plugins;
 
-// declare var google;
+
+interface MarkerPosition {
+  latitude: number,
+  longitude: number
+  partnerId: string
+};
 
 @Component({
   selector: 'app-home',
@@ -26,6 +32,9 @@ export class HomePage implements OnInit {
   public myLatLng;
   public loading;
 
+  public goomarkers:google.maps.Marker[] = [];
+  public markers:any[] = [];
+
   public userData: Usuario;
 
   constructor(  private menuCtrl: MenuController,
@@ -35,31 +44,29 @@ export class HomePage implements OnInit {
     public loadingCtrl: LoadingController,
     public alertCtrl: AlertController,
     public alertsservice: AlertsService,
-    public orderService: OrderService
+    public orderService: OrderService,
+    public socket: Socket,
     ) { 
 
     }
       
-  ngOnInit(){
+  async ngOnInit(){
+
+    this.displayLoader();
 
     this.userservice.getUserData().subscribe( async(resp:any) => {
 
       this.userData = resp;
 
-
       if( !this.userData.isOrder === null ){
-      
         this.alertsservice.showAelrt('Orden en curso', 'Orden')
         // this.router.navigate(['/app/consultas/incoming'])
       }
 
-      this.initMap();
-
+     await this.initMap();
     })   
       
   }
-
-
   
   irA(pagex: string) {
     switch( pagex ){
@@ -102,6 +109,9 @@ export class HomePage implements OnInit {
 
     this.map = new google.maps.Map( mapHtml, mapOpts )
 
+    this.socketListenner();
+
+    this.loading.dismiss();
    
   }
 
@@ -139,5 +149,37 @@ export class HomePage implements OnInit {
   ngOnDestroy(){
     localStorage.removeItem('User-Data')
   }
-  
+
+  socketListenner() {
+
+    this.socket.connect();
+    console.log('socket Connected')
+    this.socket.fromEvent('PartnerLocation').subscribe( (sioPosition:MarkerPosition) => {
+
+      let found = false;
+      this.goomarkers.forEach((docMarker, i) => {
+        if ( docMarker.getTitle() === sioPosition.partnerId ){
+          found = true;
+          docMarker.setPosition( new google.maps.LatLng( sioPosition.latitude, sioPosition.longitude) )
+          docMarker.setMap(this.map)
+        }
+      });
+
+      if ( !found ) {
+        const mark = new google.maps.Marker({
+          position: new google.maps.LatLng(
+            sioPosition.latitude, sioPosition.longitude
+          ),
+          title: sioPosition.partnerId,
+          icon: './assets/car-pin.png'
+        })
+        mark.setMap(this.map)
+        this.goomarkers.push(mark)
+      }
+
+      // console.log(this.goomarkers )
+    });
+
+  }
+   
 }

@@ -5,7 +5,7 @@ import { Usuario } from 'src/app/models/usuario.model';
 import { UserserviceService } from 'src/app/services/userservice.service';
 
 import { Capacitor, CameraResultType, CameraSource } from '@capacitor/core'
-const { Camera, Filesystem } = Capacitor.Plugins;
+const { Camera } = Capacitor.Plugins;
 
 
 

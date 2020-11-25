@@ -3,6 +3,7 @@ import { OrderService } from 'src/app/services/order.service';
 import { CalendarComponent as CompCalendar } from 'ionic2-calendar'
 import { ModalController } from '@ionic/angular';
 import { AgendaModalPage } from '../agenda-modal/agenda-modal.page';
+import { UserserviceService } from 'src/app/services/userservice.service';
 
 @Component({
   selector: 'app-agenda',
@@ -11,7 +12,6 @@ import { AgendaModalPage } from '../agenda-modal/agenda-modal.page';
 })
 export class AgendaPage implements OnInit {
 
-  public userData =  JSON.parse(localStorage.getItem('UserData'));
   public events :any= [];
 
   // configuracion de calendario
@@ -48,13 +48,13 @@ export class AgendaPage implements OnInit {
     }
 ];
   
-
   constructor( private orderservice: OrderService,
-    private modalCtrl: ModalController ) { }
+    private modalCtrl: ModalController,
+    private userservice: UserserviceService ) { }
 
   async ngOnInit() {
 
-    this.events = await this.orderservice.scheduled( this.userData._id ).toPromise();
+    this.events = await this.orderservice.scheduled( this.userservice.usuario._id ).toPromise();
 
     this.events.data.forEach(ev => {
       
@@ -92,7 +92,7 @@ export class AgendaPage implements OnInit {
   }
 
   onEventSelected(ev){
-    console.log(' on event selñected event ', ev)
+  
   }
 
   next(){

@@ -11,47 +11,39 @@ import { UserserviceService } from 'src/app/services/userservice.service';
 })
 export class HistorialmedicoPage implements OnInit {
 
-  public imgAvatar = localStorage.getItem('user-filename');
   public userData: Usuario;
-  public diseases: any;
 
   public diseasesFormData = this.fb.group({
-      diabetes: false,
-      hypertension: false,
-      heartDisease: false,
-      epilepsy: false,
-      prevSurgeries: false,
-      others: false
-  })
+    diabetes: false,
+    hypertension: false,
+    heartDisease: false,
+    epilepsy: false,
+    prevSurgeries: false,
+    others: 'false'
+})
   
   constructor( private router: Router,
     private userservice: UserserviceService,
-    private fb: FormBuilder) { }
+    private fb: FormBuilder) {     }
   
   ngOnInit() {
-    
-    console.log( 'UserService Data' );
     this.userservice.getUserData().subscribe( (resp:any) => {
-      localStorage.setItem('UserData', JSON.stringify(resp) )
       this.userData = resp;
-
         this.diseasesFormData = this.fb.group({
-          diabetes: resp.diseases.diabetes,
-          hypertension: resp.diseases.epilepsy,
-          heartDisease: resp.diseases.heartDisease,
-          epilepsy: resp.diseases.hypertension,
-          prevSurgeries: resp.diseases.prevSurgeries,
-          others: resp.diseases.others
+          diabetes: (resp.diseases.diabetes) ? resp.diseases.diabetes : false,
+          hypertension: (resp.diseases.epilepsy) ? resp.diseases.epilepsy : false,
+          heartDisease: (resp.diseases.heartDisease) ? resp.diseases.heartDisease : false,
+          epilepsy: (resp.diseases.hypertension) ? resp.diseases.hypertension: false,
+          prevSurgeries: (resp.diseases.prevSurgeries) ? resp.diseases.prevSurgeries: false,
+          others: (resp.diseases.others) ? resp.diseases.others : 'true'
       })
     })   
   }
 
   hMedicalSave(){
-    console.log( 'ChekBox IonChange: SUscribirse al servicio ', this.diseasesFormData.value )
-
-    this.userservice.updateUserDataDiseases( this.diseasesFormData.value ).subscribe( resp => {
-      console.log(  'Subscription to service response ===> ',  resp )
-    })
+    setTimeout(() => {
+      this.userservice.updateUserDataDiseases( this.userservice.usuario._id, this.diseasesFormData.value ).subscribe();
+    }, 200);
   }
 
   goHome(){

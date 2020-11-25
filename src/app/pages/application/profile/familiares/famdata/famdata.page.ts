@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { LoadingController, PickerController } from '@ionic/angular';
+import { ActionSheetController, LoadingController, PickerController } from '@ionic/angular';
 import { AlertsService } from 'src/app/services/alerts.service';
 import { UserserviceService } from 'src/app/services/userservice.service';
+
+import { Capacitor, CameraResultType, CameraSource } from '@capacitor/core'
+const { Camera } = Capacitor.Plugins;
 
 @Component({
   selector: 'app-famdata',
@@ -10,7 +13,7 @@ import { UserserviceService } from 'src/app/services/userservice.service';
 })
 export class FamdataPage implements OnInit {
 
-  public imgAvatar = localStorage.getItem('user-filename');
+  public loading;
 
   public memberData;
   public hrefBack;
@@ -31,10 +34,13 @@ export class FamdataPage implements OnInit {
   public userheight = '0.00';
   public userblood = 'Seleccione';
 
+  
+
   constructor( public pickerCtrl: PickerController, 
     public userservice: UserserviceService,
     private alertsservice: AlertsService,
-    private loadingCtrl: LoadingController) { }
+    private loadingCtrl: LoadingController,
+    private actionSheetCtrl: ActionSheetController) { }
 
   ngOnInit() {
 
@@ -50,7 +56,6 @@ export class FamdataPage implements OnInit {
     this.userblood = this.memberData.bloodType === null || this.memberData.bloodType === undefined ? 'Seleccionar' : this.memberData.bloodType
     this.edad = this.memberData.birthday === null ? '0 años' : `${this.calcularEdad(this.newBirth)} años`
   }
-  
 
   async edit(){ 
 
@@ -78,7 +83,7 @@ export class FamdataPage implements OnInit {
         weight: this.userweight,
         bloodType: this.userblood,
       }
-
+      
       await this.userservice.updateUserData( this.memberData._id, body ).subscribe( resp => {
         
         this.edad = this.calcularEdad( this.newBirth )
@@ -90,9 +95,9 @@ export class FamdataPage implements OnInit {
 
         this.userservice.getUserData().subscribe( () => {
 
-          let familiarList = this.userservice.usuario;
+          let familiarList = this.userservice.usuario.family;
 
-          familiarList.family.forEach((member:any) => {
+          familiarList.forEach((member:any) => {
       
           if( this.memberData._id === member._id ){
               this.memberData = member;
@@ -107,6 +112,86 @@ export class FamdataPage implements OnInit {
 
 
     this.isEdit = !this.isEdit
+  }
+
+  async getPhoto( source ){
+
+    let photo = await Camera.getPhoto({
+      quality:100,
+      resultType: CameraResultType.DataUrl,
+      saveToGallery: true,
+      source: source
+    })
+
+    var file = await photo;
+
+    this.updatePhoto(file)
+  }
+
+  async updatePhoto(file){
+
+    this.loading = await this.loadingCtrl.create({
+      spinner: 'lines-small',
+      message: 'Actualizando imagen'
+    })
+
+    await this.loading.present();
+
+    const blob = this.b64toBlob(file, 'image/jpg');
+
+    let frmData = new FormData();
+    frmData.append('image', blob)
+
+    this.userservice.updateUserPhoto( this.userservice.userView._id, frmData).subscribe( () => {
+      this.userservice.getMemberData(this.userservice.userView._id).subscribe( resp => {
+        this.imgSrc = this.userservice.transformFamilyFilename( resp.filename );
+        this.loading.dismiss()
+      })
+    })
+  }
+
+  private b64toArrayBff( file ){
+    const bytesString = atob(file.dataUrl.split(',')[1]);
+    const ab = new ArrayBuffer(bytesString.length);
+    const ia = new Uint8Array(ab);
+
+    for ( let i = 0; i < bytesString.length; i++ ) {
+      ia[i] = bytesString.charCodeAt(i);
+    }
+    
+    return ia;
+  }
+
+  private b64toBlob( file, mimetype ){
+    return new Blob([this.b64toArrayBff(file)], {
+      type: mimetype
+    })
+  }
+
+  async presentActionSheet() {
+    const actionSheet = await this.actionSheetCtrl.create({
+      cssClass: 'actionSheet-custom',
+      buttons: [{
+        text: 'Camara',
+        icon: 'camera-outline',
+        handler: () => {
+          this.getPhoto( CameraSource.Camera );
+        }
+      },{
+        text: 'Galeria',
+        icon: 'image-outline',
+        handler: () => {
+          this.getPhoto( CameraSource.Photos );
+        }
+      }, {
+        text: 'Cancelar',
+        icon: 'close',
+        role: 'cancel'
+      }]
+    });
+
+    await actionSheet.present();
+
   }
 
   calcularEdad(fecha = this.memberData.birthday ) {

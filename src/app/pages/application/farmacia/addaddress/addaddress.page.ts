@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoadingController, NavController } from '@ionic/angular';
+import { throwError } from 'rxjs';
 import { AddressService } from 'src/app/services/address.service';
+import { AlertsService } from 'src/app/services/alerts.service';
 
 @Component({
   selector: 'app-addaddress',
@@ -13,14 +15,14 @@ export class AddaddressPage implements OnInit {
 
   public from = localStorage.getItem('addaddss');
   public formAddressData = this.fb.group({
-      name: '' ,
-      street: '',
-      number:'',
-      neighborhood:'',
-      state:'',
-      city:'',
+      name: ['', Validators.required], 
+      street: ['', Validators.required],
+      number:['', Validators.required],
+      neighborhood:['', Validators.required],
+      state:['', Validators.required],
+      city:['', Validators.required],
       country:"Mexico",
-      zipcode:'',
+      zipcode:['', Validators.required],
       references:'',
       latitude: '',
       longitude: '',
@@ -35,7 +37,8 @@ export class AddaddressPage implements OnInit {
     private addressservice: AddressService,
     private router: Router,
     private navCtrl: NavController,
-    private loadingCtrl: LoadingController) { }
+    private loadingCtrl: LoadingController,
+    private alertsservice: AlertsService) { }
 
   ngOnInit() {
 
@@ -89,8 +92,6 @@ export class AddaddressPage implements OnInit {
 
     place.address_components.forEach( x => {
 
-      
-
       switch(x.types[0]) { 
         case 'street_number': { 
           this.formAddressData.patchValue({number : x.long_name});
@@ -129,18 +130,25 @@ export class AddaddressPage implements OnInit {
 
   }
 
-  onAddAddress( ){
+  async onAddAddress( ){
 
-    this.loaderPresent();
+   
     
     let id = localStorage.getItem('user-id')
     this.formAddressData.patchValue({clientId : id});
-   
 
+    let formHandler = await this.fieldsValidation()
+
+    if(formHandler != 'OK') {
+      this.alertsservice.nativeToast(formHandler)
+      return
+    }
+
+  
     this.addressservice.addAddress(  this.formAddressData.value )
       .subscribe( (newAddress:any) =>{
 
-        
+        this.loaderPresent();
 
         this.formAddressData.patchValue({name:''})
         this.formAddressData.patchValue({street:''})
@@ -155,11 +163,8 @@ export class AddaddressPage implements OnInit {
         this.formAddressData.patchValue({longitude:''})
         this.formAddressData.patchValue({clientId:''})
 
-        localStorage.setItem('def-address', newAddress.data._id)
-
         var input:any = document.getElementById('autoCompleteField');
         input.value = '';
-
 
         setTimeout(() => {
           localStorage.removeItem('addaddss');
@@ -168,7 +173,12 @@ export class AddaddressPage implements OnInit {
             
         }, 1500);
         
-      })
+      }, (err ) => {
+
+        // this.loader.dismiss();
+        console.log( err )
+
+      } )
   }
 
   async loaderPresent(){
@@ -178,6 +188,27 @@ export class AddaddressPage implements OnInit {
       message: 'Espere un momento'
     })
     await this.loader.present();
+
+  }
+
+  fieldsValidation() {
+
+    if(!this.formAddressData.get('name').value) 
+    { return 'Introduzca un nombre para esta direccion' }
+    if(!this.formAddressData.get('street').value) 
+    { return 'Seleecione la calle de su domicilio' }
+    if(!this.formAddressData.get('zipcode').value) 
+    { return ' Introduzca el codigo postal para esta direccion' }
+    if(!this.formAddressData.get('state').value) 
+    { return ' Introduzca el estado para esta direccion' }
+    if(!this.formAddressData.get('city').value) 
+    { return ' Introduzca la ciudad de esta direccion' }
+    if(!this.formAddressData.get('neighborhood').value) 
+    { return ' Introduzca el colonia para esta direccion' }
+    if(!this.formAddressData.get('number').value) 
+    { return 'Introduzca el numero interior de su domicilio' }
+
+    return 'OK'
 
   }
 

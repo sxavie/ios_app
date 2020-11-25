@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
+import { AlertsService } from 'src/app/services/alerts.service';
 import { PayMethodsService } from 'src/app/services/paymethods.service';
+import { UserserviceService } from 'src/app/services/userservice.service';
 
 @Component({
   selector: 'app-agregarpago',
@@ -9,57 +11,78 @@ import { PayMethodsService } from 'src/app/services/paymethods.service';
 })
 export class AgregarpagoPage implements OnInit {
 
-  public imgAvatar = localStorage.getItem('user-filename')
-
   public cardNumber:string;
   public cardDetail:string;
   public cardCVV: string;
 
   public cardFormData = this.fb.group({
-    number: "",
-    month: "",
-    year: "",
-    cvv: "",
+    number: ["", Validators.required],
+    month: ["", Validators.required],
+    year: ["", Validators.required],
+    cvv: ["",Validators.required],
     user: "",
 })
 
   constructor( private fb: FormBuilder,
-    private payservice: PayMethodsService ) { }
+    private payservice: PayMethodsService,
+    private userservice: UserserviceService,
+    private alertsservice: AlertsService ) { }
 
-  ngOnInit( ) {
-  }
+  ngOnInit( ) { }
 
 
   cardValidation(){
 
-    // validar los campos
-    // console.log( ' cardNumber ', this.cardNumber )
-    // console.log( ' cardDetail ', this.cardDetail )
-    // console.log( ' cardCVV ', this.cardCVV )
+    
+    let frmOK = this.fieldsValidation();
 
-    // send la data correcta
+    if( frmOK != 'OK'){
+      this.alertsservice.nativeToast( frmOK )
+      return
+    }
    
     let cardDet = this.cardDetail.split('/');
 
     this.cardFormData = this.fb.group({
-      number: this.cardNumber.replace(/\s/g, ''),
-      month: cardDet[0],
-      year: cardDet[1],
-      cvv: this.cardCVV,
-      user: localStorage.getItem('user-id')
-  })
-    
+          number: this.cardNumber.replace(/\s/g, ''),
+          month: cardDet[0],
+          year: cardDet[1],
+          cvv: this.cardCVV,
+          user: localStorage.getItem('user-id')
+      })
     this.addPaymentMethod( this.cardFormData.value )
+  }
 
+  fieldsValidation(){
+
+    if(!this.cardNumber) { 
+      return 'Introduzca el number de la tarjeta'
+    } else { 
+      if( this.cardNumber.length < 16 ) {
+        return 'Introduzca el numero de tarjeta valido'
+      }
+    }
+    if(!this.cardDetail) { 
+      return 'Introduzca el mes y año de expiracion de la tarjeta'
+    } else {
+      if(this.cardDetail.length < 5) { return 'Introduzca fecha de expiracion valida'}
+    }
+    if(!this.cardCVV)
+      { return 'Introduzca el codigo de seguridad de la tarjeta'
+    } else { 
+      if(this.cardCVV.length != 3) {
+        return 'El numero de seguridad no es valido'
+      }
+    }
+
+    return 'OK'
   }
 
   addPaymentMethod( data ){
 
     console.log(data)
 
-    this.payservice.addPayMethod(data).subscribe( resp => {
-      console.log( "AgregarpagoPage service.addPayMethod() subscription response " , resp )
-    })
+    this.payservice.addPayMethod(data).subscribe( () =>{}, err =>{ console.log( err )})
     
   }
 
