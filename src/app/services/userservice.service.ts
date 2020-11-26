@@ -10,6 +10,7 @@ import { Diseases, LoginForm, PayMethod, RegisterForm, UpdateForm } from '../int
 import { Usuario } from '../models/usuario.model';
 import { Observable, of, Subject, throwError } from 'rxjs';
 import { AlertsService } from './alerts.service';
+import { HomePage } from '../pages/application/home/home.page';
 
 // variables
 const apiUrl = environment.apiUrl;
@@ -37,8 +38,7 @@ export class UserserviceService {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private alertsservice: AlertsService
-    ) {    }
+    private alertsservice: AlertsService ) {    }
     
     get authHeaders() {
 
@@ -123,6 +123,10 @@ export class UserserviceService {
 
          }))
          .pipe(catchError( err => {
+           if (err.status === 0 ) {
+            //  this.homepage.loading.dismiss();
+            this.alertsservice.showAelrt('Error al conectarse con el servidor', 'Server Error')
+           }
            return throwError(err)
          }));
 

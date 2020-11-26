@@ -21,12 +21,15 @@ const { Geolocation } = Capacitor.Plugins;
 })
 export class RequestPage implements OnInit {
 
-  public AddrList: any;
   
   public selAddress;
   public isVirtual = false 
-
   public isIncomming = true;
+  public AddrList: any;
+  public cuponCode: string;
+
+  public cuponValidationClass;
+
   public showSwitch = true;
   
   public map;
@@ -49,8 +52,6 @@ export class RequestPage implements OnInit {
     // consultType = Vierual/Presecial
     // 2 Presencial
     // 1 Virtual
-
-    console.log(this.orderservice.newConsultData )
 
     if(this.orderservice.newConsultData.consultReason != 1){
       this.showSwitch = false;
@@ -94,12 +95,16 @@ export class RequestPage implements OnInit {
 
   reqOrderNow( meeting : boolean){
 
+    console.log( this.orderservice.newConsultData )
+
     this.orderservice.newConsultData.paymentMethod = (this.userservice.defaultMethod.cardID === 'cash') ? 2 : 1
     this.orderservice.newConsultData.consultType = (this.isVirtual) ? 1 : 2
     this.orderservice.newConsultData.meeting = meeting
     this.orderservice.newConsultData.lat = this.myLatLng.lat
     this.orderservice.newConsultData.lon = this.myLatLng.lng
     let navigation = (meeting) ? 'app/consultas/schedule' : 'app/consultas/motivos'
+
+    this.validarCupon()
 
     this.router.navigate([navigation])
     
@@ -227,6 +232,34 @@ export class RequestPage implements OnInit {
     await loading.present();
     return this.loadingCtrl;
 
+  }
+
+  validarCupon(){
+
+    this.orderservice.cuponValidation( this.userservice.usuario._id, 
+      this.cuponCode ).subscribe(
+        ( couponResp:any ) => {
+
+          if( couponResp.status ) {
+            this.alertsservice.nativeToast('El cupon es valido')
+            this.orderservice.newConsultData.cupon = this.cuponCode;
+            this.cuponValidationClass = 'codeIsValid';
+          } else {
+            this.alertsservice.nativeToast('El cupon ya no es valido')
+            this.orderservice.newConsultData.cupon = null;
+            this.cuponValidationClass = 'codeIsInvalid';
+          }
+        }, ( err ) => { 
+
+          if(!err.error.status){
+            this.cuponValidationClass = 'codeIsInvalid';
+            this.alertsservice.nativeToast( err.error.message )
+          }
+          if(err.status === 0 ){
+            this.alertsservice.showAelrt('Error al conectarse con el servidor', 'Server Error')
+          }
+        }
+      )
   }
 
 }

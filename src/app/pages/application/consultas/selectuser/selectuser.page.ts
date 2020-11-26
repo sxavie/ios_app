@@ -82,7 +82,7 @@ export class SelectuserPage implements OnInit {
     setTimeout(() => {
       
       if(!socketListened){
-        this.alsertsservice.showAelrt( 'No encontramos un doctor cerca de tu zona, intentalo mas tarde', 'Consulta')
+        // this.alsertsservice.showAelrt( 'No encontramos un doctor cerca de tu zona, intentalo mas tarde', 'Consulta')
         this.loader.dismiss();
         this.socket.disconnect();
       }

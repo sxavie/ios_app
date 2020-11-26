@@ -53,7 +53,7 @@ export class OrderService {
     return this.http.post( url, this.newConsultData, {headers} )
       .pipe(tap( (order:any) => {
 
-        console.log( ' respueste de solicitud',order )
+        console.log( ' respueste de solicitud', order )
 
         if(order.meeting){
           this.alertsservice.nativeToast('Su orden ha sido agendada')
@@ -73,7 +73,6 @@ export class OrderService {
 
   }
 
-
   scheduled( id ){
     // https://api.cavimex.vasster.com/order/5f85d2c85be5532208edbc58/meeting
 
@@ -84,6 +83,25 @@ export class OrderService {
       .pipe(catchError( err => 
         {return throwError( err )}
       ))
+  }
+
+  // Cupones
+
+  cuponValidation( user: string, code: string) {
+
+     let url = `${apiUrl}/coupons/verify`
+     let headers = this.authHeaders
+
+     let body = {
+       code,
+       user
+     }
+ 
+     return this.http.post(url, body, { headers })
+       .pipe(catchError( err => 
+         {return throwError( err )}
+       ))
+
   }
 
   async loadPresnte( msg ){

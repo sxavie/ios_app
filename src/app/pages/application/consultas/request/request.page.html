@@ -71,22 +71,30 @@
         <ion-text> Agendar </ion-text>
       </ion-item>
 
-        <ion-item class="slotCard" 
-          [ngClass]="{'default' : userservice.defaultMethod.default_source }">
+        <ion-item class="slotCard" detail 
+          [ngClass]="{'default' : userservice.defaultMethod.default_source }"
+          (click)="changeMethod()">
+  
           
-          <span 
-            class="iconBrand" 
-            [ngClass]="{
-              'Visa': userservice.defaultMethod.brand === 'Visa', 
-              'MasterCard': userservice.defaultMethod.brand === 'MasterCard',
-              'cash': userservice.defaultMethod.brand === 'cash'
-            }"> </span>
+            <span 
+              class="iconBrand" 
+              [ngClass]="{
+                'Visa': userservice.defaultMethod.brand === 'Visa', 
+                'MasterCard': userservice.defaultMethod.brand === 'MasterCard',
+                'cash': userservice.defaultMethod.brand === 'cash'
+              }"> </span>
 
-          <div class="cardNumber" *ngIf="userservice.defaultMethod.last4"> <span> **** **** **** {{ userservice.defaultMethod.last4}} </span> </div>
-          <div class="cardNumber" *ngIf="!userservice.defaultMethod.last4" > <span> Efectivo </span> </div>
-          
-          <span class="iconRight" slot="end" (click)="changeMethod()"> CAMBIAR </span>
+            <div style="padding-bottom: 10px;" class="cardNumber" *ngIf="userservice.defaultMethod.last4"> <span> **** **** **** {{ userservice.defaultMethod.last4}} </span> </div>
+            <div style="padding-bottom: 10px;" class="cardNumber" *ngIf="!userservice.defaultMethod.last4" > <span> Efectivo </span> </div>
+   
+          <!-- <span class="iconRight" slot="end" (click)="changeMethod()"> CAMBIAR </span> -->
 
+      </ion-item>
+
+      <ion-item detail>
+        <ion-input [ngClass]="cuponValidationClass" class="cuponTxt" [(ngModel)]="cuponCode" placeholder="Cupon" type="text"></ion-input>
+        <ion-text class="cuponVerificartxt ion-text-right" 
+          (click)="validarCupon()"> Verificar </ion-text>
       </ion-item>
 
       <ion-button  class="reqBtn" 

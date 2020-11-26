@@ -12,6 +12,7 @@ export class Consult{
         public lon?: number,
         public addresId?: any,
         public paymentMethod?: number,   // efectivo / tarjeta
+        public cupon?: string,
                 // solo si el capo meeteing es true.
         public hour?: any,
         public day?: any,

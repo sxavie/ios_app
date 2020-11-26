@@ -55,19 +55,25 @@ export class HomePage implements OnInit {
       
   async ngOnInit(){
 
-    this.displayLoader();
+    this.userservice.getUserData().subscribe( 
+      (resp:any) => {
 
-    this.userservice.getUserData().subscribe( async(resp:any) => {
-
-      this.userData = resp;
-
-      if( !this.userData.isOrder === null ){
+        this.userData = resp;
+        if( !this.userData.isOrder === null ){
         this.alertsservice.showAelrt('Orden en curso', 'Orden')
         // this.router.navigate(['/app/consultas/incoming'])
-      }
+        }
 
-     await this.initMap();
-    })   
+        this.displayLoader();
+        this.initMap();
+
+      }), (err) => {
+        console.log( err  )
+        if ( err.status === 0 ) {
+          
+          this.alertsservice.showAelrt('Error al conectarse con el servidor', 'Server Error')
+        }
+      }  
       
   }
   
@@ -159,8 +165,8 @@ export class HomePage implements OnInit {
   socketListenner() {
 
     this.socket.connect();
-    console.log('socket Connected')
-    console.log('PartnerLocation - subscribe()')
+    // console.log('socket Connected')
+    // console.log('PartnerLocation - subscribe()')
     this.PartnerLocation = this.socket.fromEvent('PartnerLocation').subscribe( (sioPosition:MarkerPosition) => {
 
       let found = false;
@@ -183,13 +189,13 @@ export class HomePage implements OnInit {
         mark.setMap(this.map)
         this.goomarkers.push(mark)
       }
-      console.log(this.goomarkers )
+      // console.log( this.goomarkers )
     });
 
     setTimeout(() => {
 
       this.goomarkers.forEach((docMarker, i) => {
-        console.log(docMarker, '  setMap = null')
+        // console.log(docMarker, '  setMap = null')
         docMarker.setMap(null)
       });
 
@@ -201,11 +207,11 @@ export class HomePage implements OnInit {
   
   reconnectSocket(){
  
-    console.log('PartnerLocation - unsubscribe()')
+    // console.log('PartnerLocation - unsubscribe()')
     this.PartnerLocation.unsubscribe();
 
     this.socket.disconnect()
-    console.log('socket disconnected')
+    // console.log('socket disconnected')
     this.goomarkers = [];
     this.markers = [];
     this.socketListenner();

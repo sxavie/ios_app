@@ -105,7 +105,7 @@
           
           <div slot="end" class="editDato">
             <div>
-              <ion-input [(ngModel)]="userweight" [disabled]="!isEdit">   </ion-input>
+              <ion-input [(ngModel)]="userweight" [disabled]="!isEdit" inputmode="numeric">   </ion-input>
             </div>
             <div class="iconEdit">
               <ion-icon *ngIf="isEdit" name="pencil-outline" slot="icon-only"> </ion-icon>
@@ -120,7 +120,7 @@
      
           <div slot="end" class="editDato">
             <div>
-              <ion-input [(ngModel)]="userheight" [disabled]="!isEdit">   </ion-input>
+              <ion-input [(ngModel)]="userheight" [disabled]="!isEdit" inputmode="numeric">   </ion-input>
             </div>
             <div class="iconEdit">
               <ion-icon *ngIf="isEdit" name="pencil-outline" slot="icon-only"> </ion-icon>
