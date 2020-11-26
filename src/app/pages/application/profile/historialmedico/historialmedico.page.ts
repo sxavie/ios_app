@@ -31,9 +31,9 @@ export class HistorialmedicoPage implements OnInit {
       this.userData = resp;
         this.diseasesFormData = this.fb.group({
           diabetes: (resp.diseases.diabetes) ? resp.diseases.diabetes : false,
-          hypertension: (resp.diseases.epilepsy) ? resp.diseases.epilepsy : false,
+          hypertension: (resp.diseases.hypertension) ? resp.diseases.hypertension : false,
           heartDisease: (resp.diseases.heartDisease) ? resp.diseases.heartDisease : false,
-          epilepsy: (resp.diseases.hypertension) ? resp.diseases.hypertension: false,
+          epilepsy: (resp.diseases.epilepsy) ? resp.diseases.epilepsy: false,
           prevSurgeries: (resp.diseases.prevSurgeries) ? resp.diseases.prevSurgeries: false,
           others: (resp.diseases.others) ? resp.diseases.others : 'true'
       })

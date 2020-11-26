@@ -5,6 +5,7 @@ import { Usuario } from 'src/app/models/usuario.model';
 import { UserserviceService } from 'src/app/services/userservice.service';
 
 import { Capacitor, CameraResultType, CameraSource } from '@capacitor/core'
+import { AlertsService } from 'src/app/services/alerts.service';
 const { Camera } = Capacitor.Plugins;
 
 
@@ -27,7 +28,8 @@ export class PerfilPage implements OnInit {
     private router: Router,
     private userservice: UserserviceService,
     private actionSheetController: ActionSheetController,
-    private loadingCtrl: LoadingController) {
+    private loadingCtrl: LoadingController,
+    private alertsservice: AlertsService) {
 
       this.userData = this.userservice.usuario;
       this.imgAvatar = this.userData.imageUrl;
@@ -66,13 +68,38 @@ export class PerfilPage implements OnInit {
       let frmData = new FormData();
       frmData.append('image', blob)
 
-      this.userservice.updateUserPhoto( this.userID, frmData).subscribe( () => {
-        this.userservice.getUserData().subscribe( resp => {
-          this.imgAvatar = this.userservice.transformFilename( resp.filename );
-          this.userservice.imgUpdated.emit(this.imgAvatar)
-          this.loading.dismiss()
-        })
-      })
+      this.userservice.updateUserPhoto( this.userID, frmData).subscribe( 
+        (photoUpdated) => {},
+        (onError) => {
+          this.loading.dismiss() 
+          if ( onError.status === 0 ) {
+            this.alertsservice.showAelrt('Error al conectarse con el servidor', 'Server Error')
+          } else {
+            this.alertsservice.nativeToast( onError.error.message )
+          }
+        },
+        () => {
+          this.userservice.getUserData().subscribe( 
+            (userData) => {
+              this.imgAvatar = this.userservice.transformFilename( userData.filename );
+            },
+            (onError) => {
+              // Subscription handle errors
+              this.loading.dismiss() 
+              if ( onError.status === 0 ) {
+                this.alertsservice.showAelrt('Error al conectarse con el servidor', 'Server Error')
+              } else {
+                this.alertsservice.nativeToast( onError.error.message )
+              }
+            },
+            () => {
+              this.userservice.imgUpdated.emit(this.imgAvatar)
+              this.loading.dismiss() 
+            }
+          )
+        }
+      )
+
     }
 
     private b64toArrayBff( file ){

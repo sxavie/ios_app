@@ -91,10 +91,8 @@ export class AgregarpagoPage implements OnInit {
 
     await this.payservice.addPayMethod(data).subscribe( ( resp => {
       console.log( resp )
-
     }), err =>{ 
       console.log( err )});
-    
     await loading.dismiss();
   }
 

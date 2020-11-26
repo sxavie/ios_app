@@ -39,15 +39,28 @@ export class RegisterPage implements OnInit {
 
     if ( this.frmValidation() ) {
       // registrar usuario en la API
-      console.log('RegisterPage: onRegister() => Formulario OK')
 
-      // console.log('======TEST====== : No subscriptions')
-      this.authservice.register( this.formData.value ).subscribe( () => {
-        console.log('RegisterPage: onRegister() => Subscription a UserserviceService.register()')
-      })
+      this.authservice.register( this.formData.value )
+        .subscribe( 
+          (resp) => {
+            // subscription response
+          }, 
+          (err) => {
+            // Subscription handle errors
+            console.log( err )
+            if ( err.status === 0 ) {
+              this.alertsservice.showAelrt('Error al conectarse con el servidor', 'Server Error')
+            } else {
+              this.alertsservice.nativeToast( err.error.message )
+            }
+          },
+          () => {
+            console.log('SUSBCRIBE: se completo')
+            this.router.navigate(['/verifyaccount'])
+          }
+        );
 
       localStorage.setItem('email-verify', this.formData.value.email );
-      this.router.navigate(['/verifyaccount'])
 
     }else {
       console.log('RegisterPage: onRegister() => Formulario no validado') 

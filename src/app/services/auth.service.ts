@@ -23,18 +23,12 @@ export class AuthService {
 
   register( formData: RegisterForm) {
 
-    console.log( formData );
-
     let url = `${ apiUrl }/user/register`
-    
-    console.log( 'UserService: register() => HTTP Post registro de usuario'  )    
+      
     return this.http.post(url, formData)
-      .pipe(map( (resp: any) =>{
-        console.log( 'UserService: register() => HTTP Post Usuario registrado ', resp  )
+      .pipe(tap( (resp: any) =>{
         localStorage.setItem('email-verify', formData.email );
-        console.log( 'UserService: register() => almacenando el LocalStorage email para verificar ', resp  )
         this.router.navigate(['/verifyaccount'])
-        console.log( 'UserserviceService: register() => RouterLink /verifyaccount' )
       }))
       .pipe(catchError( err => {
         return throwError( err )
@@ -57,27 +51,20 @@ export class AuthService {
   }
 
   verifyResendCode( email ){
-
     // https://api.cavimex.vasster.com/users/resendcode?verify=true
 
     let url = `${apiUrl}/users/resendcode?verify=true`;
-    
-
+  
     return this.http.post( url, {email})
       .pipe(map( (res) => console.log( res )));
-
-
   }
 
   login( formData: LoginForm ) {
 
     return this.http.post(`${ apiUrl }/user/login`, formData)
       .pipe(map( (resp: any)=>{
-
         localStorage.setItem('jwttoken', resp.token)
-        console.log( 'UserService: login() => Token almacenado en el LocalStorage jwttoken'  )
         this.userservice.decodeToken( resp.token );
-
       }))
       .pipe(catchError( err => {
         return throwError( err )

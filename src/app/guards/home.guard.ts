@@ -4,7 +4,7 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
+export class HomeGuard implements CanActivate {
   
   constructor( private router: Router ) {
 
@@ -15,10 +15,9 @@ export class AuthGuard implements CanActivate {
     state: RouterStateSnapshot){
 
     const token = localStorage.getItem('jwttoken');
-
-    if (token){
-      // redirecciona a Home ya hay auth token
-      this.router.navigate(['/app'])
+    if (!token){
+      // redirecciona a Login si no se ha authenticado
+      this.router.navigate(['/login'])
       return false
     }
       // retorna true al canActivate si el usuario ya le authenitco en la App

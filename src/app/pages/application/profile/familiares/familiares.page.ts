@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ModalController, PopoverController } from '@ionic/angular';
+import { ModalController, PopoverController, ViewWillEnter } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Usuario } from 'src/app/models/usuario.model';
 import { UserserviceService } from 'src/app/services/userservice.service';
@@ -11,7 +11,7 @@ import { AgregarfamiliarPage } from '../agregarfamiliar/agregarfamiliar.page';
   templateUrl: './familiares.page.html',
   styleUrls: ['./familiares.page.scss'],
 })
-export class FamiliaresPage implements OnInit {
+export class FamiliaresPage implements OnInit, ViewWillEnter {
 
   public imgAvatar = localStorage.getItem('user-filename');
   public userData : Usuario;
@@ -22,11 +22,18 @@ export class FamiliaresPage implements OnInit {
     private modalCtrl: ModalController, 
     private popoverCtrl: PopoverController) { }
 
+  ionViewWillEnter(): void {
+
+    this.userservice.getUserData().subscribe( () => {
+      this.userData = this.userservice.usuario
+    })
+  }
+
 
   ngOnInit() {
+    
     this.userData = this.userservice.usuario
-
-
+    
   }
 
   async addMemberModal(ev: any){    
@@ -45,7 +52,6 @@ export class FamiliaresPage implements OnInit {
 
         this.userservice.getUserData().subscribe( () => {
             this.userData = this.userservice.usuario
-            console.log('generadno data')
           }
         );
   

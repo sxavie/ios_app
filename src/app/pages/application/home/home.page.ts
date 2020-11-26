@@ -11,6 +11,7 @@ import { Consult } from 'src/app/models/consult.model';
 import { AlertsService } from 'src/app/services/alerts.service';
 import { Usuario } from 'src/app/models/usuario.model';
 import { OrderService } from 'src/app/services/order.service';
+import { Subscription } from 'rxjs';
 
 const { Geolocation } = Capacitor.Plugins;
 
@@ -27,6 +28,8 @@ interface MarkerPosition {
   styleUrls: ['./home.page.scss'],
 }) 
 export class HomePage implements OnInit {
+
+  PartnerLocation: Subscription;
 
   public map;
   public myLatLng;
@@ -104,14 +107,17 @@ export class HomePage implements OnInit {
       scaleControl: true,
       streetViewControl: false,
       fullscreenControl: false,
-      zoomControl: false
+      zoomControl: false,
+      mapTypeId: 'terrain'
     };
 
     this.map = new google.maps.Map( mapHtml, mapOpts )
 
     this.socketListenner();
 
-    this.loading.dismiss();
+    setTimeout(() => {
+      this.loading.dismiss();
+    }, 500);
    
   }
 
@@ -154,7 +160,8 @@ export class HomePage implements OnInit {
 
     this.socket.connect();
     console.log('socket Connected')
-    this.socket.fromEvent('PartnerLocation').subscribe( (sioPosition:MarkerPosition) => {
+    console.log('PartnerLocation - subscribe()')
+    this.PartnerLocation = this.socket.fromEvent('PartnerLocation').subscribe( (sioPosition:MarkerPosition) => {
 
       let found = false;
       this.goomarkers.forEach((docMarker, i) => {
@@ -176,10 +183,32 @@ export class HomePage implements OnInit {
         mark.setMap(this.map)
         this.goomarkers.push(mark)
       }
-
-      // console.log(this.goomarkers )
+      console.log(this.goomarkers )
     });
 
+    setTimeout(() => {
+
+      this.goomarkers.forEach((docMarker, i) => {
+        console.log(docMarker, '  setMap = null')
+        docMarker.setMap(null)
+      });
+
+      this.reconnectSocket();
+
+    }, 20000);
+    
+  }
+  
+  reconnectSocket(){
+ 
+    console.log('PartnerLocation - unsubscribe()')
+    this.PartnerLocation.unsubscribe();
+
+    this.socket.disconnect()
+    console.log('socket disconnected')
+    this.goomarkers = [];
+    this.markers = [];
+    this.socketListenner();
   }
    
 }

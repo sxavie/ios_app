@@ -34,10 +34,26 @@ export class LoginPage implements OnInit {
   onLogin() {
     
     if ( this.frmValidation() ) {
+
       this.authservice.login( this.formData.value  )
-        .subscribe( () => {}, (err) => {
-        throw err
-      });
+        .subscribe( 
+          ( resp ) => {
+            // subscription response
+          }, 
+          (err) => {
+            // Subscription handle errors
+            if ( err.status === 0 ) {
+              this.alertsservice.showAelrt('Error al conectarse con el servidor', 'Server Error')
+            } else {
+              this.alertsservice.nativeToast( err.error.message )
+            }
+            
+          },
+          () => {
+            console.log('SUSBCRIBE: se completo')
+          }
+        );
+
     }
 
   }

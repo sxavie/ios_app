@@ -74,7 +74,7 @@ export class PayMethodsService {
 
     // console.log( 'PayMethodsService: addPayMethod() => cardData', cardId );
 
-    return this.http.post(url, {"user": uid, "card": cardId}, { headers })
+    return this.http.post(url, { "user": uid, "card": cardId }, { headers })
       .pipe(map( resp => {
         // console.log( 'PayMethodsService: setPayMethod() => HTTP POS Response ', resp )
       }))

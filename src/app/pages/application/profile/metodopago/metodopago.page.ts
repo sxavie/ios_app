@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ActionSheetController, LoadingController, MenuController } from '@ionic/angular';
+import { ActionSheetController, LoadingController, MenuController, ViewWillEnter } from '@ionic/angular';
 import { AlertsService } from 'src/app/services/alerts.service';
 import { PayMethodsService } from 'src/app/services/paymethods.service';
 import { UserserviceService } from 'src/app/services/userservice.service';
@@ -10,7 +10,7 @@ import { UserserviceService } from 'src/app/services/userservice.service';
   templateUrl: './metodopago.page.html',
   styleUrls: ['./metodopago.page.scss'],
 })
-export class MetodopagoPage implements OnInit { 
+export class MetodopagoPage implements OnInit, ViewWillEnter { 
 
   public imgAvatar = localStorage.getItem('user-filename');
   // public cards: any[] = [];
@@ -25,11 +25,13 @@ export class MetodopagoPage implements OnInit {
     private userservice: UserserviceService,
     private alertsservice: AlertsService) { }
 
-  ngOnInit() {
-
-    this.getPayCards();
+  ionViewWillEnter(): void {
     
+    this.getPayCards();
+
   }
+
+  ngOnInit() { }
 
   async getPayCards(){
 

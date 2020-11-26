@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
+import { HomeGuard } from './guards/home.guard';
 
 const routes: Routes = [
   // Publicas
@@ -10,12 +11,13 @@ const routes: Routes = [
   // },
   {
     path: '',
-    loadChildren: () => import('./pages/auth/inicio/inicio.module').then( m => m.InicioPageModule)
+    loadChildren: () => import('./pages/auth/inicio/inicio.module').then( m => m.InicioPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'app',
     loadChildren: () => import('./pages/application/outletapp.module').then( m => m.OutletappPageModule),
-    // canActivate: [AuthGuard]
+    canActivate: [HomeGuard]
   },
   {
     path: 'register',

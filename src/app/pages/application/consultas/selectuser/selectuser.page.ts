@@ -66,6 +66,8 @@ export class SelectuserPage implements OnInit {
 
   socketListen(){
 
+    let socketListened = false;
+
     this.socket.connect();
 
     this.loadPresnte('Buscando a tu doctor')
@@ -76,6 +78,16 @@ export class SelectuserPage implements OnInit {
       localStorage.setItem('orderSocketResp', JSON.stringify(response))
       this.router.navigate(['app/consultas/incoming'])
     });
+
+    setTimeout(() => {
+      
+      if(!socketListened){
+        this.alsertsservice.showAelrt( 'No encontramos un doctor cerca de tu zona, intentalo mas tarde', 'Consulta')
+        this.loader.dismiss();
+        this.socket.disconnect();
+      }
+
+    }, 15000);
 
   }
 
